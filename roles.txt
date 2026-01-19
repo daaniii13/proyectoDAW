@@ -1,0 +1,10 @@
+Asignacion de roles inicialmente:
+
+BACKEND + BBDD:
+DaniM
+Fernando
+Carlos
+
+FRONTEND 2:
+Juan Luis
+DaniC
