@@ -7,55 +7,95 @@ use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
-// Repositorio para gestionar consultas relacionadas con las entregas de tareas
+/* Repositorio para gestionar consultas relacionadas con las entregas de tareas */
 class EntregaTareaRepository extends ServiceEntityRepository
 {
-    // Constructor que vincula el repositorio con la entidad EntregaTarea
+    /* Vincula este repositorio con la entidad EntregaTarea */
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, EntregaTarea::class);
     }
 
-    // Buscar una única entrega de un estudiante para una tarea concreta
+    /* Obtener una única entrega de un estudiante para una tarea concreta */
     public function buscarUnaEntrega(int $tareaId, User $estudiante): ?EntregaTarea
     {
         return $this->createQueryBuilder('e')
-            ->join('e.tarea', 't') // Relacionamos con la tarea
-            ->where('t.id = :tareaId') // Filtramos por ID de la tarea
-            ->andWhere('e.estudiante = :estudiante') // Filtramos por estudiante
+            ->join('e.tarea', 't')
+            ->where('t.id = :tareaId')
+            ->andWhere('e.estudiante = :estudiante')
             ->setParameter('tareaId', $tareaId)
             ->setParameter('estudiante', $estudiante)
             ->getQuery()
-            ->getOneOrNullResult(); // Devuelve una entrega o null si no existe
+            ->getOneOrNullResult();
     }
 
-    // Obtener todas las entregas de un estudiante en un curso concreto
+    /* Obtener todas las entregas de un estudiante dentro de un curso */
     public function buscarEntregasDeEstudiantePorCurso(User $estudiante, int $cursoId): array
     {
         return $this->createQueryBuilder('e')
             ->join('e.tarea', 't')
-            ->addSelect('t') // Incluimos la tarea para evitar consultas adicionales
-            ->join('t.curso', 'c') // Relacionamos la tarea con su curso
-            ->where('e.estudiante = :estudiante')
-            ->andWhere('c.id = :cursoId') // Filtramos por curso
-            ->setParameter('estudiante', $estudiante)
-            ->setParameter('cursoId', $cursoId)
-            ->getQuery()
-            ->getResult();
-    }
-
-    // Contar cuántas entregas ha hecho un estudiante en un curso
-    public function contarEntregasDeEstudiantePorCurso(User $estudiante, int $cursoId): int
-    {
-        return (int) $this->createQueryBuilder('e')
-            ->select('COUNT(e.id)') // Conteo de entregas
-            ->join('e.tarea', 't')
+            ->addSelect('t')
             ->join('t.curso', 'c')
             ->where('e.estudiante = :estudiante')
             ->andWhere('c.id = :cursoId')
             ->setParameter('estudiante', $estudiante)
             ->setParameter('cursoId', $cursoId)
+            ->orderBy('t.id', 'ASC')
             ->getQuery()
-            ->getSingleScalarResult(); // Devuelve un único número
+            ->getResult();
+    }
+
+    /* Contar cuántas entregas han sido aprobadas en un curso por un estudiante */
+    public function contarEntregasAprobadasDeEstudiantePorCurso(User $estudiante, int $cursoId): int
+    {
+        return (int) $this->createQueryBuilder('e')
+            ->select('COUNT(e.id)') // Conteo
+            ->join('e.tarea', 't')
+            ->join('t.curso', 'c')
+            ->where('e.estudiante = :estudiante')
+            ->andWhere('c.id = :cursoId')
+            ->andWhere('e.estadoRevision = :estado') // Solo aprobadas
+            ->setParameter('estudiante', $estudiante)
+            ->setParameter('cursoId', $cursoId)
+            ->setParameter('estado', 'aprobada')
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
+    /* Obtener todas las entregas de un curso (vista profesor) */
+    public function buscarEntregasPorCurso(int $cursoId): array
+    {
+        return $this->createQueryBuilder('e')
+            ->join('e.tarea', 't')
+            ->addSelect('t')
+            ->join('t.curso', 'c')
+            ->addSelect('c')
+            ->join('e.estudiante', 'u')
+            ->addSelect('u') // Incluye estudiante para mostrar quién entregó
+            ->where('c.id = :cursoId')
+            ->setParameter('cursoId', $cursoId)
+            ->orderBy('e.estadoRevision', 'ASC')
+            ->addOrderBy('e.fechaEntrega', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
+
+    /* Obtener solo las entregas pendientes de revisión de un curso */
+    public function buscarEntregasPendientesPorCurso(int $cursoId): array
+    {
+        return $this->createQueryBuilder('e')
+            ->join('e.tarea', 't')
+            ->addSelect('t')
+            ->join('t.curso', 'c')
+            ->addSelect('c')
+            ->join('e.estudiante', 'u')
+            ->addSelect('u')
+            ->where('c.id = :cursoId')
+            ->andWhere('e.estadoRevision = :estado')
+            ->setParameter('cursoId', $cursoId)
+            ->setParameter('estado', 'pendiente')
+            ->orderBy('e.fechaEntrega', 'DESC') 
+            ->getQuery()
+            ->getResult();
     }
 }

@@ -5,41 +5,58 @@ namespace App\Entity;
 use App\Repository\EntregaTareaRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-// Entidad que representa la entrega de una tarea por parte de un estudiante
+/* Entrega de una tarea por parte de un estudiante y posterior correción del profesor */
 #[ORM\Entity(repositoryClass: EntregaTareaRepository::class)]
 class EntregaTarea
 {
     #[ORM\Id]
-    #[ORM\GeneratedValue] // ID autogenerado
+    #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    // Relación con la tarea a la que pertenece la entrega
+    /* Tarea a la que pertenece esta entrega */
     #[ORM\ManyToOne]
-    #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')] // Si se borra la tarea, se borra la entrega
+    #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
     private ?TareaCurso $tarea = null;
 
-    // Relación con el usuario (estudiante) que realiza la entrega
+    /* Estudiante que realiza la entrega */
     #[ORM\ManyToOne]
-    #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')] // Si se borra el usuario, se borra la entrega
+    #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
     private ?User $estudiante = null;
 
-    // Ruta o nombre del archivo entregado
+    /* Archivo entregado, nombre del fichero */
     #[ORM\Column(length: 255)]
     private ?string $archivoEntrega = null;
 
-    // Comentario opcional del estudiante al entregar la tarea
+    /* Comentario opcional del estudiante */
     #[ORM\Column(type: 'text', nullable: true)]
     private ?string $comentario = null;
 
-    // Fecha en la que se realiza la entrega
+    /* Fecha en la que se realiza la entrega */
     #[ORM\Column(type: 'datetime')]
     private ?\DateTimeInterface $fechaEntrega = null;
 
+    /* Estado de la revisión */
+    #[ORM\Column(length: 30)]
+    private string $estadoRevision = 'pendiente';
+
+    /* Nota asignada por el profesor, null si todavía no se ha corregido */
+    #[ORM\Column(nullable: true)]
+    private ?int $nota = null;
+
+    /* Comentario del profesor tras la corrección */
+    #[ORM\Column(type: 'text', nullable: true)]
+    private ?string $comentarioProfesor = null;
+
+    /* Fecha en la que se corrige la entrega */
+    #[ORM\Column(type: 'datetime', nullable: true)]
+    private ?\DateTimeInterface $fechaRevision = null;
+
     public function __construct()
     {
-        // Por defecto, la fecha de entrega se establece al momento de crear el objeto
+        /* Al crear la entrega, se asigna la fecha actual y se pone pendiente de revisión */
         $this->fechaEntrega = new \DateTime();
+        $this->estadoRevision = 'pendiente';
     }
 
     public function getId(): ?int
@@ -99,6 +116,50 @@ class EntregaTarea
     public function setFechaEntrega(\DateTimeInterface $fechaEntrega): static
     {
         $this->fechaEntrega = $fechaEntrega;
+        return $this;
+    }
+
+    public function getEstadoRevision(): string
+    {
+        return $this->estadoRevision;
+    }
+
+    public function setEstadoRevision(string $estadoRevision): static
+    {
+        $this->estadoRevision = $estadoRevision;
+        return $this;
+    }
+
+    public function getNota(): ?int
+    {
+        return $this->nota;
+    }
+
+    public function setNota(?int $nota): static
+    {
+        $this->nota = $nota;
+        return $this;
+    }
+
+    public function getComentarioProfesor(): ?string
+    {
+        return $this->comentarioProfesor;
+    }
+
+    public function setComentarioProfesor(?string $comentarioProfesor): static
+    {
+        $this->comentarioProfesor = $comentarioProfesor;
+        return $this;
+    }
+
+    public function getFechaRevision(): ?\DateTimeInterface
+    {
+        return $this->fechaRevision;
+    }
+
+    public function setFechaRevision(?\DateTimeInterface $fechaRevision): static
+    {
+        $this->fechaRevision = $fechaRevision;
         return $this;
     }
 }

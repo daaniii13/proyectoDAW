@@ -7,29 +7,29 @@ use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
-// Repositorio para gestionar consultas relacionadas con la entidad Curso
+/* Repositorio para gestionar consultas relacionadas con la entidad Curso */
 class CursoRepository extends ServiceEntityRepository
 {
-    // Constructor que vincula el repositorio con la entidad Curso
+    /* Constructor que vincula el repositorio con la entidad Curso */
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Curso::class);
     }
 
-    // Método para obtener todos los cursos que están activos
+    /* Método para obtener todos los cursos que están activos */
     public function buscarCursosActivos(): array
     {
-        return $this->createQueryBuilder('c') // Creamos el QueryBuilder con alias 'c' que es el curso
-            ->leftJoin('c.profesor', 'p') // Hacemos un LEFT JOIN con el profesor del curso
-            ->addSelect('p') // Añadimos el profesor a la selección para evitar consultas adicionales
-            ->where('c.estado = :estado') // Filtramos solo los cursos activos
-            ->setParameter('estado', 'activo') // Asignamos el valor del parámetro
-            ->orderBy('c.id', 'DESC') // Ordenamos por ID descendente (más recientes primero)
-            ->getQuery() // Generamos la consulta
-            ->getResult(); // Ejecutamos y devolvemos los resultados
+        return $this->createQueryBuilder('c') 
+            ->leftJoin('c.profesor', 'p') 
+            ->addSelect('p') 
+            ->where('c.estado = :estado') 
+            ->setParameter('estado', 'activo') 
+            ->orderBy('c.id', 'DESC') 
+            ->getQuery() 
+            ->getResult(); 
     }
 
-    // Buscar cursos activos con filtros opcionales
+    /* Buscar cursos activos con filtros opcionales */
     public function buscarCursosActivosFiltrados(?string $busqueda, ?string $nivel, ?string $modalidad): array
     {
         $qb = $this->createQueryBuilder('c')
@@ -38,19 +38,19 @@ class CursoRepository extends ServiceEntityRepository
             ->where('c.estado = :estado')
             ->setParameter('estado', 'activo');
 
-        // Filtro por texto en título, descripción o nombre del profesor
+        /* Filtro por texto en título, descripción o nombre del profesor */
         if ($busqueda !== null && $busqueda !== '') {
             $qb->andWhere('c.titulo LIKE :busqueda OR c.descripcion LIKE :busqueda OR p.nombre LIKE :busqueda')
                 ->setParameter('busqueda', '%' . $busqueda . '%');
         }
 
-        // Filtro por nivel
+        /* Filtro por nivel */
         if ($nivel !== null && $nivel !== '') {
             $qb->andWhere('c.nivel = :nivel')
                 ->setParameter('nivel', $nivel);
         }
 
-        // Filtro por modalidad
+        /* Filtro por modalidad */
         if ($modalidad !== null && $modalidad !== '') {
             $qb->andWhere('c.modalidad = :modalidad')
                 ->setParameter('modalidad', $modalidad);
@@ -62,7 +62,7 @@ class CursoRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    // Buscar cursos activos por texto
+    /* Buscar cursos activos por texto */
     public function buscarPorTexto(string $texto): array
     {
         return $this->createQueryBuilder('c')
@@ -77,7 +77,7 @@ class CursoRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    // Obtener cursos de un profesor concreto
+    /* Obtener cursos de un profesor concreto */
     public function buscarCursosDeProfesor(User $profesor): array
     {
         return $this->createQueryBuilder('c')
@@ -88,7 +88,7 @@ class CursoRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    // Contar todos los cursos de un profesor
+    /* Contar todos los cursos de un profesor */
     public function contarCursosDeProfesor(User $profesor): int
     {
         return (int) $this->createQueryBuilder('c')
@@ -99,7 +99,7 @@ class CursoRepository extends ServiceEntityRepository
             ->getSingleScalarResult(); // Devuelve un único valor
     }
 
-    // Contar solo los cursos activos de un profesor
+    /* Contar solo los cursos activos de un profesor */
     public function contarCursosActivosDeProfesor(User $profesor): int
     {
         return (int) $this->createQueryBuilder('c')

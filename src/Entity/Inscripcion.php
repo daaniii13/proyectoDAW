@@ -5,7 +5,7 @@ namespace App\Entity;
 use App\Repository\InscripcionRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-// Entidad que representa la inscripción de un estudiante en un curso
+/* Entidad que representa la inscripción en un curso */
 #[ORM\Entity(repositoryClass: InscripcionRepository::class)]
 class Inscripcion
 {
@@ -14,35 +14,35 @@ class Inscripcion
     #[ORM\Column]
     private ?int $id = null;
 
-    // Usuario que realiza la inscripción (estudiante)
+    /* Usuario que realiza la inscripción */
     #[ORM\ManyToOne]
-    #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')] // Si se elimina el usuario, se elimina la inscripción
+    #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
     private ?User $estudiante = null;
 
-    // Curso al que se inscribe el estudiante
+    /* Curso al que se inscribe el estudiante */
     #[ORM\ManyToOne]
-    #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')] // Si se elimina el curso, se elimina la inscripción
+    #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
     private ?Curso $curso = null;
 
-    // Progreso del estudiante en el curso (porcentaje o valor numérico)
+    /* Progreso del estudiante en el curso */
     #[ORM\Column]
     private int $progreso = 0;
 
-    // Estado de la inscripción (pendiente de pago, activa, cancelada, etc.)
+    /* Estado de la inscripción */
     #[ORM\Column(length: 50)]
     private string $estado = 'pendiente_pago';
 
-    // Fecha en la que se realiza la inscripción
+    /* Fecha en la que se realiza la inscripción */
     #[ORM\Column(type: 'datetime_immutable')]
     private ?\DateTimeImmutable $fechaInscripcion = null;
 
-    // Referencia del pago asociado a la inscripción (si aplica)
+    /* Referencia del pago asociado a la inscripción  */
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $referenciaPago = null;
 
     public function __construct()
     {
-        // Se asigna automáticamente la fecha de inscripción al crear el objeto
+        /* Se asigna automáticamente la fecha de inscripción al crear el objeto */
         $this->fechaInscripcion = new \DateTimeImmutable();
     }
 

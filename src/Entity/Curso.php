@@ -5,8 +5,7 @@ namespace App\Entity;
 use App\Repository\CursoRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-/* Entidad que representa la tabla de cursos. A diferencia de Comentario,
-   aquí se especifica explícitamente qué repositorio le corresponde */
+/* Entidad que representa la tabla de cursos. */
 #[ORM\Entity(repositoryClass: CursoRepository::class)]
 class Curso
 {
@@ -16,7 +15,7 @@ class Curso
     #[ORM\Column]
     private ?int $id = null;
 
-    /* Título del curso, limitado a 255 caracteres */
+    /* Título del curso limitado a 255 caracteres */
     #[ORM\Column(length: 255)]
     private ?string $titulo = null;
 
@@ -32,7 +31,7 @@ class Curso
     #[ORM\Column(length: 100)]
     private ?string $modalidad = null;
 
-    /* Duración del curso almacenada como texto */
+    /* Duración del curso */
     #[ORM\Column(length: 100)]
     private ?string $duracion = null;
 
@@ -40,7 +39,7 @@ class Curso
     #[ORM\Column(length: 50)]
     private ?string $precio = null;
 
-    /* Estado del curso, por defecto 'activo' */
+    /* Estado del curso que va a estar en activo por defecto */
     #[ORM\Column(length: 50)]
     private ?string $estado = 'activo';
 
@@ -53,16 +52,15 @@ class Curso
     #[ORM\JoinColumn(nullable: false)]
     private ?User $profesor = null;
 
-    /* URL de la imagen de portada del curso, es opcional */
+    /* URL de la imagen de portada del curso */
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $bannerUrl = null;
 
-    /* URL del mapa o ubicación del curso, también opcional */
+    /* URL del mapa o ubicación del curso */
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $mapaUrl = null;
 
-    /* Al crear un curso nuevo se registra la fecha actual y se
-       asegura que el estado inicial sea siempre 'activo' */
+    /* Constructor de cursos con la fecha actual y con el curso en activo */
     public function __construct()
     {
         $this->fechaCreacion = new \DateTimeImmutable();

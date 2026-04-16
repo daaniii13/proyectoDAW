@@ -6,16 +6,16 @@ use App\Entity\Comentario;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
-// Repositorio para gestionar consultas relacionadas con la entidad Comentario
+/* Repositorio para gestionar consultas relacionadas con la entidad Comentario */
 class ComentarioRepository extends ServiceEntityRepository
 {
-    // Constructor donde se inyecta el ManagerRegistry y se indica la entidad asociada
+    /* Constructor donde se inyecta el ManagerRegistry y se indica la entidad asociada */
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Comentario::class);
     }
 
-    // Método para obtener todos los comentarios de un curso concreto
+    /* Método para obtener todos los comentarios de un curso concreto */
     public function buscarPorCurso(int $cursoId): array
     {
         return $this->createQueryBuilder('c') // Creamos el QueryBuilder con alias 'c' que es un comentario
@@ -23,13 +23,13 @@ class ComentarioRepository extends ServiceEntityRepository
             ->addSelect('u') // Añadimos el usuario a la selección para evitar consultas extra
             ->where('c.curso = :curso') // Filtramos por el curso indicado
             ->setParameter('curso', $cursoId) // Asignamos el parámetro del curso
-            ->orderBy('c.destacado', 'DESC') // Ordenamos primero por destacados (los destacados arriba)
-            ->addOrderBy('c.id', 'DESC') // Luego por ID descendente (los más recientes primero)
+            ->orderBy('c.destacado', 'DESC') // Ordenamos primero por destacados
+            ->addOrderBy('c.id', 'DESC') // Luego por ID descendente para mostrar los más recientes primero
             ->getQuery() // Generamos la consulta
             ->getResult(); // Ejecutamos y devolvemos los resultados
     }
 
-    // Método para obtener solo los comentarios destacados de un curso
+    /* Método para obtener solo los comentarios destacados de un curso */
     public function buscarDestacados(int $cursoId): array
     {
         return $this->createQueryBuilder('c') 

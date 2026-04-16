@@ -4,8 +4,7 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
-/* Entidad que representa la tabla de comentarios. Los usuarios pueden comentar
-   en los cursos y estos comentarios pueden marcarse como destacados. */
+/* Entidad que representa la tabla de comentarios. */
 #[ORM\Entity]
 class Comentario
 {
@@ -33,7 +32,7 @@ class Comentario
     #[ORM\Column]
     private bool $destacado = false;
 
-    /* Fecha y hora de creación, se asigna automáticamente al instanciar la clase */
+    /* Fecha y hora de creación */
     #[ORM\Column]
     private \DateTime $fechaCreacion;
 
