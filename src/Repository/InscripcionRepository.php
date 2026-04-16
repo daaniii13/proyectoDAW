@@ -44,6 +44,19 @@ class InscripcionRepository extends ServiceEntityRepository
             ->getOneOrNullResult();
     }
 
+    /* Buscar una inscripción concreta de un estudiante en un curso con distinto nombre */
+    public function buscarInscripcionPorCursoYEstudiante(int $cursoId, User $estudiante): ?Inscripcion
+    {
+        return $this->createQueryBuilder('i')
+            ->join('i.curso', 'c')
+            ->where('c.id = :cursoId')
+            ->andWhere('i.estudiante = :estudiante')
+            ->setParameter('cursoId', $cursoId)
+            ->setParameter('estudiante', $estudiante)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
     /* Contar cuántos cursos tiene un estudiante */
     public function contarInscripcionesDeEstudiante(User $estudiante): int
     {
