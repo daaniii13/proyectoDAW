@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+{% block title %}Página no encontrada | TeachingExplorer{% endblock %}
+{% block body %}
+{#Plantilla de error 404#}
+<div data-dynamic-translate="1">
+    <section class="seccion-error">
+        <div class="container">
+            <div class="estado-vacio">
+                <div class="estado-vacio__icono">404</div>
+                <h1 class="estado-vacio__titulo">Página no encontrada</h1>
+                <p class="estado-vacio__texto"> La página que buscas no existe o ha cambiado de ubicación.</p>
+                {#Regresar al inicio#}
+                <a href="{{ path('app_inicio') }}" class="btn btn-primary">Volver al inicio</a>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}

@@ -1,0 +1,104 @@
+{% extends 'base.html.twig' %}
+{% block title %}Inicio | TeachingExplorer{% endblock %}
+{% block body %}
+
+{#Pagina de inicio#}
+<div data-dynamic-translate="1">
+    <section class="hero-inicio">
+        <div class="container hero-inicio__contenedor">
+            <div class="hero-inicio__contenido">
+                {#Dependiendo de si es un usuario registrado, cambiara el mensaje#}
+                {% if app.user %}
+                    <span class="hero-inicio__etiqueta">Bienvenido de nuevo</span>
+                    <h1>Hola, {{ app.user.nombre }}</h1>
+                    <p class="hero-inicio__texto">Sigue trabajando con tu panel personalizado y accede a tus funciones principales desde TeachingExplorer.</p>
+                {% else %}
+                    <span class="hero-inicio__etiqueta">Plataforma educativa moderna</span>
+                     <h1>Bienvenido a TeachingExplorer</h1>
+                     <p class="hero-inicio__texto">Descubre cursos de calidad, conecta con profesores y aprende con una experiencia clara, accesible y adaptada a tus objetivos.</p>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+    </section>
+
+    {#Datos sobre los cursos del usuario#}
+    {% if datosPanel %}
+        <section class="seccion-destacados">
+            <div class="container">
+                <div class="seccion-destacados__cabecera">
+                    <span class="seccion-destacados__etiqueta">Tu panel</span>
+                    <h2>Resumen rápido</h2>
+                    <p>Información real cargada desde la base de datos según tu rol actual.</p>
+                </div>
+
+                <div class="mis-cursos__grid">
+                    {#Si el usuario es profesor mostrara la informacion de sus cursos publicados#}
+                    {% if datosPanel.tipo == 'profesor' %}
+                        <article class="curso-usuario">
+                            <h3>Cursos creados</h3>
+                            <p class="mb-0">{{ datosPanel.totalCursos }}</p>
+                        </article>
+
+                        <article class="curso-usuario">
+                            <h3>Cursos activos</h3>
+                            <p class="mb-0">{{ datosPanel.cursosActivos }}</p>
+                        </article>
+
+                        <article class="curso-usuario">
+                            <h3>Inscripciones totales</h3>
+                            <p class="mb-0">{{ datosPanel.totalInscripciones }}</p>
+                        </article>
+
+                        <article class="curso-usuario">
+                            <h3>Recursos publicados</h3>
+                            <p class="mb-0">{{ datosPanel.totalRecursos }}</p>
+                        </article>
+                    
+                    {% elseif datosPanel.tipo == 'estudiante' %}
+                        {#Si es estudiante mostrara sus cursos y progreso total#}
+                        <article class="curso-usuario">
+                            <h3>Cursos inscritos</h3>
+                            <p class="mb-0">{{ datosPanel.totalInscripciones }}</p>
+                        </article>
+
+                        <article class="curso-usuario">
+                            <h3>Progreso medio</h3>
+                            <p class="mb-0">{{ datosPanel.progresoMedio }}%</p>
+                        </article>
+
+                    {% elseif datosPanel.tipo == 'admin' %}
+                        {#Y si es el admin mostrara la informacion de su rol como admin#}
+                        <article class="curso-usuario">
+                            <h3>Panel administrativo</h3>
+                            <p class="mb-0">Gestión general de profesores, usuarios y soporte.</p>
+                        </article>
+                    {% endif %}
+                </div>
+
+            </div>
+        </section>
+    {% endif %}
+
+    {#Buscador de cursos#}
+    <section class="buscador-cursos">
+        <div class="container">
+            <div class="buscador-cursos__cabecera">
+                <h2>Buscador inteligente de cursos</h2>
+                <p>Busca cursos relacionados y, si no escribes nada, verás cursos recomendados.</p>
+            </div>
+
+            <div data-vue="buscador-cursos"></div>
+        </div>
+    </section>
+
+    {#Cursos recomendados#}
+    <section class="seccion-testimonios">
+        <div class="container">
+            <div data-vue="testimonios-cursos"></div>
+        </div>
+    </section>
+</div>
+{% endblock %}
