@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+{% block title %}Tareas del curso | TeachingExplorer{% endblock %}
+{% block body %}
+<div data-dynamic-translate="1">
+
+    {#Seccion principal del panel de profesor#}
+    <section class="seccion-profesor">
+        <div class="container">
+
+            {#Cabecera y mensajes#}
+            {% include 'paginas/profesor/fragmentos/_tareas_cabecera_y_mensajes.html.twig' with {
+                curso: curso,
+                tareas: tareas,
+                entregasPorTarea: entregasPorTarea,
+                errorTarea: errorTarea
+            } %}
+
+            <div class="profesor__grid">
+
+                {#Formulario para crear nueva tarea#}
+                {% include 'paginas/profesor/fragmentos/_tareas_formulario_crear.html.twig' with {
+                    curso: curso,
+                    datosTarea: datosTarea
+                } %}
+
+                {#Listado de tareas existentes#}
+                {% include 'paginas/profesor/fragmentos/_tareas_lista.html.twig' with {
+                    curso: curso,
+                    tareas: tareas,
+                    entregasPorTarea: entregasPorTarea
+                } %}
+
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}
