@@ -1,0 +1,271 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajustes | TeachingExplorer{% endblock %}
+
+{% block body %}
+<div data-dynamic-translate="1">
+
+{#Cuenta bancaria que se muestra#}
+{% set cuentaBancariaDocente = 'ES12 3456 7890 1234 5678 9012' %}
+
+<section class="seccion-ajustes">
+    <div class="container">
+
+        {#Cabecera#}
+        <div class="ajustes__cabecera">
+            <span class="ajustes__etiqueta">Configuración</span>
+            <h1>Mi cuenta</h1>
+            <p class="ajustes__texto">
+                Revisa tu perfil, tu seguridad y la apariencia de la plataforma.
+            </p>
+        </div>
+
+        {# Notificaciones de exito o error#}
+        {% for mensaje in app.flashes('success') %}
+            <div class="mensaje-ui mensaje-ui--exito mb-4">
+                <span>{{ mensaje }}</span>
+            </div>
+        {% endfor %}
+
+        {% for mensaje in app.flashes('error') %}
+            <div class="mensaje-ui mensaje-ui--error mb-4">
+                <span>{{ mensaje }}</span>
+            </div>
+        {% endfor %}
+
+        <div class="ajustes__grid">
+
+            {#Opciones del perfil#}
+            <section class="ajustes__bloque">
+                <h2>Perfil</h2>
+
+                <form method="post" action="{{ path('app_actualizar_perfil') }}" enctype="multipart/form-data" class="ajustes__formulario">
+                    <div class="row g-3">
+
+                        {#Nombre#}
+                        <div class="col-12 col-md-6">
+                            <label for="nombre-usuario" class="form-label">Nombre</label>
+                            <input type="text" id="nombre-usuario" name="nombre_usuario" class="form-control" value="{{ usuarioActual.nombre }}" required>
+                        </div>
+
+                        {#Email#}
+                        <div class="col-12 col-md-6">
+                            <label for="correo-ajustes" class="form-label">Correo electrónico</label>
+                            <input type="email" id="correo-ajustes" name="correo" class="form-control" value="{{ usuarioActual.email }}" required>
+                        </div>
+
+                        {#Foto de perfil#}
+                        <div class="col-12">
+                            <label for="foto_perfil" class="form-label">Foto de perfil</label>
+                            <input
+                                type="file"
+                                id="foto_perfil"
+                                name="foto_perfil"
+                                class="form-control"
+                                accept=".jpg,.jpeg,.png,.webp,.gif,image/jpeg,image/png,image/webp,image/gif"
+                            >
+                        </div>
+
+                        {# Avatar actual#}
+                        <div class="col-12">
+                            {% if usuarioActual.fotoPerfil %}
+                                <div class="mt-2">
+                                    <img
+                                        src="{{ asset('uploads/perfiles/' ~ usuarioActual.fotoPerfil) }}"
+                                        alt="Foto de perfil actual"
+                                        style="width: 96px; height: 96px; object-fit: cover; border-radius: 50%;"
+                                    >
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="ajustes__acciones mt-4">
+                        <button type="submit" class="btn btn-primary">
+                            Guardar cambios
+                        </button>
+                    </div>
+
+                </form>
+            </section>
+
+            {#Opciones de apariencia#}
+            <section class="ajustes__bloque">
+                <h2>Apariencia</h2>
+
+                <div class="d-flex flex-column gap-3">
+
+                    {#Tema actual#}
+                    <div class="contacto__dato">
+                        <span class="contacto__dato-titulo">Tema actual</span>
+                        <p id="tema-actual">Detectando...</p>
+                    </div>
+
+                    <p class="mb-0 texto-suave">
+                        El botón activo cambia de contraste según el tema.
+                    </p>
+
+                    {#Botones de opciones#}
+                    <div class="ajustes__tema-botones">
+                        <button type="button" class="btn ajustes__tema-boton ajustes__tema-boton--claro" id="activar-modo-claro">
+                            Modo claro
+                        </button>
+
+                        <button type="button" class="btn ajustes__tema-boton ajustes__tema-boton--oscuro" id="activar-modo-oscuro">
+                            Modo oscuro
+                        </button>
+                    </div>
+
+                </div>
+            </section>
+
+            {#Solicitud de cuenta de profesores#}
+            {% if esEstudiante is defined and esEstudiante and (esProfesor is not defined or not esProfesor) and (esAdmin is not defined or not esAdmin) %}
+                <section class="ajustes__bloque ajustes__bloque--ancho">
+                    <h2>Solicitar cuenta de profesor</h2>
+
+
+                    {% if suscripcionProfesorAjustes is defined and suscripcionProfesorAjustes and suscripcionProfesorAjustes.estado == 'pendiente' %}
+                        <div class="mensaje-ui mensaje-ui--exito mb-4">
+                            <span>Solicitud docente pendiente.</span>
+                        </div>
+                    {% else %}
+                        <p class="texto-suave mb-4">
+                            Puedes solicitar acceso docente desde aquí.
+                        </p>
+                    {% endif %}
+
+                    <form method="post" action="{{ path('app_ajustes_solicitar_cuenta_profesor') }}" class="ajustes__formulario">
+                        <input type="hidden" name="_token" value="{{ csrf_token('solicitar_cuenta_profesor') }}">
+
+                        <div class="row g-3">
+
+                            {#Plan de suscripcion#}
+                            <div class="col-12 col-lg-6">
+                                <label for="plan_docente_ajustes" class="form-label">Plan docente</label>
+                                <select id="plan_docente_ajustes" name="plan" class="form-select" required>
+                                    <option value="basico" {{ suscripcionProfesorAjustes is defined and suscripcionProfesorAjustes and (suscripcionProfesorAjustes.planSolicitado ?: suscripcionProfesorAjustes.plan) == 'basico' ? 'selected' : '' }}>Básico</option>
+                                    <option value="pro" {{ suscripcionProfesorAjustes is defined and suscripcionProfesorAjustes and (suscripcionProfesorAjustes.planSolicitado ?: suscripcionProfesorAjustes.plan) == 'pro' ? 'selected' : '' }}>Pro</option>
+                                    <option value="premium" {{ suscripcionProfesorAjustes is defined and suscripcionProfesorAjustes and (suscripcionProfesorAjustes.planSolicitado ?: suscripcionProfesorAjustes.plan) == 'premium' ? 'selected' : '' }}>Premium</option>
+                                </select>
+                            </div>
+
+                            {#Cuenta bancaria #}
+                            <div class="col-12 col-lg-6">
+                                <label class="form-label">Cuenta bancaria</label>
+                                <div class="form-control d-flex align-items-center">{{ cuentaBancariaDocente }}</div>
+                            </div>
+
+                            {#Confirmación #}
+                            <div class="col-12">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="confirmacion_pago_ajustes" name="confirmacion_pago" value="1" required>
+                                    <label class="form-check-label" for="confirmacion_pago_ajustes">
+                                        Confirmo el pago.
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="ajustes__acciones mt-4">
+                            <button type="submit" class="btn btn-primary">
+                                Enviar solicitud
+                            </button>
+                        </div>
+
+                    </form>
+                </section>
+            {% endif %}
+
+
+            {#Opciones de seguridad#}
+            <section class="ajustes__bloque ajustes__bloque--ancho">
+                <h2>Seguridad</h2>
+
+                {#Formulario para cambiar la contraseña#}
+                <form method="post" action="{{ path('app_cambiar_contrasena') }}" class="ajustes__formulario">
+                    <div class="row g-3">
+
+                        <div class="col-12 col-md-4">
+                            <label for="contrasena-actual" class="form-label">Contraseña actual</label>
+                            <input type="password" id="contrasena-actual" name="contrasena_actual" class="form-control" required>
+                        </div>
+
+                        <div class="col-12 col-md-4">
+                            <label for="nueva-contrasena" class="form-label">Nueva contraseña</label>
+                            <input type="password" id="nueva-contrasena" name="nueva_contrasena" class="form-control" required>
+                        </div>
+
+
+                        <div class="col-12 col-md-4">
+                            <label for="repetir-nueva-contrasena" class="form-label">Repetir contraseña</label>
+                            <input type="password" id="repetir-nueva-contrasena" name="repetir_nueva_contrasena" class="form-control" required>
+                        </div>
+
+                    </div>
+
+                    <div class="ajustes__acciones mt-4">
+                        <button type="submit" class="btn btn-outline-secondary">
+                            Actualizar contraseña
+                        </button>
+                    </div>
+
+                </form>
+            </section>
+
+
+        </div>
+    </div>
+</section>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+
+    //Evento, cuando cargue la pagina guarda el modo y sus variables asociadas a los botones
+    const claveTema = 'te_modo';
+    const elementoEstado = document.getElementById('tema-actual');
+    const botonClaro = document.getElementById('activar-modo-claro');
+    const botonOscuro = document.getElementById('activar-modo-oscuro');
+
+
+    function actualizarEstado() {
+
+        //Funcion para actualizar el texto de tema actual
+        const tema = localStorage.getItem(claveTema) || 'claro';
+
+        if (elementoEstado) {
+            elementoEstado.textContent = tema === 'oscuro' ? 'Modo oscuro' : 'Modo claro';
+        }
+
+        if (botonClaro) {
+            botonClaro.classList.toggle('ajustes__tema-boton--activo', tema === 'claro');
+        }
+
+        if (botonOscuro) {
+            botonOscuro.classList.toggle('ajustes__tema-boton--activo', tema === 'oscuro');
+        }
+    }
+
+    //Guarda el tema en Local Storage segun el boton
+    if (botonClaro) {
+        botonClaro.addEventListener('click', function () {
+            localStorage.setItem(claveTema, 'claro');
+            actualizarEstado();
+            window.location.reload();
+        });
+    }
+
+    if (botonOscuro) {
+        botonOscuro.addEventListener('click', function () {
+            localStorage.setItem(claveTema, 'oscuro');
+            actualizarEstado();
+            window.location.reload();
+        });
+    }
+
+    actualizarEstado();
+});
+</script>
+
+</div>
+{% endblock %}
