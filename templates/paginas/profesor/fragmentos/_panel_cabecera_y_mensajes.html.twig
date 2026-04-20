@@ -1,0 +1,29 @@
+<div class="profesor__cabecera">
+    <div>
+        <span class="profesor__etiqueta">Panel docente</span>
+        <h1>Gestión del curso</h1>
+        <p class="profesor__texto">
+            Organiza tu plan, revisa solicitudes, crea cursos y controla alumnos desde un único panel.
+        </p>
+    </div>
+</div>
+
+{#Mensajes de exito o error despues de una accion#}
+{% for mensaje in app.flashes('success') %}
+    <div class="mensaje-ui mensaje-ui--exito profesor__nota">
+        <span>{{ mensaje }}</span>
+    </div>
+{% endfor %}
+
+{% for mensaje in app.flashes('error') %}
+    <div class="mensaje-ui mensaje-ui--error profesor__nota">
+        <span>{{ mensaje }}</span>
+    </div>
+{% endfor %}
+
+{#Error especifico del curso#}
+{% if errorCurso %}
+    <div class="mensaje-ui mensaje-ui--error profesor__nota">
+        <span>{{ errorCurso }}</span>
+    </div>
+{% endif %}
