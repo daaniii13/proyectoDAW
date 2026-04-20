@@ -1,0 +1,65 @@
+{% extends 'base.html.twig' %}
+{% block title %}Contacto | TeachingExplorer{% endblock %}
+{% block body %}
+
+{#Plantilla de contacto con formulario#}
+<div data-dynamic-translate="1">
+    <section class="pagina-contacto">
+        <div class="container">
+            <div class="contacto-layout">
+                {#Informacion sobre el contacto#}
+                <div class="contacto-panel contacto-panel--info">
+                    <span class="contacto-panel__etiqueta">Contacto</span>
+                    <h1 class="contacto-panel__titulo">Habla con nosotros</h1>
+                    <p class="contacto-panel__texto">Escríbenos y te responderemos directamente desde el correo oficial de TeachingExplorer.</p>
+
+                    <ul class="contacto-panel__lista">
+                        <li>Consultas generales y soporte</li>
+                        <li>Dudas sobre cursos, pagos o acceso</li>
+                        <li>Atención directa por correo</li>
+                    </ul>
+                </div>
+
+                <div class="contacto-panel contacto-panel--formulario">
+                    {#Notificaciones#}
+                    {% for mensaje in app.flashes('success') %}
+                        <div class="mensaje-ui mensaje-ui--exito mb-3">
+                            <span>{{ mensaje }}</span>
+                        </div>
+                    {% endfor %}
+
+                    {% for mensaje in app.flashes('error') %}
+                        <div class="mensaje-ui mensaje-ui--error mb-3">
+                            <span>{{ mensaje }}</span>
+                        </div>
+                    {% endfor %}
+
+                    {#Formulario de contacto#}
+                    <form method="post" class="contacto-formulario">
+                        <input type="hidden" name="_token" value="{{ csrf_token('formulario_contacto') }}">
+
+                        <div class="contacto-campo">
+                            <label for="nombre">Nombre</label>
+                            <input type="text" id="nombre" name="nombre" class="form-control" value="{{ old.nombre ?? '' }}" required>
+                        </div>
+
+                        <div class="contacto-campo">
+                            <label for="correo">Correo</label>
+                            <input type="email" id="correo" name="correo" class="form-control" value="{{ old.correo ?? '' }}" required>
+                        </div>
+
+                        <div class="contacto-campo">
+                            <label for="mensaje">Mensaje</label>
+                            <textarea id="mensaje" name="mensaje" class="form-control" rows="7" required>{{ old.mensaje ?? '' }}</textarea>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary contacto-boton">Enviar mensaje</button>
+                    </form>
+
+                </div>
+
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}
