@@ -16,7 +16,7 @@ class EntregaComentarioRepository extends ServiceEntityRepository{
     }
 
     /* Busca todos los comentarios de una entrega específica ordenados cronológicamente */
-    public function buscarEntrega(int $entregaId): array
+    public function buscarPorEntrega(int $entregaId): array
     {
         return $this->createQueryBuilder('c')
             ->join('c.entrega', 'e')
