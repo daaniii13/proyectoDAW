@@ -1,0 +1,278 @@
+/* ==================================================
+   PÁGINA DE INICIO
+   ================================================== */
+
+/* --- SECCIÓN HERO (Cabecera principal) --- */
+.hero-inicio {
+    /* Espaciado interno para dar aire al contenido del encabezado */
+    padding: 5rem 0 3.5rem;
+    /* Degradado sutil de azul muy claro a gris para un aspecto limpio */
+    background: linear-gradient(180deg, #f8fbff 0%, #f5f7fb 100%);
+}
+
+/* Contenedores con ancho máximo estandarizado (1280px definido en variables) */
+.hero-inicio__contenedor,
+.buscador-cursos .container,
+.seccion-testimonios .container,
+.seccion-destacados .container {
+    max-width: 1280px;
+}
+
+/* Limitación de ancho para que el texto del Hero no se estire demasiado */
+.hero-inicio__contenido {
+    max-width: 780px;
+}
+
+/* Etiquetas estilo "pastilla" (pills) para destacar categorías o pequeñas noticias */
+.hero-inicio__etiqueta,
+.seccion-destacados__etiqueta,
+.seccion-testimonios__etiqueta {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.55rem 1rem;
+    margin-bottom: var(--espacio-4);
+    font-size: var(--texto-sm);
+    font-weight: var(--peso-semi);
+    color: var(--color-secundario); /* Azul principal */
+    background-color: #eaf2fd; /* Fondo azul pastel */
+    border-radius: var(--radio-pill);
+}
+
+/* Título principal del Hero con tipografía responsiva (clamp) */
+.hero-inicio h1 {
+    margin-bottom: var(--espacio-4);
+    font-size: clamp(2.4rem, 4vw, 4.2rem);
+    line-height: 1.1;
+}
+
+/* Subtítulo descriptivo del Hero */
+.hero-inicio__texto {
+    max-width: 680px;
+    margin-bottom: 0;
+    font-size: 1.2rem;
+    line-height: 1.7;
+    color: var(--color-texto-suave);
+}
+
+/* --- SECCIÓN DE PRODUCTOS DESTACADOS --- */
+.seccion-destacados {
+    padding: 4rem 0 3rem;
+    background-color: var(--color-superficie); /* Fondo blanco puro */
+}
+
+/* Estilos comunes para las cabeceras de todas las secciones de la home */
+.seccion-destacados__cabecera,
+.buscador-cursos__cabecera,
+.seccion-testimonios__cabecera {
+    max-width: 760px;
+    margin-bottom: var(--espacio-6);
+}
+
+/* Títulos H2 de sección adaptables a pantalla */
+.seccion-destacados__cabecera h2,
+.buscador-cursos__cabecera h2,
+.seccion-testimonios__cabecera h2 {
+    font-size: clamp(1.8rem, 3vw, 2.5rem);
+}
+
+/* Párrafos descriptivos bajo los títulos de sección */
+.seccion-destacados__cabecera p,
+.buscador-cursos__cabecera p,
+.seccion-testimonios__cabecera p {
+    font-size: 1.05rem;
+    color: var(--color-texto-suave);
+}
+
+/* --- SECCIÓN DEL BUSCADOR --- */
+.buscador-cursos {
+    padding: 4rem 0 4rem;
+    background-color: var(--color-superficie-secundaria); /* Gris muy suave */
+}
+
+/* Estilos para el panel (card) donde reside el buscador de Vue */
+.buscador-cursos-vue__panel {
+    border-radius: var(--radio-xl);
+    overflow: hidden;
+    box-shadow: var(--sombra-suave);
+    background: var(--color-superficie);
+}
+
+.buscador-cursos-vue__label {
+    font-weight: var(--peso-semi);
+    color: var(--color-texto);
+}
+
+/* Cabeceras internas de los resultados del buscador */
+.buscador-cursos-vue__bloque-cabecera {
+    margin-bottom: 1.5rem;
+}
+
+.buscador-cursos-vue__bloque-cabecera h3 {
+    margin-bottom: 0.35rem;
+    font-size: 1.6rem;
+}
+
+.buscador-cursos-vue__bloque-cabecera p {
+    margin-bottom: 0;
+    color: var(--color-texto-suave);
+}
+
+/* Tarjetas individuales de los cursos buscados */
+.buscador-cursos-vue__card {
+    border-radius: var(--radio-xl);
+    background: var(--color-superficie);
+    /* Transición suave para el efecto de elevación al hacer hover */
+    transition: transform var(--transicion-rapida), box-shadow var(--transicion-media);
+}
+
+/* Efecto hover: la tarjeta se eleva y gana sombra */
+.buscador-cursos-vue__card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--sombra-media);
+}
+
+/* Borde sutil diferenciador para los cursos que son destacados en el buscador */
+.buscador-cursos-vue__card--destacado {
+    border: 1px solid rgba(37, 99, 235, 0.15);
+}
+
+/* Contenedor de etiquetas superiores de la tarjeta (Nivel, Modalidad, etc) */
+.buscador-cursos-vue__superior {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.buscador-cursos-vue__titulo {
+    margin-bottom: 0.85rem;
+    font-size: 1.5rem;
+    line-height: 1.2;
+    color: var(--color-primario);
+}
+
+.buscador-cursos-vue__descripcion {
+    color: var(--color-texto-suave);
+    line-height: 1.7;
+}
+
+/* Lista de metadatos (Profesor, Duración, Precio) en formato grid */
+.buscador-cursos-vue__meta {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 0.45rem;
+    font-size: 0.95rem;
+    color: var(--color-texto);
+}
+
+/* Estilo para el mensaje de "Cargando..." */
+.buscador-cursos-vue__estado {
+    padding: 1rem 0;
+    color: var(--color-texto-suave);
+    font-weight: var(--peso-medio);
+}
+
+/* --- SECCIÓN DE TESTIMONIOS --- */
+.seccion-testimonios {
+    padding: 3rem 0 4.5rem;
+    background-color: var(--color-fondo);
+}
+
+/* Cuadrícula de testimonios (1 columna en móvil por defecto) */
+.testimonios-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--espacio-5);
+}
+
+/* Tarjeta individual de testimonio */
+.tarjeta-testimonio {
+    padding: var(--espacio-6);
+    background-color: var(--color-superficie);
+    border: 1px solid var(--color-borde);
+    border-radius: var(--radio-xl);
+    box-shadow: var(--sombra-suave);
+    transition: transform var(--transicion-rapida), box-shadow var(--transicion-media);
+}
+
+.tarjeta-testimonio:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--sombra-media);
+}
+
+.tarjeta-testimonio__superior {
+    display: flex;
+    align-items: center;
+    gap: var(--espacio-4);
+    margin-bottom: var(--espacio-4);
+}
+
+/* Círculo del avatar con iniciales */
+.tarjeta-testimonio__avatar {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background-color: #eaf2fd;
+    color: var(--color-secundario);
+    font-weight: var(--peso-bold);
+    font-size: 1rem;
+    flex-shrink: 0;
+}
+
+.tarjeta-testimonio__nombre {
+    font-size: 1rem;
+    font-weight: var(--peso-semi);
+    color: var(--color-primario-oscuro);
+}
+
+.tarjeta-testimonio__rol {
+    font-size: var(--texto-sm);
+    color: var(--color-texto-suave);
+}
+
+.tarjeta-testimonio__texto {
+    margin-bottom: var(--espacio-4);
+    font-size: 1rem;
+    line-height: 1.7;
+    color: var(--color-texto);
+}
+
+/* Color amarillo para las estrellas de valoración */
+.tarjeta-testimonio__valoracion {
+    color: #f4b400;
+    letter-spacing: 0.08em;
+    font-size: 1rem;
+}
+
+/* --- RESPONSIVE: TABLETS Y DESKTOP --- */
+@media (min-width: 768px) {
+    .testimonios-grid {
+        /* En pantallas medianas/grandes usamos 2 columnas */
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* --- RESPONSIVE: MÓVILES --- */
+@media (max-width: 767.98px) {
+    .hero-inicio {
+        padding: 4rem 0 2.5rem;
+    }
+
+    .hero-inicio__texto {
+        font-size: 1rem;
+    }
+
+    .buscador-cursos,
+    .seccion-testimonios,
+    .seccion-destacados {
+        padding: 3rem 0;
+    }
+
+    .buscador-cursos-vue__titulo {
+        font-size: 1.3rem;
+    }
+}

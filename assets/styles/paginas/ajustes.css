@@ -1,0 +1,346 @@
+/* ==================================================
+   PÁGINA DE AJUSTES
+   ================================================== */
+
+/* Contenedor principal de toda la página de ajustes. */
+.seccion-ajustes {
+    padding: 5rem 0; /* Mucho espacio arriba y abajo para respirar */
+    /* Un degradado sutil de arriba hacia abajo para darle algo de profundidad al fondo */
+    background: linear-gradient(180deg, #f8fbff 0%, #f5f7fb 100%);
+}
+
+/* Limita el ancho del contenido para pantallas ultra panorámicas */
+.seccion-ajustes .container {
+    max-width: 1280px;
+}
+
+/* Contenedor para el título principal y la descripción de la página */
+.ajustes__cabecera {
+    max-width: 820px; /* Evita que las líneas de texto sean demasiado largas */
+    margin-bottom: 4rem;
+}
+
+/* Etiquetas estilo "pastilla" (pill) para dar contexto adicional ("Ajustes de cuenta", "Plan actual") */
+.ajustes__etiqueta,
+.suscripcion__etiqueta {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.55rem 1rem;
+    margin-bottom: var(--espacio-4);
+    font-size: var(--texto-sm);
+    font-weight: var(--peso-semi);
+    color: var(--color-secundario); /* Texto azul */
+    background-color: #eaf2fd; /* Fondo azul pastel muy suave */
+    border-radius: var(--radio-pill);
+}
+
+/* Título principal de la página. 
+   Usa clamp() para que la letra sea enorme en PC (4rem) pero se encoja sola en móviles (2.3rem).
+*/
+.ajustes__cabecera h1 {
+    margin-bottom: var(--espacio-4);
+    font-size: clamp(2.3rem, 4vw, 4rem);
+    line-height: 1.1;
+}
+
+/* Párrafo descriptivo debajo del título principal */
+.ajustes__texto {
+    max-width: 760px;
+    font-size: 1.15rem;
+    line-height: 1.8;
+    color: var(--color-texto-suave);
+}
+
+/* ==================================================
+   GRID Y BLOQUES DE AJUSTES
+   ================================================== */
+
+/* Define una cuadrícula de 2 columnas iguales para organizar los paneles de ajustes */
+.ajustes__grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--espacio-5); /* Espacio entre los paneles */
+}
+
+/* Cada panel individual (ej. "Datos personales", "Notificaciones") */
+.ajustes__bloque {
+    padding: var(--espacio-6);
+    background-color: var(--color-superficie);
+    border: 1px solid var(--color-borde);
+    border-radius: var(--radio-xl);
+    box-shadow: var(--sombra-suave);
+}
+
+/* Modificador: Si queremos que un panel ocupe todo el ancho (las 2 columnas)
+   'grid-column: 1 / -1' le dice que empiece en la primera línea y termine en la última.
+*/
+.ajustes__bloque--ancho {
+    grid-column: 1 / -1;
+}
+
+.ajustes__bloque h2 {
+    margin-bottom: var(--espacio-5);
+    font-size: 1.5rem;
+}
+
+/* Asegura que los campos de texto dentro de ajustes sean altos y cómodos de pulsar */
+.ajustes__formulario .form-control,
+.ajustes__formulario .form-select {
+    min-height: 50px;
+    border-radius: var(--radio-md);
+}
+
+/* Botones de acción (ej. "Guardar cambios") */
+.ajustes__acciones .btn {
+    min-height: 46px;
+    border-radius: var(--radio-pill);
+    padding-inline: 1.2rem;
+    font-weight: var(--peso-semi);
+}
+
+/* ==================================================
+   BOTONES PARA ELEGIR TEMA (CLARO / OSCURO)
+   ================================================== */
+
+.ajustes__tema-botones {
+    display: flex;
+    flex-wrap: wrap; /* Si la pantalla es muy estrecha, los botones bajan a la siguiente línea */
+    gap: 0.75rem;
+}
+
+.ajustes__tema-boton {
+    min-height: 48px;
+    border-radius: var(--radio-pill);
+    padding-inline: 1.2rem;
+    font-weight: var(--peso-semi);
+    border: 1px solid var(--color-borde);
+    transition:
+        transform 0.18s ease,
+        box-shadow 0.22s ease,
+        background-color 0.22s ease,
+        color 0.22s ease,
+        border-color 0.22s ease;
+}
+
+.ajustes__tema-boton:hover {
+    transform: translateY(-2px); /* Se levanta un poco al pasar el ratón */
+}
+
+/* Colores estáticos para los botones dependiendo de qué tema estemos usando actualmente */
+body:not(.tema-oscuro) .ajustes__tema-boton--claro { background-color: #ffffff; color: #111827; }
+body:not(.tema-oscuro) .ajustes__tema-boton--oscuro { background-color: #111827; color: #ffffff; }
+
+body.tema-oscuro .ajustes__tema-boton--claro {
+    background-color: #ffffff; color: #111827; border-color: rgba(255, 255, 255, 0.18);
+}
+body.tema-oscuro .ajustes__tema-boton--oscuro {
+    background-color: #111827; color: #ffffff; border-color: rgba(255, 255, 255, 0.14);
+}
+
+/* Estilo para el botón que representa el tema que ESTÁ SELECCIONADO en ese momento */
+.ajustes__tema-boton--activo {
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.16); /* Anillo azul alrededor */
+}
+
+/* En modo oscuro, le damos una animación de "latido" (brillo constante) al botón activo */
+body.tema-oscuro .ajustes__tema-boton--activo {
+    animation: brilloTemaActivo 1.4s ease-in-out infinite alternate;
+}
+
+/* Definición de la animación de latido/brillo para el modo oscuro */
+@keyframes brilloTemaActivo {
+    from {
+        transform: translateY(0);
+        box-shadow:
+            0 0 0 3px rgba(96, 165, 250, 0.18),
+            0 8px 20px rgba(0, 0, 0, 0.18);
+    }
+    to {
+        transform: translateY(-1px) scale(1.01); /* Crece y se levanta un 1% */
+        box-shadow:
+            0 0 0 4px rgba(96, 165, 250, 0.26), /* El anillo azul se expande y se hace más fuerte */
+            0 12px 28px rgba(0, 0, 0, 0.24);
+    }
+}
+
+/* ==================================================
+   CAMPOS DE CONTRASEÑA ESPECÍFICOS PARA AJUSTES
+   ================================================== */
+
+.campo-password {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+/* ¡Importante! Asegura que el texto que escribes nunca se esconda debajo del botón del ojo */
+.campo-password__input {
+    width: 100%;
+    padding-right: 4.25rem !important; 
+}
+
+/* El botón circular del "Ojito" para ver/ocultar contraseña */
+.campo-password__toggle {
+    position: absolute;
+    top: 50%;
+    right: 0.85rem;
+    transform: translateY(-50%); /* Centrado vertical matemático */
+    width: 2.75rem;
+    height: 2.75rem;
+    padding: 0;
+    border: 0;
+    outline: none;
+    background: transparent;
+    color: #7c8aa5;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 999px; /* Botón perfectamente redondo */
+    cursor: pointer;
+    z-index: 20; /* Lo mantiene por encima del input para que siempre sea clickable */
+    pointer-events: auto;
+    transition:
+        color 0.2s ease,
+        background-color 0.2s ease,
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.campo-password__toggle:hover {
+    color: #2563eb;
+    background-color: rgba(37, 99, 235, 0.08); /* Fondo azul tenue al pasar el ratón */
+}
+
+/* Accesibilidad: Muestra un anillo azul si el usuario navega hasta el ojito usando la tecla Tabulador */
+.campo-password__toggle:focus,
+.campo-password__toggle:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.18);
+}
+
+/* Cuando la contraseña es visible, el botón del ojo se queda resaltado en azul */
+.campo-password__toggle--activo {
+    color: #2563eb;
+    background-color: rgba(37, 99, 235, 0.1);
+}
+
+/* Contenedor del ícono SVG dentro del botón */
+.campo-password__icono {
+    width: 1.2rem;
+    height: 1.2rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none; /* Evita que el SVG interfiera con los clics en el botón padre */
+}
+
+.campo-password__icono svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+/* ==================================================
+   TARJETAS DE SUSCRIPCIÓN (Planes)
+   ================================================== */
+
+/* Cuadrícula para mostrar los planes uno al lado del otro */
+.suscripcion__estado {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--espacio-5);
+}
+
+.suscripcion__tarjeta {
+    padding: var(--espacio-6);
+    background-color: var(--color-superficie-secundaria); /* Fondo gris claro por defecto */
+    border: 1px solid var(--color-borde);
+    border-radius: var(--radio-xl);
+}
+
+/* Diferenciador visual clave: El plan que el usuario tiene contratado actualmente
+   tiene un fondo azulado y bordes resaltados.
+*/
+.suscripcion__tarjeta--activa {
+    background-color: #f1f7ff;
+    border-color: #bfd2ea;
+}
+
+.suscripcion__tarjeta h3 {
+    margin-bottom: var(--espacio-3);
+    font-size: 1.35rem;
+}
+
+.suscripcion__tarjeta p {
+    margin-bottom: var(--espacio-4);
+    line-height: 1.75;
+    color: var(--color-texto-suave);
+}
+
+/* Ajusta los puntos de la lista de características para que no queden muy separados del borde izquierdo */
+.suscripcion__tarjeta ul {
+    margin: 0;
+    padding-left: 1.1rem;
+}
+
+.suscripcion__tarjeta li {
+    margin-bottom: 0.7rem;
+    line-height: 1.7;
+}
+
+/* ==================================================
+   ADAPTACIONES AL MODO OSCURO
+   ================================================== */
+
+body.tema-oscuro .seccion-ajustes {
+    background: linear-gradient(180deg, #07111f 0%, #08101d 100%); /* Degradado mucho más oscuro */
+}
+
+body.tema-oscuro .ajustes__etiqueta,
+body.tema-oscuro .suscripcion__etiqueta {
+    color: #dbeafe; /* Texto azul claro */
+    background-color: rgba(59, 130, 246, 0.18); /* Fondo azul semitransparente */
+}
+
+body.tema-oscuro .campo-password__toggle { color: #94a3b8; }
+body.tema-oscuro .campo-password__toggle:hover { color: #dbeafe; background-color: rgba(148, 163, 184, 0.12); }
+body.tema-oscuro .campo-password__toggle--activo { color: #ffffff; background-color: rgba(59, 130, 246, 0.2); }
+
+/* ==================================================
+   RESPONSIVE DESIGN
+   ================================================== */
+
+/* TABLETS: Menos de 992px */
+@media (max-width: 991.98px) {
+    .ajustes__grid,
+    .suscripcion__estado {
+        grid-template-columns: 1fr; /* Todo pasa a estar en 1 sola columna vertical */
+    }
+}
+
+/* MÓVILES: Menos de 768px */
+@media (max-width: 767.98px) {
+    .seccion-ajustes { padding: 3rem 0; }
+    .ajustes__cabecera { margin-bottom: 3rem; }
+    .ajustes__texto { font-size: 1rem; }
+    
+    /* Reduce los espacios internos de las cajas para aprovechar la pantalla del móvil */
+    .ajustes__bloque { padding: var(--espacio-5); }
+    .suscripcion__tarjeta { padding: var(--espacio-5); }
+    
+    /* Los botones ocupan el 100% del ancho en móviles (más fáciles de tocar) */
+    .ajustes__acciones .btn { width: 100%; }
+    .ajustes__tema-botones { flex-direction: column; }
+    .ajustes__tema-boton { width: 100%; }
+
+    /* Ajusta ligeramente el tamaño y posición del botón del ojito de la contraseña */
+    .campo-password__toggle {
+        right: 0.7rem;
+        width: 2.5rem;
+        height: 2.5rem;
+    }
+    .campo-password__input {
+        padding-right: 3.9rem !important;
+    }
+}

@@ -1,0 +1,204 @@
+/* ==================================================
+   PÁGINA SOBRE NOSOTROS
+   ================================================== */
+
+/**
+ * Contenedor principal de la página "Sobre Nosotros".
+ * Aplica un espaciado vertical amplio y un degradado sutil de fondo
+ * para generar una transición visual suave.
+ */
+.seccion-sobre {
+    padding: 5rem 0;
+    background: linear-gradient(180deg, #f8fbff 0%, #f5f7fb 100%);
+}
+
+/**
+ * Limita el ancho del contenido para asegurar una lectura cómoda
+ * en pantallas de escritorio de alta resolución.
+ */
+.seccion-sobre .container {
+    max-width: 1280px;
+}
+
+/**
+ * Bloque de presentación (Hero) de la página.
+ * Controla el ancho máximo y el margen inferior para separar la
+ * introducción del resto del contenido.
+ */
+.sobre__hero {
+    max-width: 820px;
+    margin-bottom: 4rem;
+}
+
+/**
+ * Etiqueta decorativa redondeada (estilo píldora).
+ * Usada para categorías o indicadores superiores con colores suaves.
+ */
+.sobre__etiqueta {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.55rem 1rem;
+    margin-bottom: var(--espacio-4);
+    font-size: var(--texto-sm);
+    font-weight: var(--peso-semi);
+    color: var(--color-secundario);
+    background-color: #eaf2fd;
+    border-radius: var(--radio-pill);
+}
+
+/**
+ * Título principal de la sección.
+ * Implementa 'clamp' para una tipografía fluida que se ajusta 
+ * automáticamente entre dispositivos móviles y escritorio.
+ */
+.sobre__hero h1 {
+    margin-bottom: var(--espacio-4);
+    font-size: clamp(2.3rem, 4vw, 4rem);
+    line-height: 1.1;
+}
+
+/**
+ * Párrafo introductorio.
+ * El ancho máximo está optimizado para evitar líneas de texto 
+ * excesivamente largas que fatiguen la vista.
+ */
+.sobre__texto {
+    max-width: 760px;
+    font-size: 1.15rem;
+    line-height: 1.8;
+    color: var(--color-texto-suave);
+}
+
+/**
+ * Rejilla de bloques principales (Misión, Visión, etc.).
+ * Define una estructura de tres columnas iguales en pantallas grandes.
+ */
+.sobre__bloques {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--espacio-5);
+    margin-bottom: 5rem;
+}
+
+/**
+ * Tarjeta individual de contenido.
+ * Estilo visual unificado con bordes redondeados, fondo limpio y sombra sutil.
+ */
+.sobre__tarjeta {
+    padding: var(--espacio-6);
+    background-color: var(--color-superficie);
+    border: 1px solid var(--color-borde);
+    border-radius: var(--radio-xl);
+    box-shadow: var(--sombra-suave);
+}
+
+.sobre__tarjeta h2 {
+    margin-bottom: var(--espacio-3);
+    font-size: 1.4rem;
+}
+
+.sobre__tarjeta p {
+    margin-bottom: 0;
+    line-height: 1.8;
+}
+
+/**
+ * Cabecera de secciones secundarias dentro de la página.
+ */
+.sobre__cabecera {
+    max-width: 760px;
+    margin-bottom: var(--espacio-6);
+}
+
+.sobre__cabecera h2 {
+    font-size: clamp(1.8rem, 3vw, 2.5rem);
+}
+
+/**
+ * Rejilla específica para la sección de valores corporativos.
+ * Organiza los elementos en dos columnas.
+ */
+.sobre__grid-valores {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--espacio-5);
+}
+
+/**
+ * Bloque individual de valor corporativo.
+ */
+.sobre__valor {
+    padding: var(--espacio-6);
+    background-color: var(--color-superficie);
+    border: 1px solid var(--color-borde);
+    border-radius: var(--radio-lg);
+    box-shadow: var(--sombra-suave);
+}
+
+.sobre__valor h3 {
+    margin-bottom: var(--espacio-3);
+    font-size: 1.2rem;
+}
+
+.sobre__valor p {
+    margin-bottom: 0;
+    color: var(--color-texto-suave);
+    line-height: 1.8;
+}
+
+/* ==================================================
+   DISEÑO RESPONSIVO (Media Queries)
+   ================================================== */
+
+/**
+ * Ajustes para tablets y pantallas medianas (menos de 992px).
+ * Las rejillas colapsan a una sola columna para facilitar la lectura.
+ */
+@media (max-width: 991.98px) {
+    .sobre__bloques {
+        grid-template-columns: 1fr;
+    }
+
+    .sobre__grid-valores {
+        grid-template-columns: 1fr;
+    }
+}
+
+/**
+ * Ajustes para dispositivos móviles (menos de 768px).
+ * Reduce espaciados generales y tamaños de fuente para optimizar espacio.
+ */
+@media (max-width: 767.98px) {
+    .seccion-sobre {
+        padding: 3rem 0;
+    }
+
+    .sobre__hero {
+        margin-bottom: 3rem;
+    }
+
+    .sobre__texto {
+        font-size: 1rem;
+    }
+}
+
+/* ==================================================
+   PULIDO FINAL - CONSISTENCIA VISUAL
+   ================================================== */
+
+/**
+ * Asegura que todas las tarjetas y valores dentro de una misma fila
+ * tengan la misma altura, independientemente de la cantidad de texto.
+ */
+.sobre__tarjeta,
+.sobre__valor {
+    height: 100%;
+}
+
+/**
+ * Ajuste fino del interlineado para mejorar la legibilidad del cuerpo de texto.
+ */
+.sobre__tarjeta p,
+.sobre__valor p {
+    line-height: 1.75;
+}

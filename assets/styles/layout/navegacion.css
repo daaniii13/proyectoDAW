@@ -1,0 +1,409 @@
+/* ==================================================
+   VARIABLES Y AJUSTE DEL CUERPO
+   ================================================== */
+
+/* Definimos la altura de la barra de navegación como una variable global.
+   Esto es súper útil porque si algún día decides hacer la barra más alta o más baja,
+   solo cambias este valor y toda la web se adapta automáticamente.
+*/
+:root {
+    --altura-navbar: 92px;
+}
+
+/* Como la barra de navegación tiene posición "fixed" (está flotando sobre la página),
+   sacaría al contenido principal de su sitio y lo taparía. 
+   Para evitarlo, empujamos todo el <body> hacia abajo exactamente la misma distancia que mide la barra.
+*/
+body {
+    padding-top: var(--altura-navbar);
+}
+
+/* ==================================================
+   BARRA DE NAVEGACIÓN PRINCIPAL (HEADER)
+   ================================================== */
+
+.barra-navegacion {
+    position: fixed; /* Fija la barra en la pantalla para que siempre sea visible al hacer scroll */
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    z-index: 1200; /* Un z-index alto asegura que la barra siempre esté por encima de cualquier otro elemento (modales, imágenes, etc.) */
+    padding: 0.95rem 0;
+    background-color: rgba(255, 255, 255, 0.96); /* Blanco con un 4% de transparencia */
+    border-bottom: 1px solid var(--color-borde);
+    
+    /* EFECTO GLASSMORPHISM (Cristal esmerilado)
+       Desenfoca todo lo que pase por debajo de la barra de navegación.
+       El prefijo -webkit- es necesario para que funcione bien en navegadores como Safari.
+    */
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    
+    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08); /* Sombra suave para separar la barra del contenido */
+    
+    transition:
+        background-color var(--transicion-media),
+        border-color var(--transicion-media),
+        box-shadow var(--transicion-media);
+}
+
+/* Adaptación de la barra de navegación al modo oscuro */
+body.tema-oscuro .barra-navegacion {
+    background-color: rgba(11, 18, 32, 0.96); /* Azul marino muy oscuro transparente */
+    border-bottom-color: rgba(148, 163, 184, 0.12);
+    box-shadow: 0 8px 24px rgba(2, 6, 23, 0.34); /* Sombra más fuerte y oscura */
+}
+
+/* Contenedor interno que alinea los elementos (Logo, Menú, Botones) */
+.barra-navegacion__interior {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    position: relative;
+}
+
+/* ==================================================
+   LOGOTIPO / MARCA
+   ================================================== */
+
+.marca {
+    font-size: 1.35rem;
+    font-weight: var(--peso-bold);
+    color: var(--color-primario);
+    letter-spacing: -0.02em; /* Junta un poquito las letras para darle un toque más de "logotipo" */
+    margin-right: auto; /* Empuja el resto de elementos hacia la derecha */
+    white-space: nowrap; /* Evita que el nombre de la marca se parta en dos líneas */
+}
+
+.marca:hover {
+    color: var(--color-secundario);
+}
+
+/* ==================================================
+   ENLACES DEL MENÚ
+   ================================================== */
+
+.enlace-navegacion {
+    position: relative;
+    padding: 0.55rem 0.9rem;
+    font-weight: var(--peso-medio);
+    color: var(--color-texto);
+    border-radius: var(--radio-pill); /* Forma de pastilla al hacer hover */
+    transition:
+        color var(--transicion-media),
+        background-color var(--transicion-media);
+    white-space: nowrap;
+}
+
+/* Efecto al pasar el ratón: Fondo azul muy clarito */
+.enlace-navegacion:hover {
+    color: var(--color-secundario);
+    background-color: rgba(37, 99, 235, 0.06);
+}
+
+/* Estilo para indicar en qué página estamos actualmente */
+.enlace-navegacion--activo {
+    color: var(--color-secundario);
+    background-color: rgba(37, 99, 235, 0.09);
+}
+
+/* ==================================================
+   BOTÓN DE ACCESO / LOGIN (Call To Action)
+   ================================================== */
+
+/* Botón principal de la cabecera con efecto de flotabilidad al hacer hover */
+.boton-acceso {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    padding: 0.7rem 1.2rem;
+    font-weight: var(--peso-semi);
+    color: var(--color-texto-inverso);
+    background-color: var(--color-secundario);
+    border-radius: var(--radio-pill);
+    transition:
+        background-color var(--transicion-media),
+        transform var(--transicion-rapida),
+        box-shadow var(--transicion-media);
+    white-space: nowrap;
+}
+
+.boton-acceso:hover {
+    color: var(--color-texto-inverso);
+    background-color: #1d4ed8;
+    transform: translateY(-1px);
+    box-shadow: 0 10px 22px rgba(37, 99, 235, 0.28);
+}
+
+/* ==================================================
+   MENÚ HAMBURGUESA (MÓVILES) - BOOTSTRAP OVERRIDES
+   ================================================== */
+
+/* Personalización del botón que abre el menú en móviles */
+.navbar-toggler {
+    border: 1px solid var(--color-borde);
+    border-radius: var(--radio-md);
+    padding: 0.45rem 0.7rem;
+}
+
+.navbar-toggler:focus {
+    box-shadow: none; /* Quitamos el borde azul feo por defecto de Bootstrap */
+    border-color: var(--color-secundario);
+}
+
+/* TRUCO MAESTRO PARA EL ÍCONO HAMBURGUESA:
+   Bootstrap usa un SVG de fondo para el ícono. Para no tener que cambiar la imagen 
+   entera en modo oscuro, usamos filtros CSS.
+   'contrast(0.2)' lo hace gris oscuro por defecto.
+*/
+.navbar-toggler-icon {
+    filter: contrast(0.2);
+}
+
+/* En modo oscuro, 'invert(1)' invierte los colores (el negro/gris se vuelve blanco). ¡Magia! */
+body.tema-oscuro .navbar-toggler-icon {
+    filter: invert(1);
+}
+
+/* ==================================================
+   BLOQUE DEL USUARIO (Cuando está logueado)
+   ================================================== */
+
+/* Contenedor que agrupa el avatar y el nombre del usuario logueado en la barra superior */
+.bloque-usuario-nav {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    padding-left: 1rem;
+    border-left: 1px solid var(--color-borde); /* Línea separadora a la izquierda */
+}
+
+/* Círculo para la foto de perfil */
+.bloque-usuario-nav__avatar {
+    width: 40px;
+    height: 40px;
+    min-width: 40px; /* Evita que el avatar se encoja si no hay espacio */
+    border-radius: 999px; /* Totalmente redondo */
+    overflow: hidden; /* Corta la imagen sobrante para que encaje en el círculo */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: #eaf2fd;
+    color: var(--color-secundario);
+    font-weight: var(--peso-bold);
+    border: 1px solid var(--color-borde);
+    box-shadow: var(--sombra-suave);
+}
+
+/* Asegura que la imagen de perfil cubra todo el avatar sin deformarse */
+.bloque-usuario-nav__avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* Contenedor para el texto del usuario */
+.bloque-usuario-nav__contenido {
+    display: flex;
+    flex-direction: column;
+    min-width: 130px;
+}
+
+.bloque-usuario-nav__nombre {
+    font-weight: var(--peso-bold);
+    color: var(--color-texto);
+    line-height: 1.1;
+}
+
+.bloque-usuario-nav__rol {
+    font-size: var(--texto-sm);
+    color: var(--color-texto-suave);
+    line-height: 1.1;
+}
+
+/* ==================================================
+   SELECTOR DE IDIOMA FLOTANTE
+   ================================================== */
+
+/* Botón con menú desplegable para cambiar el idioma */
+.selector-idioma-flotante {
+    position: relative;
+    flex: 0 0 auto;
+    margin-right: 1rem;
+}
+
+/* Aspecto del botón del idioma. Usa un efecto de cristal oscuro por defecto. */
+.selector-idioma-flotante__boton {
+    border: 1px solid rgba(148, 163, 184, 0.22);
+    background: rgba(15, 23, 42, 0.92);
+    color: #ffffff;
+    border-radius: 999px;
+    min-height: 42px;
+    min-width: 72px;
+    padding: 0.45rem 0.9rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.35rem;
+    font-weight: 700;
+    box-shadow: 0 10px 30px rgba(2, 6, 23, 0.22);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    white-space: nowrap;
+}
+
+.selector-idioma-flotante__boton:hover,
+.selector-idioma-flotante__boton:focus,
+.selector-idioma-flotante__boton:active {
+    background: rgba(30, 41, 59, 0.96);
+    color: #ffffff;
+}
+
+/* Oculta la flecha nativa de Bootstrap para usar nuestro propio SVG personalizado */
+.selector-idioma-flotante__boton::after {
+    display: none;
+}
+
+.selector-idioma-flotante__texto {
+    font-size: 0.9rem;
+    line-height: 1;
+}
+
+.selector-idioma-flotante__flecha {
+    display: inline-flex;
+    width: 14px;
+    height: 14px;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 14px;
+}
+
+.selector-idioma-flotante__flecha svg {
+    width: 14px;
+    height: 14px;
+    display: block;
+}
+
+/* La caja del menú desplegable del idioma */
+.selector-idioma-flotante__menu {
+    min-width: 130px;
+    left: 0;
+    right: auto;
+    border-radius: 1rem;
+    border: 1px solid var(--color-borde);
+    overflow: hidden;
+}
+
+/* Inversión del selector de idioma para el modo claro de la página */
+body:not(.tema-oscuro) .selector-idioma-flotante__boton {
+    background: rgba(255, 255, 255, 0.96);
+    color: #111827;
+    border-color: rgba(15, 23, 42, 0.08);
+}
+
+body:not(.tema-oscuro) .selector-idioma-flotante__boton:hover,
+body:not(.tema-oscuro) .selector-idioma-flotante__boton:focus,
+body:not(.tema-oscuro) .selector-idioma-flotante__boton:active {
+    background: #ffffff;
+    color: #111827;
+}
+
+/* ==================================================
+   RESPONSIVE DESIGN: TABLETS Y MÓVILES (MENÚ COLAPSABLE)
+   ================================================== */
+
+@media (max-width: 1199.98px) {
+    /* La barra de navegación es un poco más estrecha en móviles */
+    :root {
+        --altura-navbar: 84px;
+    }
+
+    .barra-navegacion {
+        padding: 0.8rem 0;
+    }
+
+    /* Estilos para el menú una vez que se abre ("colapsa") en móviles.
+       Se le da aspecto de una tarjeta flotante con sombras.
+    */
+    .barra-navegacion .navbar-collapse {
+        margin-top: 0.9rem;
+        padding: 1rem;
+        border: 1px solid var(--color-borde);
+        border-radius: 1rem;
+        background: rgba(255, 255, 255, 0.98);
+        box-shadow: 0 16px 32px rgba(15, 23, 42, 0.08);
+    }
+
+    body.tema-oscuro .barra-navegacion .navbar-collapse {
+        background: rgba(11, 18, 32, 0.98);
+        border-color: rgba(148, 163, 184, 0.14);
+        box-shadow: 0 16px 32px rgba(2, 6, 23, 0.32);
+    }
+
+    /* Adaptación del selector de idioma para el menú móvil:
+       Ocupa todo el ancho en lugar de estar flotando a un lado.
+    */
+    .selector-idioma-flotante {
+        display: block;
+        width: 100%;
+        margin-right: 0;
+        margin-top: 0.75rem;
+    }
+
+    .selector-idioma-flotante__boton {
+        width: 100%;
+        min-width: 0;
+        justify-content: space-between; /* Texto a la izquierda, flecha a la derecha */
+        border-radius: 0.9rem;
+        padding: 0.8rem 1rem;
+    }
+
+    .selector-idioma-flotante__menu {
+        position: absolute;
+        inset: auto auto auto 0;
+        width: 100%;
+        min-width: 100%;
+        margin-top: 0.45rem;
+    }
+
+    /* El bloque del usuario pasa de estar alineado horizontalmente con una línea
+       a estar apilado verticalmente en el menú móvil.
+    */
+    .bloque-usuario-nav {
+        margin-left: 0;
+        padding-left: 0;
+        border-left: 0;
+        padding-top: 0.75rem;
+        border-top: 1px solid var(--color-borde); /* La línea separadora pasa a estar arriba */
+    }
+}
+
+/* ==================================================
+   RESPONSIVE DESIGN: PANTALLAS MUY PEQUEÑAS (SMARTPHONES)
+   ================================================== */
+
+@media (max-width: 575.98px) {
+    /* Barra aún más compacta */
+    :root {
+        --altura-navbar: 78px;
+    }
+
+    .marca {
+        font-size: 1.12rem; /* Achica un poco el logotipo */
+    }
+
+    .boton-acceso {
+        width: 100%; /* El botón de login ocupa todo el ancho de la pantalla */
+    }
+
+    .bloque-usuario-nav {
+        flex-wrap: wrap; /* Si la información no cabe, salta a la siguiente línea */
+    }
+
+    .bloque-usuario-nav__contenido {
+        min-width: 0;
+    }
+}

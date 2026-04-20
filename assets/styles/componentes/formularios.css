@@ -1,0 +1,184 @@
+/* ==================================================
+   ESTILOS DE FORMULARIOS
+   ================================================== */
+
+/* Contenedor principal para cada grupo de campo (etiqueta + input + ayuda/error).
+   Asegura que haya una separación uniforme entre los diferentes campos del formulario.
+*/
+.campo-formulario {
+    margin-bottom: var(--espacio-4);
+}
+
+/* Estilos para las etiquetas de texto (<label>) que acompañan a los inputs. */
+.etiqueta-formulario {
+    display: inline-block; /* Permite aplicar márgenes verticales sin romper la línea */
+    margin-bottom: 0.5rem; /* Separación entre la etiqueta y la caja de texto */
+    font-size: var(--texto-sm);
+    font-weight: var(--peso-semi); /* Seminegrita para destacar qué dato se está pidiendo */
+    color: var(--color-primario-oscuro);
+}
+
+/* Estilos compartidos para los campos donde el usuario escribe o selecciona datos.
+   Se agrupan para mantener la consistencia en toda la interfaz.
+*/
+.entrada-formulario,
+.select-formulario,
+.textarea-formulario {
+    width: 100%; /* Ocupan todo el ancho de su contenedor padre */
+    min-height: 50px; /* Tamaño lo suficientemente grande para ser cómodo en pantallas táctiles (móviles) */
+    padding: 0.85rem 1rem;
+    font-size: var(--texto-base);
+    color: var(--color-texto);
+    background-color: var(--color-superficie); /* Fondo blanco por defecto */
+    border: 1px solid var(--color-borde);
+    border-radius: var(--radio-md);
+    
+    /* Transiciones para cuando el usuario hace hover o click en el campo */
+    transition:
+        border-color var(--transicion-media),
+        box-shadow var(--transicion-media),
+        background-color var(--transicion-media);
+}
+
+/* Ajustes específicos solo para las áreas de texto largo (ej. mensajes de contacto). */
+.textarea-formulario {
+    min-height: 140px; /* Mucho más alto por defecto que un input normal */
+    resize: vertical; /* Permite al usuario estirar la caja hacia abajo, pero no hacia los lados para no romper el diseño */
+}
+
+/* ==================================================
+   ESTADOS INTERACTIVOS (FOCUS Y HOVER)
+   ================================================== */
+
+/* Estado FOCUS: Cuando el usuario hace clic o navega con el teclado hacia el campo para escribir. */
+.entrada-formulario:focus,
+.select-formulario:focus,
+.textarea-formulario:focus {
+    outline: none; /* Elimina el feo borde por defecto del navegador */
+    border-color: var(--color-secundario); /* Borde azul vibrante */
+    /* Crea un "anillo" de luz exterior azul semitransparente. Esto es excelente para la accesibilidad. */
+    box-shadow: 0 0 0 4px rgba(47, 128, 237, 0.12);
+}
+
+/* Estado HOVER: Cuando el usuario pasa el ratón por encima del campo. */
+.entrada-formulario:hover,
+.select-formulario:hover,
+.textarea-formulario:hover {
+    border-color: var(--color-borde-fuerte); /* Oscurece ligeramente el borde para indicar que es interactivo */
+}
+
+/* ==================================================
+   MENSAJES DE AYUDA Y ERROR
+   ================================================== */
+
+/* Texto pequeño y gris que se coloca debajo del input para dar instrucciones. */
+.ayuda-formulario {
+    margin-top: 0.5rem;
+    font-size: var(--texto-sm);
+    color: var(--color-texto-suave);
+}
+
+/* Mensaje de validación cuando el usuario se equivoca. Usa un color rojo (error). */
+.error-formulario {
+    margin-top: 0.5rem;
+    font-size: var(--texto-sm);
+    color: var(--color-error);
+}
+
+/* ==================================================
+   AJUSTES DE ACCESIBILIDAD Y MODERNOS
+   ================================================== */
+
+/* Cambia el cursor a una "manita" al pasar sobre las etiquetas.
+   Esto ayuda al usuario a saber que si hace clic en el texto, se activará el input asociado.
+*/
+.form-label,
+.etiqueta-formulario {
+    cursor: pointer;
+}
+
+/* 'accent-color' es una propiedad CSS moderna fantástica. 
+   Te permite teñir las casillas de verificación (checkbox) y los botones de radio 
+   nativos del navegador con el color principal de tu marca, sin tener que 
+   construirlos desde cero con código complejo.
+*/
+input[type="checkbox"],
+input[type="radio"] {
+    accent-color: var(--color-secundario);
+}
+
+/* ==================================================
+   COMPONENTE: CAMPO DE CONTRASEÑA CON BOTÓN OJO
+   ================================================== */
+
+/* Contenedor relativo que nos permite posicionar cosas de forma absoluta en su interior. */
+.campo-password {
+    position: relative;
+}
+
+/* Añade relleno (espacio interior) a la derecha del input de la contraseña.
+   Esto evita que el texto que escriba el usuario se solape o se esconda debajo del ícono del ojo.
+*/
+.campo-password .form-control {
+    padding-right: 3.6rem;
+}
+
+/* El botón transparente del ícono del ojo ("Mostrar/Ocultar contraseña") */
+.campo-password__toggle {
+    position: absolute; /* Lo saca del flujo normal para colocarlo donde queramos */
+    top: 50%; /* Lo baja a la mitad exacta del contenedor... */
+    transform: translateY(-50%); /* ...y esto lo centra matemáticamente en la vertical. ¡Un truco clásico! */
+    right: 0.95rem; /* Pegado a la derecha */
+    width: 22px;
+    height: 22px;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+    padding: 0;
+    color: #64748b; /* Gris azulado neutro */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Al pasar el ratón, el ícono se vuelve más oscuro (o blanco en modo oscuro, ver abajo) */
+.campo-password__toggle:hover {
+    color: #0f172a;
+}
+
+/* Elimina el contorno azul al hacer clic en el botón del ojo para que no moleste visualmente,
+   ya que el enfoque importante debe estar en el input donde se escribe.
+*/
+.campo-password__toggle:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+/* Contenedor estricto para el archivo vectorial (SVG) del ojo, para asegurar que no se deforme. */
+.campo-password__icono {
+    display: inline-flex;
+    width: 20px;
+    height: 20px;
+    align-items: center;
+    justify-content: center;
+}
+
+.campo-password__icono svg {
+    width: 20px;
+    height: 20px;
+    display: block;
+}
+
+/* --- Adaptación al Tema Oscuro para el ícono del ojo --- */
+
+/* Cuando la página está en modo oscuro, el ícono base cambia a un gris claro para contrastar con el fondo negro. */
+html.tema-oscuro .campo-password__toggle,
+body.tema-oscuro .campo-password__toggle {
+    color: #cbd5e1;
+}
+
+/* Al hacer hover en modo oscuro, el ícono se ilumina poniéndose completamente blanco. */
+html.tema-oscuro .campo-password__toggle:hover,
+body.tema-oscuro .campo-password__toggle:hover {
+    color: #ffffff;
+}

@@ -1,0 +1,215 @@
+/* ==================================================
+   PÁGINA DE CONTACTO
+   ================================================= */
+
+/* Espaciado vertical para separar el contenido del header y el footer */
+.pagina-contacto {
+    padding: 4rem 0;
+}
+
+/* Layout principal de la página.
+   Utiliza CSS Grid con dos columnas ligeramente asimétricas (0.95 y 1.05).
+   'align-items: stretch' garantiza que ambos paneles tengan la misma altura.
+*/
+.contacto-layout {
+    display: grid;
+    grid-template-columns: 0.95fr 1.05fr;
+    gap: 2rem;
+    align-items: stretch;
+}
+
+/* Estilo base para los paneles de la sección */
+.contacto-panel {
+    border-radius: 28px; /* Bordes muy redondeados para un look moderno */
+    overflow: hidden; /* Asegura que los fondos degradados respeten el redondeo */
+}
+
+/* ==================================================
+   PANEL IZQUIERDO: INFORMACIÓN DE CONTACTO
+   ================================================= */
+
+.contacto-panel--info {
+    /* Combinación de gradientes radiales y lineales para crear profundidad visual */
+    background:
+        radial-gradient(circle at top left, rgba(99, 102, 241, 0.34), transparent 35%),
+        radial-gradient(circle at bottom right, rgba(59, 130, 246, 0.26), transparent 35%),
+        linear-gradient(135deg, #4f46e5 0%, #7c3aed 45%, #2563eb 100%);
+    color: #ffffff;
+    padding: 3rem;
+    min-height: 620px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Centra el contenido verticalmente */
+    box-shadow: 0 24px 60px rgba(37, 99, 235, 0.22);
+}
+
+/* Etiqueta pequeña superior (ej: "Soporte Técnico") */
+.contacto-panel__etiqueta {
+    display: inline-flex;
+    align-self: flex-start;
+    margin-bottom: 1rem;
+    padding: 0.45rem 0.9rem;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.16); /* Efecto cristal (glassmorphism) */
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    font-size: 0.9rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+}
+
+/* Título dinámico que escala según el tamaño de pantalla */
+.contacto-panel__titulo {
+    margin: 0 0 1rem;
+    font-size: clamp(2.1rem, 3vw, 3.2rem);
+    line-height: 1.05;
+    font-weight: 800;
+    color: #ffffff;
+}
+
+.contacto-panel__texto {
+    margin: 0 0 1.5rem;
+    font-size: 1.05rem;
+    line-height: 1.75;
+    color: rgba(255, 255, 255, 0.92);
+    max-width: 34rem;
+}
+
+/* Lista de ítems informativos (teléfono, email, redes) */
+.contacto-panel__lista {
+    margin: 0;
+    padding-left: 1.15rem;
+    display: grid;
+    gap: 0.75rem;
+    color: rgba(255, 255, 255, 0.96);
+}
+
+.contacto-panel__lista li {
+    line-height: 1.5;
+}
+
+/* ==================================================
+   PANEL DERECHO: FORMULARIO DE CONTACTO
+   ================================================= */
+
+.contacto-panel--formulario {
+    background: rgba(255, 255, 255, 0.96);
+    border: 1px solid rgba(15, 23, 42, 0.08);
+    box-shadow: 0 20px 50px rgba(15, 23, 42, 0.08);
+    padding: 2rem;
+    min-height: 620px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.contacto-formulario {
+    display: grid;
+    gap: 1.2rem;
+}
+
+.contacto-campo label {
+    display: block;
+    margin-bottom: 0.45rem;
+    font-weight: 700;
+    color: #1f2937;
+}
+
+.contacto-campo .form-control {
+    min-height: 54px;
+    border-radius: 16px;
+    border: 1px solid #dbe2ea;
+    background: #ffffff;
+    color: #111827;
+    padding: 0.85rem 1rem;
+    box-shadow: none;
+}
+
+/* Estilo específico para el área de mensaje */
+.contacto-campo textarea.form-control {
+    min-height: 180px;
+    resize: vertical; /* Permite al usuario ajustar la altura pero no el ancho */
+}
+
+.contacto-campo .form-control:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 0.2rem rgba(59, 130, 246, 0.14);
+}
+
+/* Botón de envío principal */
+.contacto-boton {
+    min-height: 56px;
+    border-radius: 999px;
+    font-size: 1rem;
+    font-weight: 800;
+    margin-top: 0.25rem;
+}
+
+/* ==================================================
+   MODO OSCURO
+   ================================================= */
+
+body.tema-oscuro .contacto-panel--formulario {
+    /* Gradiente oscuro para el panel del formulario */
+    background: linear-gradient(180deg, rgba(15, 23, 42, 0.96), rgba(15, 23, 42, 0.92));
+    border: 1px solid rgba(148, 163, 184, 0.16);
+    box-shadow: 0 20px 50px rgba(2, 6, 23, 0.45);
+}
+
+body.tema-oscuro .contacto-campo label {
+    color: #e2e8f0;
+}
+
+body.tema-oscuro .contacto-campo .form-control {
+    background: rgba(15, 23, 42, 0.95);
+    border-color: rgba(148, 163, 184, 0.22);
+    color: #f8fafc;
+}
+
+body.tema-oscuro .contacto-campo .form-control::placeholder {
+    color: #94a3b8;
+}
+
+body.tema-oscuro .contacto-campo .form-control:focus {
+    border-color: #60a5fa;
+    box-shadow: 0 0 0 0.2rem rgba(96, 165, 250, 0.16);
+}
+
+/* ==================================================
+   DISEÑO RESPONSIVO (RESPONSIVE)
+   ================================================= */
+
+/* Tablets y pantallas medianas: Coloca los paneles uno debajo del otro */
+@media (max-width: 991.98px) {
+    .contacto-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .contacto-panel--info {
+        min-height: auto;
+        padding: 2rem;
+    }
+
+    .contacto-panel--formulario {
+        min-height: auto;
+    }
+}
+
+/* Móviles pequeños: Ajustes de espaciado y tamaño de fuente */
+@media (max-width: 575.98px) {
+    .pagina-contacto {
+        padding: 2.5rem 0;
+    }
+
+    .contacto-panel--info,
+    .contacto-panel--formulario {
+        border-radius: 22px;
+    }
+
+    .contacto-panel--formulario {
+        padding: 1.35rem;
+    }
+
+    .contacto-panel__titulo {
+        font-size: 2.2rem;
+    }
+}
