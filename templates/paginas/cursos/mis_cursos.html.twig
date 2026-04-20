@@ -1,0 +1,127 @@
+{% extends 'base.html.twig' %}
+{% block title %}{{ 'mis_cursos.titulo_pagina'|trans }} | TeachingExplorer{% endblock %}
+{% block body %}
+<div data-dynamic-translate="1">
+    <section class="seccion-mis-cursos">
+        <div class="container">
+            <div class="mis-cursos__cabecera">
+                <span class="mis-cursos__etiqueta">{{ 'mis_cursos.etiqueta'|trans }}</span>
+                <h1>{{ 'mis_cursos.titulo'|trans }}</h1>
+                <p>{{ 'mis_cursos.subtitulo'|trans }}</p>
+            </div>
+
+            {#Notificaciones flash para mensajes de exito y error#}
+            {% for mensaje in app.flashes('success') %}
+                <div class="mensaje-ui mensaje-ui--exito mb-4">
+                    <span>{{ mensaje }}</span>
+                </div>
+            {% endfor %}
+
+            {% for mensaje in app.flashes('error') %}
+                <div class="mensaje-ui mensaje-ui--error mb-4">
+                    <span>{{ mensaje }}</span>
+                </div>
+            {% endfor %}
+
+            <div class="mis-cursos__contenido">
+                {#Si no hay cursos muestra como sin cursos#}
+                {% if inscripciones is empty %}
+                    <div class="estado-vacio">
+                        <div class="estado-vacio__icono">0</div>
+                        <h2 class="estado-vacio__titulo">{{ 'mis_cursos.vacio_titulo'|trans }}</h2>
+                        <p class="estado-vacio__texto">{{ 'mis_cursos.vacio_texto'|trans }}</p>
+                    </div>
+                {% else %}
+                    <h2 class="mt-5 mb-3">{{ 'mis_cursos.listado_titulo'|trans }}</h2>
+                    <p class="texto-suave mb-4">{{ 'mis_cursos.listado_subtitulo'|trans }}</p>
+                    <div class="mis-cursos__grid">
+                        {% for inscripcion in inscripciones %}
+                            {# Se guarda el curso de la inscripción #}
+                            {% set curso = inscripcion.curso %}
+
+                            <article class="curso-usuario">
+                                <div class="curso-usuario__superior">
+                                    {#Nivel del curso y su estado #}
+                                    <span class="badge text-bg-secondary">{{ curso.nivel|traducir_dinamico }}</span>
+                                    <span class="curso-usuario__progreso">{{ 'mis_cursos.estado_prefijo'|trans }}
+                                    {% if inscripcion.estado == 'pendiente_pago' %}
+                                        {{ 'mis_cursos.estado_pendiente_pago'|trans }}
+                                    {% elseif inscripcion.estado == 'pendiente_validacion' %}
+                                        {{ 'mis_cursos.estado_pendiente_validacion'|trans }}
+                                    {% elseif inscripcion.estado == 'activa' %}
+                                        {{ 'mis_cursos.estado_activa'|trans }}
+                                    {% elseif inscripcion.estado == 'rechazada' %}
+                                        {{ 'mis_cursos.estado_rechazada'|trans }}
+                                    {% elseif inscripcion.estado == 'completada' %}
+                                        {{ 'mis_cursos.estado_completada'|trans }}
+                                    {% else %}
+                                        {{ inscripcion.estado|traducir_dinamico }}
+                                    {% endif %}
+                                    </span>
+
+                                    {#Informacion del curso#}
+                                    <h3>{{ curso.titulo|traducir_dinamico }}</h3>
+                                    <p>{{ curso.descripcion|traducir_dinamico }}</p>
+
+                                    <div class="curso-usuario__meta">
+                                        <span>{{ 'mis_cursos.profesor'|trans }} {{ curso.profesor.nombre }}</span>
+                                        <span>{{ 'mis_cursos.duracion'|trans }} {{ curso.duracion|traducir_dinamico }}</span>
+                                        <span>{{ 'mis_cursos.precio'|trans }} {{ curso.precio }} €</span>
+                                    </div>
+
+                                    {% if inscripcion.estado in ['activa', 'completada'] %}
+                                        {#Progreso total del curso#}
+                                        <div class="barra-progreso-curso" aria-label="{{ 'mis_cursos.progreso_aria'|trans }}">
+                                            <div class="barra-progreso-curso__relleno" style="width: {{ inscripcion.progreso }}%;">
+                                                {{ inscripcion.progreso }}%
+                                            </div>
+                                        </div>
+                                    {% endif %}
+
+                                    <div class="curso-usuario__acciones">
+                                        {#Opciones sobre el curso#}
+                                        <a href="{{ path('app_detalle_curso', {id: curso.id}) }}" class="btn btn-outline-secondary">
+                                            {{ 'mis_cursos.ver_detalles'|trans }}
+                                        </a>
+                                        {% if inscripcion.estado in ['activa', 'completada'] %}
+                                            {#Acceso al curso#}
+                                            <a href="{{ path('app_visor_curso', {id: curso.id}) }}" class="btn btn-primary"> {{ 'mis_cursos.entrar_curso'|trans }} </a>
+
+                                        {% elseif inscripcion.estado == 'pendiente_pago' %}
+                                            {#Formulario para enviar los datos del pago#}
+                                            <form method="post" action="{{ path('app_avisar_pago_inscripcion', {id: inscripcion.id}) }}">
+                                                <input type="hidden" name="_token" value="{{ csrf_token('avisar_pago_' ~ inscripcion.id) }}">
+                                                <button type="submit" class="btn btn-primary">{{ 'mis_cursos.avisar_pago'|trans }}</button>
+                                            </form>
+
+                                        {% elseif inscripcion.estado == 'pendiente_validacion' %}
+                                            {#Esperando validacion#}
+                                            <button type="button" class="btn btn-outline-secondary" disabled>{{ 'mis_cursos.esperando_validacion'|trans }}</button>
+
+                                        {% elseif inscripcion.estado == 'rechazada' %}
+                                            {#Rechazada#}
+                                            <button type="button" class="btn btn-outline-danger" disabled>{{ 'mis_cursos.solicitud_rechazada'|trans }}</button>
+
+                                        {% endif %}
+
+                                    </div>
+
+                                    {% if inscripcion.estado == 'pendiente_pago' %}
+                                        {#La informacion sobre el pago a enviar#}
+                                        <div class="mt-4">
+                                            <p class="mb-2"><strong>{{ 'mis_cursos.cuenta_profesor'|trans }}</strong> ES12 3456 7890 1234 5678 9012</p>
+                                            <p class="mb-2"><strong>{{ 'mis_cursos.referencia_pago'|trans }}</strong> {{ inscripcion.referenciaPago }}</p>
+                                            <p class="texto-suave mb-0">{{ 'mis_cursos.instruccion_pago'|trans }}</p>
+                                        </div>
+                                    {% endif %}
+
+                                </div>
+                            </article>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}
