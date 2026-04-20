@@ -20,7 +20,7 @@ class ApiCursoController extends AbstractController
         CursoRepository $repo
     ): JsonResponse {
         $busqueda = trim((string) $request->query->get('q', ''));
-        $session = $request->getSession();
+        $session  = $request->getSession();
 
         // Guarda el término de búsqueda en el historial de la sesión (máximo 10 entradas)
         if ($busqueda !== '') {
@@ -29,6 +29,35 @@ class ApiCursoController extends AbstractController
             $session->set('busquedas', array_slice(array_unique($historialBusquedas), 0, 10));
         }
 
+        // Si hay búsqueda activa y produce resultados, se devuelve directamente sin necesidad de invocar al recomendador Python
+        if ($busqueda !== '') {
+            $resultados = $repo->buscarPorTexto($busqueda);
+
+            if (!empty($resultados)) {
+                $dataResultados = array_map(function ($curso) {
+                    return [
+                        'id' => $curso->getId(),
+                        'titulo' => $curso->getTitulo(),
+                        'descripcion' => $curso->getDescripcion(),
+                        'nivel' => $curso->getNivel(),
+                        'modalidad' => $curso->getModalidad(),
+                        'profesor' => $curso->getProfesor()?->getNombre(),
+                        'duracion' => $curso->getDuracion(),
+                        'precio' => $curso->getPrecio(),
+                        'detalleUrl' => $this->generateUrl('app_detalle_curso', ['id' => $curso->getId()]),
+                    ];
+                }, $resultados);
+
+                return $this->json([
+                    'modo' => 'resultados_busqueda',
+                    'mensaje' => '',
+                    'cursos' => $dataResultados,
+                    'destacados' => [],
+                ]);
+            }
+        }
+
+        // Si no hay búsqueda o no hubo resultados, carga todos los activos
         $cursos = $repo->buscarCursosActivos();
 
         // Mapea las entidades a arrays planos para el recomendador y la vista
@@ -40,6 +69,8 @@ class ApiCursoController extends AbstractController
                 'nivel' => $curso->getNivel(),
                 'modalidad' => $curso->getModalidad(),
                 'profesor' => $curso->getProfesor()?->getNombre(),
+                'duracion' => $curso->getDuracion(),
+                'precio' => $curso->getPrecio(),
                 'detalleUrl' => $this->generateUrl('app_detalle_curso', ['id' => $curso->getId()]),
             ];
         }, $cursos);
@@ -61,7 +92,7 @@ class ApiCursoController extends AbstractController
 
         // Escribe el contexto en un archivo temporal para pasárselo al proceso Python
         $tmp = tempnam(sys_get_temp_dir(), 'rec_');
-        file_put_contents($tmp, json_encode($payload));
+        file_put_contents($tmp, json_encode($payload, JSON_UNESCAPED_UNICODE));
 
         $script = $this->getParameter('kernel.project_dir') . '/python/recomendador.py';
         $process = new Process(['python', $script, $tmp]);
@@ -73,14 +104,27 @@ class ApiCursoController extends AbstractController
         // Si el proceso falla, devuelve los tres primeros cursos como resultado por defecto
         if (!$process->isSuccessful()) {
             return $this->json([
-                'modo' => 'fallback',
+                'modo' => $busqueda === '' ? 'recomendados' : 'sin_resultados',
                 'cursos' => [],
                 'destacados' => array_slice($data, 0, 3),
-                'mensaje' => '',
+                'mensaje' => $busqueda === '' ? '' : 'No hay resultados para esta búsqueda.',
+            ]);
+        }
+
+        $salida = json_decode($process->getOutput(), true);
+
+        // Si la salida del proceso no es un array JSON válido también
+        // devuelve los tres primeros cursos como resultado por defecto
+        if (!is_array($salida)) {
+            return $this->json([
+                'modo' => $busqueda === '' ? 'recomendados' : 'sin_resultados',
+                'cursos' => [],
+                'destacados' => array_slice($data, 0, 3),
+                'mensaje' => $busqueda === '' ? '' : 'No hay resultados para esta búsqueda.',
             ]);
         }
 
         // Devuelve directamente la respuesta JSON del recomendador
-        return $this->json(json_decode($process->getOutput(), true));
+        return $this->json($salida);
     }
 }
