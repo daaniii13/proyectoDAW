@@ -1,0 +1,71 @@
+{% extends 'base.html.twig' %}
+{% block title %}Restablecer contraseña | TeachingExplorer{% endblock %}
+{% block body %}
+<div data-dynamic-translate="1">
+    <section class="seccion-autenticacion">
+        <div class="container">
+            {#Panel de ajustes restablecer contraseña#}
+            <div class="autenticacion-layout">
+                <div class="autenticacion-panel autenticacion-panel--info">
+                    {#Informacion de seguridad#}
+                    <span class="autenticacion-panel__etiqueta">Seguridad</span>
+                    <h1 class="autenticacion-panel__titulo">Crea una nueva contraseña</h1>
+                    <p class="autenticacion-panel__texto">Elige una contraseña segura para recuperar el acceso a tu cuenta y seguir usando TeachingExplorer con normalidad.</p>
+
+                    <ul class="autenticacion-panel__lista">
+                        <li>Mínimo 8 caracteres</li>
+                        <li>Al menos una mayúscula</li>
+                        <li>Al menos una minúscula</li>
+                        <li>Al menos un número</li>
+                    </ul>
+
+                </div>
+
+                <div class="autenticacion-panel autenticacion-panel--formulario">
+                    <div class="autenticacion-cabecera">
+                        <h2>Restablecer contraseña</h2>
+                        <p>Introduce tu nueva contraseña y confirma el cambio.</p>
+                    </div>
+
+                    {#Mensajes de error#}
+                    {% if error %}
+                        <div class="mensaje-ui mensaje-ui--error mb-3">
+                            <span>{{ error }}</span>
+                        </div>
+                    {% endif %}
+
+                    {#Mensajes de éxito#}
+                    {% for mensaje in app.flashes('success') %}
+                        <div class="mensaje-ui mensaje-ui--exito mb-3">
+                            <span>{{ mensaje }}</span>
+                        </div>
+                    {% endfor %}
+
+                    {#Formulario de restablecer contraseña#}
+                    <form method="post" class="formulario-autenticacion">
+                        <input type="hidden" name="_token" value="{{ csrf_token('restablecer_contrasena') }}">
+
+                        <div class="campo-formulario">
+                            <label for="nueva_contrasena">Nueva contraseña</label>
+                            <input id="nueva_contrasena" type="password" name="nueva_contrasena" class="form-control" autocomplete="new-password" required>
+                        </div>
+
+                        <div class="campo-formulario">
+                            <label for="repetir_nueva_contrasena">Repetir nueva contraseña</label>
+                            <input id="repetir_nueva_contrasena" type="password" name="repetir_nueva_contrasena" class="form-control" autocomplete="new-password" required>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary autenticacion-boton-principal">Guardar nueva contraseña</button>
+
+                        {#Enlace al login#}
+                        <a href="{{ path('app_login') }}" class="btn btn-outline-secondary autenticacion-boton-secundario">Volver al login</a>
+
+                    </form>
+
+                </div>
+
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}
