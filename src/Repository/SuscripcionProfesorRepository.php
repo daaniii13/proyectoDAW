@@ -16,7 +16,7 @@ class SuscripcionProfesorRepository extends ServiceEntityRepository
     }
 
     /* Busca la suscripción de un profesor específico */
-    public function buscarProfesor(User $profesor): ?SuscripcionProfesor
+    public function buscarDeProfesor(User $profesor): ?SuscripcionProfesor
     {
         return $this->findOneBy(['profesor' => $profesor]);
     }
