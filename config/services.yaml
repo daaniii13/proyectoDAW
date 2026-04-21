@@ -23,5 +23,5 @@ services:
 
     App\Service\TraductorDinamico: ~
 
-    App\Twig\TraductorExtension:
+    App\Service\TraductorExtension:
         tags: ['twig.extension']
