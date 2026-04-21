@@ -1,0 +1,60 @@
+/* ==================================================
+   TESTIMONIOS REUTILIZABLES
+   ================================================== */
+
+/* Contenedor principal de la tarjeta de testimonio.
+   Define la "caja" blanca con bordes redondeados y sombra suave.
+*/
+.testimonio-base {
+    padding: var(--espacio-6); /* Espacio interior generoso para que respire el texto */
+    background-color: var(--color-superficie);
+    border: 1px solid var(--color-borde);
+    border-radius: var(--radio-xl);
+    box-shadow: var(--sombra-suave);
+}
+
+/* Contenedor superior que agrupa la foto (avatar) y la información del usuario. */
+.testimonio-base__cabecera {
+    display: flex; /* Alinea los elementos en fila (horizontalmente) */
+    align-items: center; /* Centra el avatar y los textos verticalmente entre sí */
+    gap: var(--espacio-4); /* Separación exacta entre el avatar y los textos */
+    margin-bottom: var(--espacio-4); /* Separación con la cita o mensaje del testimonio */
+}
+
+/* El círculo donde van las iniciales o la foto del usuario. */
+.testimonio-base__avatar {
+    display: inline-flex;
+    align-items: center; /* Centra el contenido internamente en vertical */
+    justify-content: center; /* Centra el contenido internamente en horizontal */
+    width: 56px; /* Ancho fijo para mantener la forma circular perfecta */
+    height: 56px; /* Alto fijo, igual al ancho */
+    border-radius: 50%; /* Esto es lo que convierte el cuadrado en un círculo */
+    background-color: #eaf2fd; /* Fondo azul pastel */
+    color: var(--color-secundario); /* Color de texto azul vibrante para las iniciales */
+    font-weight: var(--peso-bold);
+}
+
+/* El nombre del usuario que deja la reseña */
+.testimonio-base__nombre {
+    font-weight: var(--peso-semi); /* Destaca un poco más que el texto normal */
+    color: var(--color-primario-oscuro);
+}
+
+/* El cargo o rol del usuario (ej. "Estudiante de Desarrollo Web") */
+.testimonio-base__rol {
+    font-size: var(--texto-sm); /* Letra más pequeña para establecer jerarquía visual inferior al nombre */
+    color: var(--color-texto-suave); /* Color gris para no robar atención */
+}
+
+/* La cita textual o reseña del usuario */
+.testimonio-base__texto {
+    line-height: 1.7; /* Interlineado amplio para una lectura cómoda y relajada */
+    color: var(--color-texto);
+}
+
+/* Contenedor para las estrellas de puntuación (ej. ★★★★★) */
+.testimonio-base__valoracion {
+    margin-top: var(--espacio-4);
+    color: var(--color-aviso); /* Utiliza el color amarillo/naranja (aviso) de nuestras variables */
+    letter-spacing: 0.08em; /* Separa ligeramente las estrellas entre sí para que no se vean amontonadas */
+}

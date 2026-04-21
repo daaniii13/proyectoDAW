@@ -1,0 +1,111 @@
+/* ==================================================
+   PIE DE PÁGINA (FOOTER)
+   ================================================== */
+
+/* Contenedor principal del pie de página */
+.pie-sitio {
+    /* 'margin-top: auto' es clave aquí. Como el <body> tiene 'display: flex' y 'flex-direction: column',
+       esto empuja obligatoriamente el footer hasta el fondo de la pantalla, 
+       incluso si la página tiene muy poco contenido. Evita que el footer se quede "flotando" a la mitad.
+    */
+    margin-top: auto;
+    
+    padding: 4rem 0 1.5rem; /* Mucho espacio arriba (4rem) para separarlo del contenido principal */
+    background-color: #f8fbff; /* Un fondo azul clarito muy sutil para diferenciarlo del resto de la web */
+    border-top: 1px solid var(--color-borde);
+}
+
+/* Limita el ancho del contenido del footer para que coincida con el resto de la web */
+.pie-sitio .container {
+    max-width: 1280px;
+}
+
+/* ==================================================
+   CUADRÍCULA DEL FOOTER
+   ================================================== */
+
+/* El layout principal de las columnas del footer */
+.pie-sitio__grid {
+    display: grid;
+    
+    /* Crea 3 columnas asimétricas:
+       1.4fr: La primera columna (ej. Info/Logo) es la más ancha.
+       0.9fr: La segunda columna (ej. Enlaces útiles) es un poco más estrecha.
+       1fr: La tercera columna (ej. Contacto) tiene un ancho estándar.
+    */
+    grid-template-columns: 1.4fr 0.9fr 1fr;
+    gap: var(--espacio-6); /* Separación generosa entre columnas */
+    align-items: start; /* Alinea todo el contenido arriba para que las columnas no se estiren innecesariamente */
+}
+
+/* Estilos para los títulos de cada columna (ej. "Sobre nosotros", "Legal") */
+.pie-sitio__columna h3,
+.pie-sitio__columna h4 {
+    margin-bottom: var(--espacio-4);
+    font-size: 1.15rem;
+    color: var(--color-primario-oscuro);
+}
+
+/* Estilos generales para los textos normales y enlaces dentro del footer */
+.pie-sitio__columna p,
+.pie-sitio__columna li,
+.pie-sitio__columna a {
+    color: var(--color-texto-suave); /* Gris suave para quitarle peso visual frente al contenido principal */
+    line-height: 1.8; /* Mucho aire entre líneas para que sea fácil de leer */
+}
+
+/* ==================================================
+   LISTAS DE ENLACES
+   ================================================== */
+
+/* Un truco moderno: en lugar de poner margin-bottom a cada <li>, 
+   convertimos la lista en un Grid y usamos 'gap' para separar los enlaces uniformemente.
+*/
+.pie-sitio__lista {
+    display: grid;
+    gap: 0.5rem;
+}
+
+/* Al pasar el ratón sobre un enlace del footer, se pinta del color secundario (azul vibrante) */
+.pie-sitio__lista a:hover {
+    color: var(--color-secundario);
+}
+
+/* ==================================================
+   SUB-FOOTER (Copyright y Legal inferior)
+   ================================================== */
+
+/* La típica franja inferior que separa las columnas principales de la nota de copyright */
+.pie-sitio__inferior {
+    margin-top: var(--espacio-8); /* Gran separación del contenido de arriba */
+    padding-top: var(--espacio-4);
+    border-top: 1px solid var(--color-borde); /* Línea divisoria fina */
+}
+
+/* Texto de "Todos los derechos reservados", etc. */
+.pie-sitio__copyright {
+    margin: 0;
+    color: var(--color-texto-suave);
+}
+
+/* ==================================================
+   RESPONSIVE DESIGN (Tablets y Móviles)
+   ================================================== */
+
+/* En pantallas de menos de 992px (tablets y móviles grandes)... */
+@media (max-width: 991.98px) {
+    .pie-sitio__grid {
+        /* Rompe las 3 columnas y apila todo en una sola columna vertical.
+           Esto evita que el texto se apelmace cuando no hay suficiente ancho.
+        */
+        grid-template-columns: 1fr;
+    }
+}
+
+/* En pantallas de menos de 768px (smartphones)... */
+@media (max-width: 767.98px) {
+    .pie-sitio {
+        /* Reducimos el padding superior porque en pantallas pequeñas 4rem es demasiado espacio en blanco */
+        padding: 3rem 0 1.25rem;
+    }
+}

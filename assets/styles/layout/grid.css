@@ -1,0 +1,174 @@
+/* ==================================================
+   SISTEMA DE DISTRIBUCIÓN Y UTILIDADES DE LAYOUT
+   ================================================== */
+
+/* Contenedor principal que envuelve el contenido de la página.
+   Evita que el contenido se estire de lado a lado en pantallas gigantes.
+*/
+.contenedor-principal {
+    width: 100%;
+    max-width: var(--ancho-contenedor); /* Ancho máximo definido en variables.css (ej. 1280px) */
+    
+    /* margin-inline: auto es una forma moderna de escribir margin-left: auto y margin-right: auto.
+       Centra matemáticamente el contenedor en la pantalla. */
+    margin-inline: auto; 
+    
+    /* padding-inline añade un margen interior a los lados para que el texto nunca toque
+       el borde de la pantalla en dispositivos móviles. */
+    padding-inline: 1rem;
+}
+
+/* ==================================================
+   SECCIONES (ESPACIADO VERTICAL)
+   ================================================== */
+
+/* 'padding-block' aplica relleno tanto arriba (top) como abajo (bottom) al mismo tiempo. */
+
+/* Sección estándar. Mucho aire para separar grandes bloques de contenido. */
+.seccion {
+    padding-block: var(--espacio-12);
+}
+
+/* Sección pequeña. Para elementos que necesitan separación, pero no tanta (ej. entre dos formularios). */
+.seccion-sm {
+    padding-block: var(--espacio-8);
+}
+
+/* Sección grande. Ideal para héroes (portadas) o separar el pie de página. */
+.seccion-lg {
+    padding-block: var(--espacio-16);
+}
+
+/* ==================================================
+   UTILIDADES FLEXBOX
+   ================================================== */
+
+/* Crea una fila horizontal. Los elementos hijos se pondrán uno al lado del otro. */
+.fila-flex {
+    display: flex;
+    gap: var(--espacio-4); /* Añade un espacio uniforme entre los elementos hijos */
+}
+
+/* Crea una columna vertical. Los elementos hijos se pondrán uno debajo del otro. */
+.fila-flex-columna {
+    display: flex;
+    flex-direction: column;
+    gap: var(--espacio-4);
+}
+
+/* ==================================================
+   SISTEMA DE CUADRÍCULAS (CSS GRID)
+   ================================================== */
+
+/* Cuadrícula de 2 columnas iguales.
+   'minmax(0, 1fr)' asegura que las columnas compartan el espacio equitativamente (1 fracción)
+   y que no se desborden si hay una palabra muy larga (0 de mínimo).
+*/
+.grid-2 {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--espacio-5);
+}
+
+/* Cuadrícula de 3 columnas iguales. Ideal para tarjetas de precios o características. */
+.grid-3 {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--espacio-5);
+}
+
+/* Cuadrícula de 4 columnas. */
+.grid-4 {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: var(--espacio-5);
+}
+
+/* ==================================================
+   ALINEACIÓN Y DISTRIBUCIÓN
+   ================================================== */
+
+/* Centra los elementos verticalmente (en el eje transversal). */
+.centrado-vertical {
+    align-items: center;
+}
+
+/* Centra los elementos horizontalmente (en el eje principal). */
+.centrado-horizontal {
+    justify-content: center;
+}
+
+/* Empuja los elementos hacia los extremos (ej. Logo a la izquierda, menú a la derecha). */
+.espacio-entre {
+    justify-content: space-between;
+}
+
+/* ==================================================
+   VISIBILIDAD CONDICIONAL
+   ================================================== */
+
+/* Por defecto (en ordenador), estos elementos son visibles. */
+.ocultar-movil {
+    display: block;
+}
+
+/* Por defecto (en ordenador), estos elementos están ocultos. */
+.solo-movil {
+    display: none;
+}
+
+/* ==================================================
+   RESPONSIVE DESIGN (MEDIA QUERIES)
+   ================================================== */
+
+/* PANTALLAS GRANDES Y MEDIANAS (Tablets horizontales / Portátiles pequeños)
+   Cuando la pantalla es menor a 1200px:
+*/
+@media (max-width: 1199.98px) {
+    /* La cuadrícula de 4 columnas se rompe y pasa a ser de 2 columnas para no apretar el contenido. */
+    .grid-4 {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+/* TABLETS Y MÓVILES GRANDES
+   Cuando la pantalla es menor a 992px:
+*/
+@media (max-width: 991.98px) {
+    /* Las cuadrículas de 3 y 2 columnas colapsan en 1 sola columna vertical (1fr). */
+    .grid-3,
+    .grid-2 {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* MÓVILES (Smartphones)
+   Cuando la pantalla es menor a 768px:
+*/
+@media (max-width: 767.98px) {
+    /* En móvil, reducimos el espaciado vertical gigantesco para aprovechar mejor la pantalla. */
+    .seccion {
+        padding-block: var(--espacio-8);
+    }
+
+    .seccion-lg {
+        padding-block: var(--espacio-10);
+    }
+
+    /* Las filas horizontales se convierten en columnas verticales. */
+    .fila-flex {
+        flex-direction: column;
+    }
+
+    /* Invertimos las clases de visibilidad:
+       Lo que se debía ocultar en móvil, desaparece.
+       Lo que era "solo móvil" (como el menú hamburguesa), se hace visible.
+    */
+    .ocultar-movil {
+        display: none !important; /* Usamos !important para asegurar que sobrescribe otros 'display' */
+    }
+
+    .solo-movil {
+        display: block !important;
+    }
+}

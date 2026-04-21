@@ -1,0 +1,151 @@
+/* ==================================================
+   BOTONES REUTILIZABLES
+   ================================================== */
+
+/* Estilos base compartidos para los tres tipos de botones personalizados.
+   Agruparlos aquí evita repetir código (DRY: Don't Repeat Yourself).
+*/
+.boton-principal,
+.boton-secundario,
+.boton-suave {
+    /* Flexbox asegura que el texto (y posibles íconos) queden perfectamente centrados */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    
+    /* Área interactiva mínima (46px es un buen estándar táctil para móviles) */
+    min-height: 46px;
+    padding: 0.75rem 1.25rem;
+    
+    /* Tipografía */
+    font-size: var(--texto-sm);
+    font-weight: var(--peso-semi);
+    line-height: 1; /* Evita que el botón se haga más alto de lo necesario */
+    
+    /* Apariencia: Bordes totalmente redondeados (forma de pastilla) */
+    border-radius: var(--radio-pill);
+    border: 1px solid transparent; /* Reserva el espacio del borde para que el botón no "salte" si luego se le añade uno */
+    
+    /* Transiciones suaves para todos los estados interactivos (hover, active) */
+    transition:
+        background-color var(--transicion-media),
+        color var(--transicion-media),
+        border-color var(--transicion-media),
+        transform var(--transicion-rapida),
+        box-shadow var(--transicion-media);
+}
+
+/* --- BOTÓN PRINCIPAL (Llamadas a la acción primarias) --- */
+.boton-principal {
+    color: var(--color-texto-inverso); /* Texto blanco */
+    background-color: var(--color-secundario); /* Fondo azul vibrante */
+}
+
+/* Efecto al pasar el ratón (Hover) */
+.boton-principal:hover {
+    color: var(--color-texto-inverso);
+    background-color: #1d4ed8; /* Un azul un poco más oscuro */
+    transform: translateY(-1px); /* Efecto de "flotar" o levantarse ligeramente hacia arriba */
+    box-shadow: 0 10px 22px rgba(37, 99, 235, 0.22); /* Sombra difusa del mismo color azul */
+}
+
+/* Efecto al hacer clic (Active) */
+.boton-principal:active {
+    transform: translateY(0); /* Vuelve a su posición original, dando la sensación de ser presionado */
+    box-shadow: none; /* Pierde la sombra temporalmente */
+}
+
+/* --- BOTÓN SECUNDARIO (Acciones alternativas / Outline) --- */
+.boton-secundario {
+    color: var(--color-primario); /* Texto azul marino oscuro */
+    background-color: transparent; /* Fondo transparente */
+    border-color: var(--color-borde-fuerte); /* Borde visible gris/azulado */
+}
+
+/* Efecto al pasar el ratón: Se vuelve azul vibrante y gana un fondo muy sutil */
+.boton-secundario:hover {
+    color: var(--color-secundario);
+    border-color: var(--color-secundario);
+    background-color: rgba(37, 99, 235, 0.04);
+}
+
+.boton-secundario:active {
+    transform: translateY(0);
+}
+
+/* --- BOTÓN SUAVE (Acciones de bajo impacto) --- */
+/* Son botones sin borde, con un fondo muy claro y texto a color */
+.boton-suave {
+    color: var(--color-secundario); /* Texto azul vibrante */
+    background-color: #eaf2fd; /* Fondo azul pastel muy claro */
+}
+
+.boton-suave:hover {
+    background-color: #dfeeff; /* Se oscurece ligeramente al hacer hover */
+}
+
+/* ==================================================
+   ADAPTACIÓN AL MODO OSCURO
+   ================================================== */
+
+/* El botón principal no necesita cambios porque ya es azul con texto blanco,
+   pero los secundarios y suaves sí necesitan ajustes de contraste.
+*/
+
+/* El botón secundario en modo oscuro usa texto gris claro y bordes adaptados */
+body.tema-oscuro .boton-secundario {
+    color: #cbd5e1;
+    border-color: rgba(148, 163, 184, 0.28);
+}
+
+/* Al hacer hover, se rellena de gris oscuro y el texto se vuelve blanco puro */
+body.tema-oscuro .boton-secundario:hover {
+    color: #ffffff;
+    background-color: #1f2937;
+    border-color: #475569;
+}
+
+/* El botón suave en modo oscuro mantiene el tono azulado pero con colores adaptados a fondos negros */
+body.tema-oscuro .boton-suave {
+    color: #93c5fd; /* Azul pastel claro para el texto */
+    background-color: rgba(59, 130, 246, 0.12); /* Fondo azul con mucha transparencia */
+}
+
+body.tema-oscuro .boton-suave:hover {
+    background-color: rgba(59, 130, 246, 0.18); /* Aumenta un poco la opacidad al pasar el ratón */
+}
+
+/* ==================================================
+   CONSISTENCIA EXTRA EN BOTONES (BOOTSTRAP)
+   ================================================== */
+
+/* Estos estilos se aplican a la clase `.btn` nativa de Bootstrap.
+   El objetivo es que si utilizas botones de Bootstrap (ej. btn-primary, btn-danger),
+   hereden automáticamente la misma forma y animaciones que tus botones personalizados.
+*/
+.btn {
+    min-height: 44px; /* Un poco más pequeños que los personalizados, pero aún táctiles */
+    border-radius: var(--radio-pill); /* Fuerza a que sean redondos (pastilla) */
+    font-weight: var(--peso-semi);
+    
+    /* Mismas transiciones de flotabilidad y color */
+    transition:
+        background-color var(--transicion-media),
+        color var(--transicion-media),
+        border-color var(--transicion-media),
+        transform var(--transicion-rapida),
+        box-shadow var(--transicion-media);
+}
+
+.btn:hover {
+    transform: translateY(-1px); /* También "flotan" al pasar el ratón */
+}
+
+.btn:active {
+    transform: translateY(0);
+}
+
+/* Modificador para botones pequeños de Bootstrap (.btn-sm) */
+.btn-sm {
+    min-height: 36px;
+}
