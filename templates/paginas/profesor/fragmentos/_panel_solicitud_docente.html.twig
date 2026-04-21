@@ -1,0 +1,68 @@
+<section class="profesor__bloque mb-4">
+    <h2>Solicitar acceso docente</h2>
+
+    {#Mensaje segun estado de la suscripcion#}
+    {% if suscripcionProfesor and suscripcionProfesor.estado == 'pendiente' %}
+        <div class="mensaje-ui mensaje-ui--exito mb-4">
+            <span>Ya tienes una solicitud pendiente. Puedes modificar el plan y reenviar la confirmación de pago.</span>
+        </div>
+
+    {% elseif suscripcionProfesor and suscripcionProfesor.estado == 'activa' %}
+        <div class="mensaje-ui mensaje-ui--exito mb-4">
+            <span>Tu suscripción docente ya está activa.</span>
+        </div>
+
+    {% else %}
+        {#Mensaje si aun no ha solicitado#}
+        <p class="mb-4">
+            Desde aquí puedes pasar de estudiante a profesor. Mantendrás tu cuenta actual y el administrador revisará la solicitud.
+        </p>
+    {% endif %}
+
+    {#Mostrara el formulario solo si no esta activo#}
+    {% if not suscripcionProfesor or suscripcionProfesor.estado != 'activa' %}
+
+        <form method="post" class="profesor__formulario">
+            
+            {#Identificador del formulario#}
+            <input type="hidden" name="formulario" value="solicitar_alta_profesor_desde_panel">
+
+            {#Token de seguridad#}
+            <input type="hidden" name="_token" value="{{ csrf_token('solicitar_alta_profesor_desde_panel') }}">
+
+            <div class="row g-4">
+
+                {#Opciones de plan#}
+                <div class="col-12 col-lg-6">
+                    <label for="plan_docente_nuevo" class="form-label">Plan docente</label>
+                    <select id="plan_docente_nuevo" name="plan" class="form-select" required>
+                        <option value="basico" {{ suscripcionProfesor and (suscripcionProfesor.planSolicitado ?: suscripcionProfesor.plan) == 'basico' ? 'selected' : '' }}>Básico · 1 curso</option>
+                        <option value="pro" {{ suscripcionProfesor and (suscripcionProfesor.planSolicitado ?: suscripcionProfesor.plan) == 'pro' ? 'selected' : '' }}>Pro · 5 cursos</option>
+                        <option value="premium" {{ suscripcionProfesor and (suscripcionProfesor.planSolicitado ?: suscripcionProfesor.plan) == 'premium' ? 'selected' : '' }}>Premium · ilimitados</option>
+                    </select>
+                </div>
+
+                {#Cuenta de banco mostrada#}
+                <div class="col-12 col-lg-6">
+                    <label class="form-label">Cuenta bancaria para el pago</label>
+                    <div class="form-control d-flex align-items-center">{{ cuentaBancariaDocente }}</div>
+                </div>
+
+                {#Confirmar el pago#}
+                <div class="col-12">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="confirmacion_pago_alta_panel" name="confirmacion_pago" value="1" required>
+                        <label class="form-check-label" for="confirmacion_pago_alta_panel">
+                            Confirmo que he visto la cuenta bancaria y he realizado el pago del plan seleccionado.
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary mt-4">
+                Enviar solicitud de profesor
+            </button>
+        </form>
+
+    {% endif %}
+</section>

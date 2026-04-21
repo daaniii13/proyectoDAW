@@ -1,0 +1,132 @@
+{% extends 'base.html.twig' %}
+{% block title %}{{ 'login.titulo_pagina'|trans }} | TeachingExplorer{% endblock %}
+{% block body %}
+<section class="seccion-autenticacion">
+    <div class="container">
+        <div class="autenticacion-layout">
+
+
+            {#Panel de informacion#}
+            <div class="autenticacion-panel autenticacion-panel--info">
+                <span class="autenticacion-panel__etiqueta">TeachingExplorer</span>
+                <h1 class="autenticacion-panel__titulo">{{ 'login.hero_titulo'|trans }}</h1>
+                <p class="autenticacion-panel__texto">{{ 'login.hero_texto'|trans }}</p>
+
+
+                <ul class="autenticacion-panel__lista">
+                    <li>{{ 'login.lista_1'|trans }}</li>
+                    <li>{{ 'login.lista_2'|trans }}</li>
+                    <li>{{ 'login.lista_3'|trans }}</li>
+                    <li>{{ 'login.lista_4'|trans }}</li>
+                </ul>
+            </div>
+
+
+            {#Formulario de login#}
+            <div class="autenticacion-panel autenticacion-panel--formulario">
+                {#Titulo#}
+                <div class="autenticacion-cabecera">
+                    <h2>{{ 'login.titulo'|trans }}</h2>
+                    <p>{{ 'login.subtitulo'|trans }}</p>
+                </div>
+
+
+                {#Notificaciones flash para mensajes de exito y error#}
+                {% for mensaje in app.flashes('success') %}
+                    <div class="mensaje-ui mensaje-ui--exito mb-3">
+                        <span>{{ mensaje }}</span>
+                    </div>
+                {% endfor %}
+
+
+                {% if error %}
+                    <div class="mensaje-ui mensaje-ui--error mb-3">
+                        <span>{{ error.messageKey|trans(error.messageData, 'security') }}</span>
+                    </div>
+                {% endif %}
+
+
+                {#Formulario de envio#}
+                <form method="post" class="formulario-autenticacion">
+                    <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+                    {#Correo#}
+                    <div class="campo-formulario">
+                        <label for="username">{{ 'login.correo'|trans }}</label>
+                        <input id="username" type="email" name="_username" value="{{ last_username }}" class="form-control" autocomplete="email" required>
+                    </div>
+
+
+                    {#Password#}
+                    <div class="campo-formulario">
+                        <label for="password">{{ 'login.contrasena'|trans }}</label>
+                        <div class="campo-password">
+                            <input id="password" type="password" name="_password" class="form-control" autocomplete="current-password" required>
+                            <button type="button" class="campo-password__toggle" data-toggle-password="password" aria-label="{{ app.request.locale == 'en' ? 'Show password' : 'Mostrar contraseña' }}" data-no-translate="1">
+                                <span class="campo-password__icono campo-password__icono--ver" aria-hidden="true">
+                                    <svg viewBox="0 0 24 24" fill="none">
+                                        <path d="M2 12C3.8 8.6 7.4 6 12 6s8.2 2.6 10 6c-1.8 3.4-5.4 6-10 6S3.8 15.4 2 12Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.8"/>
+                                    </svg>
+                                </span>
+
+
+                                <span class="campo-password__icono campo-password__icono--ocultar" aria-hidden="true" hidden>
+                                    <svg viewBox="0 0 24 24" fill="none">
+                                        <path d="M3 3L21 21" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                                        <path d="M10.6 10.7A3 3 0 0 0 13.3 13.4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                                        <path d="M9.9 5.2A10.7 10.7 0 0 1 12 5c4.6 0 8.2 2.6 10 6a11.8 11.8 0 0 1-4 4.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <path d="M6.6 6.7A11.8 11.8 0 0 0 2 12c1.8 3.4 5.4 6 10 6 1 0 2-.1 2.9-.4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                </span>
+
+
+                            </button>
+                        </div>
+
+
+                    </div>
+
+
+                    {#Opcion recordar y recuperar contraseña#}
+                    <div class="autenticacion-opciones">
+                        <label class="autenticacion-recordar">
+                            <input type="checkbox" name="_remember_me">
+                            <span>{{ 'login.recordarme'|trans }}</span>
+                        </label>
+
+
+                        <a href="{{ path('app_recuperar_contrasena') }}" class="autenticacion-enlace">
+                            {{ 'login.olvido'|trans }}
+                        </a>
+                    </div>
+
+
+                    {#Entrar#}
+                    <button type="submit" class="btn btn-primary autenticacion-boton-principal">{{ 'login.entrar'|trans }}</button>
+
+
+                </form>
+                <div class="autenticacion-separador">
+                    <span>{{ 'login.o_continua'|trans }}</span>
+                </div>
+               
+                {#Login con google#}
+                <a href="{{ path('app_google_start') }}" class="boton-google-login">
+                    <span class="boton-google-login__icono" aria-hidden="true">
+                        <img src="https://cdn-icons-png.flaticon.com/512/281/281764.png" alt="Google" width="18" height="18">
+                    </span>
+
+
+                    <span>{{ 'login.google'|trans }}</span>
+                </a>
+
+
+                {#Pagina de registrarse#}
+                <p class="autenticacion-registro">{{ 'login.no_cuenta'|trans }}<a href="{{ path('app_registro') }}">{{ 'login.crear_cuenta'|trans }}</a></p>
+            </div>
+
+
+        </div>
+    </div>
+</section>
+{% endblock %}

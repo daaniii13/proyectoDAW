@@ -1,0 +1,41 @@
+{#Pie de página de la aplicación#}
+<footer class="pie-sitio">
+    <div class="container">
+        <div class="pie-sitio__grid">
+            {#Informacion sobre la pagina#}
+            <div class="pie-sitio__columna">
+                <h3>TeachingExplorer</h3>
+                <p>
+                    Plataforma educativa orientada a conectar estudiantes y profesores mediante una experiencia clara, accesible y moderna.
+                </p>
+            </div>
+            
+            {#Enlaces de navegación#}
+            <div class="pie-sitio__columna">
+                <h4>Navegación</h4>
+                <ul class="pie-sitio__lista">
+                    <li><a href="{{ path('app_inicio') }}">Inicio</a></li>
+                    <li><a href="{{ path('app_mis_cursos') }}">Mis cursos</a></li>
+                    <li><a href="{{ path('app_sobre_nosotros') }}">Sobre nosotros</a></li>
+                </ul>
+            </div>
+
+            {#Informacion de contacto#}
+            <div class="pie-sitio__columna">
+                <h4>Contacto</h4>
+                <ul class="pie-sitio__lista">
+                    <li>teachingexplorerdaw@gmail.com</li>
+                    <li>Atención de lunes a viernes</li>
+                    <li>09:00 - 17:00</li>
+                </ul>
+            </div>
+
+        </div>
+        {#Derechos de autor#}
+        <div class="pie-sitio__inferior">
+            <p class="pie-sitio__copyright">
+                © 2026 TeachingExplorer. Todos los derechos reservados.
+            </p>
+        </div>
+    </div>
+</footer>

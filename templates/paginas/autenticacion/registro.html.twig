@@ -1,0 +1,209 @@
+{% extends 'base.html.twig' %}
+{% block title %}Crear cuenta | TeachingExplorer{% endblock %}
+{% block body %}
+<div data-dynamic-translate="1">
+    <section class="seccion-autenticacion">
+        <div class="container">
+            <div class="autenticacion-layout">
+
+                {#Panel de informacion y ventajas#}
+                <div class="autenticacion-panel autenticacion-panel--info">
+                    <span class="autenticacion-panel__etiqueta">Crear cuenta</span>
+                    <h1 class="autenticacion-panel__titulo">Únete a TeachingExplorer</h1>
+                    <p class="autenticacion-panel__texto">Regístrate como estudiante o profesor y accede a cursos, contenido educativo y herramientas modernas.</p>
+                
+                    <ul class="autenticacion-panel__lista">
+                        <li>Registro gratuito para estudiantes</li>
+                        <li>Planes específicos para profesores</li>
+                        <li>Solicitud automática al administrador para cuentas docentes</li>
+                        <li>Acceso inmediato tras validación o alta</li>
+                    </ul>
+                </div>
+
+                <div class="autenticacion-panel autenticacion-panel--formulario">
+                    <div class="autenticacion-cabecera">
+                        <h2>Crear nueva cuenta</h2>
+                        <p>Completa el formulario para empezar.</p>
+                    </div>
+
+                    {# Error general #}
+                    {% if error %}
+                        <div class="mensaje-ui mensaje-ui--error mb-3"><span>{{ error }}</span></div>
+                    {% endif %}
+                    
+                    {#Notificaciones flash para mensajes de exito y error#}
+                    {% for mensaje in app.flashes('success') %}
+                        <div class="mensaje-ui mensaje-ui--exito mb-3"><span>{{ mensaje }}</span></div>
+                    {% endfor %}
+
+                    {% for mensaje in app.flashes('error') %}
+                        <div class="mensaje-ui mensaje-ui--error mb-3"><span>{{ mensaje }}</span></div>
+                    {% endfor %}
+
+                    {#Formulario de registro#}
+                    <form method="post" class="formulario-autenticacion">
+                        {#Token seguridad#}
+                        <input type="hidden" name="_token" value="{{ csrf_token('registro_usuario') }}">
+                        <div class="campo-formulario">
+                            <label for="nombre">Nombre completo</label>
+                            <input id="nombre" type="text" name="nombre" class="form-control" placeholder="Nombre y apellidos" value="{{ datos.nombre|default('') }}" required>
+                        </div>
+
+                        {#Correo#}
+                        <div class="campo-formulario">
+                            <label for="correo">Correo electrónico</label>
+                            <input id="correo" type="email" name="correo" class="form-control" placeholder="tucorreo@ejemplo.com" value="{{ datos.correo|default('') }}" required>
+                        </div>
+
+                        {#Cuenta de alumno o profesor#}
+                        <div class="campo-formulario">
+                            <label for="tipo_usuario">Tipo de cuenta</label>
+                            <select id="tipo_usuario" name="tipo_usuario" class="form-control" required>
+                                <option value="">Selecciona una opción</option>
+                                <option value="estudiante" {{ datos.tipo_usuario is defined and datos.tipo_usuario == 'estudiante' ? 'selected' : '' }}> Estudiante</option>
+                                <option value="profesor" {{ datos.tipo_usuario is defined and datos.tipo_usuario == 'profesor' ? 'selected' : '' }}>Profesor</option>
+                            </select>
+                        </div>
+
+                        {#Para el profesor elegir el tipo plan#}
+                        <div class="campo-formulario" id="bloque_plan_profesor" style="{{ datos.tipo_usuario is defined and datos.tipo_usuario == 'profesor' ? '' : 'display:none;' }}">
+                            <label for="plan_profesor">Plan para profesor</label>
+                            <select id="plan_profesor" name="plan_profesor" class="form-control">
+                                <option value="">Selecciona un plan</option>
+                                <option value="basico" {{ datos.plan_profesor is defined and datos.plan_profesor == 'basico' ? 'selected' : '' }}>Básico</option>
+                                <option value="pro" {{ datos.plan_profesor is defined and datos.plan_profesor == 'pro' ? 'selected' : '' }}>Pro</option>
+                                <option value="premium" {{ datos.plan_profesor is defined and datos.plan_profesor == 'premium' ? 'selected' : '' }}>Premium</option>
+                            </select>
+                        </div>
+                        
+                        {#Bloque de pago nº de cuenta y check de pago#}
+                        <div class="campo-formulario" id="bloque_pago_profesor" style="{{ datos.tipo_usuario is defined and datos.tipo_usuario == 'profesor' ? '' : 'display:none;' }}">
+                            <label class="form-label">Cuenta bancaria para el pago</label>
+                            <div class="form-control d-flex align-items-center mb-3">{{ cuentaBancariaDocente|default('ES12 3456 7890 1234 5678 9012') }}</div>
+
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="confirmacion_pago" name="confirmacion_pago" value="1"
+                                {{ datos.confirmacion_pago|default(false) ? 'checked' : '' }}>
+
+                                <label class="form-check-label" for="confirmacion_pago">Confirmo que he revisado la cuenta bancaria y he realizado el pago del plan docente.</label>
+                            </div>
+                        </div>
+                        
+                        {#Crear y confirmar contraseña#}
+                        <div class="grid-2">
+                            <div class="campo-formulario">
+                                <label for="contrasena">Contraseña</label>
+                                <div class="campo-password">
+                                    <input id="contrasena" type="password" name="contrasena" class="form-control campo-password__input" placeholder="Mínimo 8 caracteres" required>
+                                    <button type="button" class="campo-password__toggle" data-toggle-password="contrasena" data-no-translate="1" aria-label="Mostrar contraseña" aria-pressed="false">
+                                        <span class="campo-password__icono campo-password__icono--mostrar" data-no-translate="1" aria-hidden="true">
+                                            <svg viewBox="0 0 24 24" fill="none">
+                                                <path d="M2 12S5.5 5 12 5s10 7 10 7-3.5 7-10 7S2 12 2 12Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                                                <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.8"/>
+                                            
+                                            </svg>
+                                        </span>
+
+                                        <span class="campo-password__icono campo-password__icono--ocultar" data-no-translate="1" aria-hidden="true" style="display:none;">
+                                            <svg viewBox="0 0 24 24" fill="none">
+                                                <path d="M3 3L21 21" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                                                <path d="M10.58 10.58A2 2 0 0 0 12 14a2 2 0 0 0 1.42-.58" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                                                <path d="M9.88 5.09A10.94 10.94 0 0 1 12 5c6.5 0 10 7 10 7a17.6 17.6 0 0 1-4.04 4.94" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                                                <path d="M6.61 6.61C4.62 8.06 3.36 10.11 2 12c0 0 3.5 7 10 7a10.8 10.8 0 0 0 5.39-1.39" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                                            </svg>
+                                        </span>
+
+                                    </button>
+
+                                </div>
+                            </div>
+                            
+                            {#Confirmar contraseña#}
+                            <div class="campo-formulario">
+                                <label for="repetir_contrasena">Repetir contraseña</label>
+                                <div class="campo-password">
+                                    <input id="repetir_contrasena" type="password" name="repetir_contrasena" class="form-control campo-password__input" placeholder="Repite la contraseña" required>
+                                    <button type="button" class="campo-password__toggle" data-toggle-password="repetir_contrasena" data-no-translate="1" aria-label="Mostrar contraseña" aria-pressed="false">
+                                        <span class="campo-password__icono campo-password__icono--mostrar" data-no-translate="1" aria-hidden="true">
+                                            <svg viewBox="0 0 24 24" fill="none">
+                                                <path d="M2 12S5.5 5 12 5s10 7 10 7-3.5 7-10 7S2 12 2 12Z"
+                                                    stroke="currentColor"
+                                                    stroke-width="1.8"
+                                                    stroke-linecap="round"
+                                                    stroke-linejoin="round"/>
+                                                <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.8"/>
+                                            </svg>
+                                        </span>
+
+                                        <span class="campo-password__icono campo-password__icono--ocultar" data-no-translate="1" aria-hidden="true" style="display:none;">
+                                            <svg viewBox="0 0 24 24" fill="none">
+                                                <path d="M3 3L21 21" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                                                <path d="M10.58 10.58A2 2 0 0 0 12 14a2 2 0 0 0 1.42-.58" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                                                <path d="M9.88 5.09A10.94 10.94 0 0 1 12 5c6.5 0 10 7 10 7a17.6 17.6 0 0 1-4.04 4.94" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                                                <path d="M6.61 6.61C4.62 8.06 3.36 10.11 2 12c0 0 3.5 7 10 7a10.8 10.8 0 0 0 5.39-1.39" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                                            </svg>
+                                        </span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button class="btn btn-primary autenticacion-boton-principal" type="submit">Crear cuenta</button>
+                        {#Enlace a la pagina de login#}
+                        <div class="autenticacion-registro">
+                            ¿Ya tienes cuenta?
+                            <a href="{{ path('app_login') }}">Iniciar sesión</a>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+<script>
+(function () {
+    // Muestra u oculta campos de profesor
+    function actualizarVisibilidadPlan() {
+        const tipoUsuario = document.getElementById('tipo_usuario');
+        const bloquePlanProfesor = document.getElementById('bloque_plan_profesor');
+        const bloquePagoProfesor = document.getElementById('bloque_pago_profesor');
+        const selectPlanProfesor = document.getElementById('plan_profesor');
+        const checkboxPago = document.getElementById('confirmacion_pago');
+
+        if (!tipoUsuario || !bloquePlanProfesor || !bloquePagoProfesor || !selectPlanProfesor || !checkboxPago) {
+            return;
+        }
+
+        if (tipoUsuario.value === 'profesor') {
+            bloquePlanProfesor.style.display = '';
+            bloquePagoProfesor.style.display = '';
+            selectPlanProfesor.setAttribute('required', 'required');
+            checkboxPago.setAttribute('required', 'required');
+        } else {
+            bloquePlanProfesor.style.display = 'none';
+            bloquePagoProfesor.style.display = 'none';
+            selectPlanProfesor.removeAttribute('required');
+            checkboxPago.removeAttribute('required');
+            selectPlanProfesor.value = '';
+            checkboxPago.checked = false;
+        }
+    }
+
+    //Funcion para el inicializar el evento
+    function iniciar() {
+        const tipoUsuario = document.getElementById('tipo_usuario');
+
+        if (tipoUsuario && !tipoUsuario.dataset.listenerReady) {
+            tipoUsuario.dataset.listenerReady = '1';
+            tipoUsuario.addEventListener('change', actualizarVisibilidadPlan);
+        }
+
+        actualizarVisibilidadPlan();
+    }
+
+    document.addEventListener('DOMContentLoaded', iniciar);
+    window.addEventListener('load', iniciar);
+})();
+</script>
+{% endblock %}

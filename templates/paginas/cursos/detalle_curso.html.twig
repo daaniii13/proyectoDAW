@@ -1,0 +1,154 @@
+{% extends 'base.html.twig' %}
+{% block title %}{{ curso.titulo|traducir_dinamico }} | TeachingExplorer{% endblock %}
+{% block body %}
+<div data-dynamic-translate="1">
+    <section class="seccion-detalle-curso">
+        <div class="container">
+
+            {#Banner del curso#}
+            {% if curso.bannerUrl %}
+                <div class="detalle-curso__banner mb-4">
+                    <img src="{{ curso.bannerUrl }}" alt="Banner del curso {{ curso.titulo|traducir_dinamico }}">
+                </div>
+            {% endif %}
+
+            <div class="detalle-curso__hero">
+                {#Informacion y detallesdel curso#}
+                <div class="detalle-curso__contenido">
+                    <span class="detalle-curso__etiqueta">Curso destacado</span>
+                    <h1>{{ curso.titulo|traducir_dinamico }}</h1>
+
+                    <p class="detalle-curso__descripcion">{{ curso.descripcion|traducir_dinamico }}</p>
+
+                    <div class="detalle-curso__chips">
+                        <span class="detalle-curso__chip">Profesor: {{ curso.profesor.nombre }}</span>
+                        <span class="detalle-curso__chip">Nivel: {{ curso.nivel|traducir_dinamico }}</span>
+                        <span class="detalle-curso__chip">Duración: {{ curso.duracion|traducir_dinamico }}</span>
+                        <span class="detalle-curso__chip">Modalidad: {{ curso.modalidad|traducir_dinamico }}</span>
+                        <span class="detalle-curso__chip">Estado: {{ curso.estado|traducir_dinamico }}</span>
+                    </div>
+
+                    <div class="detalle-curso__acciones">
+                        {% if app.user and ('ROLE_ESTUDIANTE' in app.user.roles or 'ROLE_PROFESOR' in app.user.roles) %}
+                            {% if app.user == curso.profesor %}
+                                <button type="button" class="btn btn-outline-secondary" disabled>Este es tu curso</button>
+
+                            {% elseif inscripcionExistente %}
+                                <button type="button" class="btn btn-outline-secondary" disabled>Ya tienes una solicitud o inscripción</button>
+                            {% else %}
+                                <form method="post" action="{{ path('app_inscribirse_curso', {id: curso.id}) }}" class="d-inline">
+                                    <input type="hidden" name="_token" value="{{ csrf_token('inscribirse_curso_' ~ curso.id) }}">
+                                    <button type="submit" class="btn btn-primary">Solicitar inscripción</button>
+                                </form>
+                            {% endif %}
+                        {% endif %}
+
+                        <a href="{{ path('app_inicio') }}" class="btn btn-outline-secondary">Volver</a>
+
+                    </div>
+
+                    {% if curso.mapaUrl %}
+                        <div class="detalle-curso__mapa mt-4">
+                            <a href="{{ curso.mapaUrl }}" target="_blank" rel="noopener noreferrer" class="btn btn-outline-secondary">Ver ubicación / mapa</a>
+                        </div>
+                    {% endif %}
+
+                </div>
+
+                <aside class="detalle-curso__resumen">
+                    <span class="detalle-curso__precio">{{ curso.precio }} €</span>
+                    <p>El acceso al curso se desbloquea solo cuando el estudiante realiza el pago y el profesor valida la inscripción.</p>
+
+                    <ul class="detalle-curso__lista">
+                        <li>Fecha de creación: {{ curso.fechaCreacion|date('d/m/Y') }}</li>
+                        <li>Profesor responsable: {{ curso.profesor.nombre }}</li>
+                        <li>Modalidad: {{ curso.modalidad|traducir_dinamico }}</li>
+                        <li>Nivel: {{ curso.nivel|traducir_dinamico }}</li>
+                        <li>Pago: transferencia manual al profesor</li>
+                        <li>Validación: aprobación posterior del profesor</li>
+                    </ul>
+                </aside>
+
+            </div>
+
+            {#Comentarios de los usuarios#}
+            <section class="bloque-comentarios mt-5">
+                <div class="bloque-comentarios__cabecera">
+                    <h2>Comentarios</h2>
+                    <p class="texto-suave mb-0">Opiniones y experiencias de los usuarios sobre este curso.</p>
+                </div>
+
+                {#Notificaciones flash para mensajes de exito y error#}
+                {% for mensaje in app.flashes('success') %}
+                    <div class="mensaje-ui mensaje-ui--exito mt-3">
+                        <span>{{ mensaje }}</span>
+                    </div>
+                {% endfor %}
+
+                {% for mensaje in app.flashes('error') %}
+                    <div class="mensaje-ui mensaje-ui--error mt-3">
+                        <span>{{ mensaje }}</span>
+                    </div>
+                {% endfor %}
+
+                {#Si es un usuario registrado puede comentar#}
+                {% if app.user %}
+                    <form method="post" action="{{ path('app_comentario_crear', {id: curso.id}) }}" class="bloque-comentarios__formulario">
+                        <input type="hidden" name="_token" value="{{ csrf_token('nuevo_comentario') }}">
+                        <label for="contenido-comentario" class="form-label">Añadir comentario</label>
+                        <textarea id="contenido-comentario" name="contenido" class="form-control" rows="4" placeholder="Escribe tu comentario..." required></textarea>
+                        <div class="mt-3">
+                            <button class="btn btn-primary">Comentar</button>
+                        </div>
+                    </form>
+                {% else %}
+                    <div class="curso-usuario mt-4">
+                        <p class="mb-0">Inicia sesión para comentar este curso.</p>
+                    </div>
+                {% endif %}
+
+                {#Listado de comentarios#}
+                {% if comentarios is empty %}
+                    <div class="estado-vacio mt-4">
+                        <div class="estado-vacio__icono">0</div>
+                        <h3 class="estado-vacio__titulo">Todavía no hay comentarios</h3>
+                        <p class="estado-vacio__texto">Sé el primero en compartir tu opinión sobre este curso.</p>
+                    </div>
+                {% else %}
+                    <div class="bloque-comentarios__lista">
+                        {% for comentario in comentarios %}
+                            <article class="comentario-curso">
+                                <div class="comentario-curso__superior">
+                                    <div>
+                                        <h3>{{ comentario.usuario.nombre }}</h3>
+                                        <span class="comentario-curso__fecha">{{ comentario.fechaCreacion|date('d/m/Y H:i') }}</span>
+                                    </div>
+
+                                    <div class="d-flex align-items-center gap-2">
+                                        {% if comentario.destacado %}
+                                            <span class="badge text-bg-warning">Destacado</span>
+                                        {% endif %}
+
+                                        {% if app.user and app.user == curso.profesor %}
+                                            <form method="post" action="{{ path('app_comentario_destacar', {id: comentario.id}) }}">
+                                                <input type="hidden" name="_token" value="{{ csrf_token('destacar_comentario_' ~ comentario.id) }}">
+                                                <button type="submit" class="btn btn-sm btn-outline-secondary">{{ comentario.destacado ? 'Quitar destacado' : 'Destacar' }}</button>
+                                            </form>
+                                        {% endif %}
+
+                                    </div>
+                                </div>
+
+                                <p class="comentario-curso__texto">{{ comentario.contenido|traducir_dinamico }}</p>
+                            </article>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
+
+            </section>
+
+        </div>
+    </section>
+</div>
+{% endblock %}

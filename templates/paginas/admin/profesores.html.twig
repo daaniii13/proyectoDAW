@@ -1,0 +1,119 @@
+{% extends 'base.html.twig' %}
+{% block title %}Profesores pendientes | Admin | TeachingExplorer{% endblock %}
+{% block body %}
+
+{#Pagina para administrar solicitudes de profesores#}
+    <div data-dynamic-translate="1">
+        <section class="seccion-profesor">
+            <div class="container">
+                {#Cabecera de la administracion de profesores#}
+                <div class="profesor__cabecera">
+                    <div>
+                        <span class="profesor__etiqueta">Administración</span>
+                        <h1>Solicitudes</h1>
+                        <p class="profesor__texto">Aquí apruebas o rechazas altas, cambios de plan y cancelaciones.</p>
+                    </div>
+                </div>
+
+                {#Bucles de las notificaciones de exito o error#}
+                {% for mensaje in app.flashes('success') %}
+                    <div class="mensaje-ui mensaje-ui--exito profesor__nota">
+                        <span>{{mensaje}}</span>
+                    </div>
+                {% endfor %}
+
+                {% for mensaje in app.flashes('error') %}
+                    <div class="mensaje-ui mensaje-ui--error profesor__nota">
+                        <span>{{mensaje}}</span>
+                    </div>
+                {% endfor %}
+
+                {#Solicitudes de aceptacion de profesores#}
+                {% if solicitudesPendientes is empty %}
+                    <div class="estado-vacio">
+                        <div class="estado-vacio__icono">0</div>
+                        <h3 class="estado-vacio__titulo">No hay solicitudes pendientes</h3>
+                        <p class="estado-vacio__texto">Cuando un profesor envíe una solicitud de alta, cambio de plan o cancelación, aparecerá aquí.</p>
+                    </div>
+                {% else %}
+                    <div class="mis-cursos__grid">
+                        {% for solicitud in solicitudesPendientes %}
+                            {#Si no hay  un plan solicitado, se usa el actual#}
+                            {% set planSolicitado = solicitud.planSolicitado ?: solicitud.plan %}
+                            <article class="curso-usuario">
+                                <div class="curso-usuario__superior">
+                                    <span class="badge text-bg-warning">Pendiente</span>
+                                    <span class="curso-usuario__progreso">
+                                        {% if solicitud.tipoSolicitud == 'cambio_plan' %}
+                                            Cambio de plan
+                                        {% elseif solicitud.tipoSolicitud == 'cancelacion' %}
+                                            Cancelación
+                                        {% else %}
+                                            Alta
+                                        {% endif %}
+                                    </span>
+                                </div>
+
+                                <h3>{{ solicitud.profesor.nombre }}</h3>
+                                <p>Correo: {{ solicitud.profesor.email }}</p>
+
+                                <div class="curso-usuario__meta">
+                                    <span>Estado actual: {{ solicitud.estado|capitalize }}</span>
+                                    <span>Plan actual: {{ solicitud.plan|capitalize }}</span>
+                                    {% if solicitud.tipoSolicitud == 'cancelacion' %}
+                                        <span>Solicitud: Cancelación de suscripción</span>
+                                    {% else %}
+                                        <span>Plan solicitado: {{ planSolicitado|capitalize }}</span>
+                                    {% endif %}
+
+                                    <span>Fecha: {{ solicitud.fechaSolicitud|date('d/m/Y H:i') }}</span>
+
+                                </div>
+                                {#Advertencia de cancelacion#}
+                                {% if solicitud.tipoSolicitud == 'cancelacion' %}
+                                    <div class="mt-3">
+                                        <div class="mensaje-ui mensaje-ui--error">
+                                            <span>Al aprobar esta cancelación, el profesor pasará a estudiante y se eliminarán sus cursos.</span>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                                
+                                {#Formulario de aprobacion#}
+                                <form method="post" action="{{ path('app_admin_aprobar_profesor', {id: solicitud.id}) }}" class="d-flex flex-column gap-3 mt-3">
+                                    <input type="hidden" name="_token" value="{{ csrf_token('aprobar_profesor_' ~ solicitud.id) }}">
+                                    {#Si la solicitud no es de cancelacion se muestra las opciones#}
+                                    {% if solicitud.tipoSolicitud != 'cancelacion' %}
+                                        <select name="plan" class="form-select" required>
+                                            <option value="basico" {{ planSolicitado == 'basico' ? 'selected' : '' }}>Básico · 1 curso</option>
+                                            <option value="pro" {{ planSolicitado == 'pro' ? 'selected' : '' }}>Pro · 5 cursos</option>
+                                            <option value="premium" {{ planSolicitado == 'premium' ? 'selected' : '' }}>Premium · ilimitados</option>
+                                        </select>
+                                    {% endif %}
+
+                                    {#Boton segun el tipo de solicitud#}
+                                    <button type="submit" class="btn btn-primary">
+                                        {% if solicitud.tipoSolicitud == 'cancelacion' %}
+                                            Aprobar cancelación
+                                        {% elseif solicitud.tipoSolicitud == 'cambio_plan' %}
+                                            Aprobar cambio de plan
+                                        {% else %}
+                                            Aprobar profesor
+                                        {% endif %}
+                                    </button>                                    
+                                </form>
+                                
+                                {#Formulario de rechazo#}
+                                <form method="post" action="{{ path('app_admin_rechazar_profesor', {id: solicitud.id}) }}" class="mt-3">
+                                    <input type="hidden" name="_token" value="{{ csrf_token('rechazar_profesor_' ~ solicitud.id) }}">
+                                    <button type="submit" class="btn btn-outline-danger">Rechazar</button>
+                                </form>
+
+                            </article>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
+            </div>
+        </section>
+    </div>
+{% endblock %}

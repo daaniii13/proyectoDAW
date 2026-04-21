@@ -1,0 +1,33 @@
+<section class="profesor__bloque">
+    <h2>Crear tarea</h2>
+    {#Formulario de crear tareas del curso#}
+    <form method="post" enctype="multipart/form-data" class="profesor__formulario">
+        <input type="hidden" name="formulario" value="crear_tarea">
+        <input type="hidden" name="_token" value="{{ csrf_token('crear_tarea_' ~ curso.id) }}">
+
+        <div class="mb-3">
+            <label for="titulo_tarea" class="form-label">Título</label>
+            <input type="text" id="titulo_tarea" name="titulo_tarea" class="form-control" value="{{ datosTarea.titulo|default('') }}" required
+            >
+        </div>
+
+        <div class="mb-3">
+            <label for="descripcion_tarea" class="form-label">Descripción</label>
+            <textarea  id="descripcion_tarea"  name="descripcion_tarea" class="form-control" rows="5" required>{{ datosTarea.descripcion|default('') }}</textarea>
+        </div>
+
+        <div class="mb-3">
+            <label for="fecha_limite_tarea" class="form-label">Fecha límite</label>
+            <input type="datetime-local" id="fecha_limite_tarea" name="fecha_limite_tarea" class="form-control" value="{{ datosTarea.fecha_limite|default('') }}">
+        </div>
+
+        <div class="mb-3">
+            <label for="archivo_profesor" class="form-label">Archivo adjunto del profesor</label>
+            <input type="file" id="archivo_profesor" name="archivo_profesor" class="form-control">
+        </div>
+
+        <button type="submit" class="btn btn-primary w-100">
+            Crear tarea
+        </button>
+    </form>
+</section>

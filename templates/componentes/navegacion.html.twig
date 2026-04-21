@@ -1,0 +1,204 @@
+ {#Guarda la ruta actual#}
+{% set ruta_actual = app.request.attributes.get('_route') %}
+{# Guardan el rol del usuario para mostrar enlaces dependiendo de su rol #}
+{% set es_admin = app.user and 'ROLE_ADMIN' in app.user.roles %}
+{% set es_profesor = app.user and 'ROLE_PROFESOR' in app.user.roles %}
+{% set es_estudiante = app.user and 'ROLE_ESTUDIANTE' in app.user.roles %}
+{# Variable para mostrar el primer nombre del usuario #}
+{% set nombre_visible = app.user ? (app.user.nombre|split(' ')|first) : '' %}
+{# Variable de idioma actual #}
+{% set locale_actual = app.request.locale|default('es') %}
+
+<nav class="navbar navbar-expand-xl barra-navegacion" aria-label="Navegación principal">
+    <div class="container barra-navegacion__interior">
+        <div class="selector-idioma-flotante dropdown d-none d-xl-block" data-no-translate="1">
+            {#Botón para cambiar de idioma, con el idioma actual#}
+            <button
+                class="selector-idioma-flotante__boton"
+                type="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+                aria-label="Cambiar idioma"
+            >
+                <span class="selector-idioma-flotante__texto">{{ locale_actual|upper }}</span>
+                <span class="selector-idioma-flotante__flecha" aria-hidden="true">
+                    <svg viewBox="0 0 20 20" fill="none">
+                        <path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </button>
+            {#Menu desplegable de idiomas para traducir#}
+            <ul class="dropdown-menu selector-idioma-flotante__menu">
+                <li>
+                    <a class="dropdown-item" href="{{ path('app_cambiar_idioma', { locale: 'es' }) }}">
+                        Español
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item" href="{{ path('app_cambiar_idioma', { locale: 'en' }) }}">
+                        English
+                    </a>
+                </li>
+            </ul>
+
+        </div>
+        {#Titulo de la pagina con enlace al inicio#}
+        <a class="navbar-brand marca" href="{{ path('app_inicio') }}">Teaching Explorer</a>
+        {#Botón de menu de navegacion para pantallas pequeñas#}
+        <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#menuPrincipal"
+            aria-controls="menuPrincipal"
+            aria-expanded="false"
+            aria-label="Abrir menú de navegación"
+        >
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        {#Menu de navegacion principal#}
+        <div class="collapse navbar-collapse" id="menuPrincipal">
+            <ul class="navbar-nav ms-auto align-items-xl-center gap-xl-2">
+                {#Pagina de inicio#}
+                <li class="nav-item">
+                    <a class="nav-link enlace-navegacion {{ ruta_actual == 'app_inicio' ? 'enlace-navegacion--activo' : '' }}" href="{{ path('app_inicio') }}">
+                        {{ 'nav.inicio'|trans }}
+                    </a>
+                </li>
+                {#Pagina de Mis cursos, para los usuarios que no sean el admin#}
+                {% if app.user and not es_admin %}
+                    <li class="nav-item">
+                        <a class="nav-link enlace-navegacion {{ ruta_actual in ['app_mis_cursos', 'app_detalle_curso', 'app_visor_curso'] ? 'enlace-navegacion--activo' : '' }}" href="{{ path('app_mis_cursos') }}">
+                            {{ 'nav.mis_cursos'|trans }}
+                        </a>
+                    </li>
+                {% endif %}
+
+                {#Pagina de Gestion docente, para los usuarios profesores#}
+                {% if es_profesor %}
+                    <li class="nav-item">
+                        <a class="nav-link enlace-navegacion {{ ruta_actual in ['app_subir_recursos', 'app_profesor_editar_curso', 'app_profesor_recursos_curso', 'app_profesor_tareas_curso'] ? 'enlace-navegacion--activo' : '' }}" href="{{ path('app_subir_recursos') }}">
+                            {{ 'nav.gestion_docente'|trans }}
+                        </a>
+                    </li>
+                {% endif %}
+
+                {#Paginas de administración de profesores y usuarios, para el administrador#}
+                {% if es_admin %}
+                    <li class="nav-item">
+                        <a class="nav-link enlace-navegacion {{ ruta_actual == 'app_admin_profesores' ? 'enlace-navegacion--activo' : '' }}" href="{{ path('app_admin_profesores') }}">
+                            {{ 'nav.admin_profesores'|trans }}
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link enlace-navegacion {{ ruta_actual == 'app_admin_usuarios' ? 'enlace-navegacion--activo' : '' }}" href="{{ path('app_admin_usuarios') }}">
+                            {{ 'nav.admin_usuarios'|trans }}
+                        </a>
+                    </li>
+                {% endif %}
+
+                {#Pagina Sobre nosotros, con informacion sobre la pagina#}
+                <li class="nav-item">
+                    <a class="nav-link enlace-navegacion {{ ruta_actual == 'app_sobre_nosotros' ? 'enlace-navegacion--activo' : '' }}" href="{{ path('app_sobre_nosotros') }}">
+                        {{ 'nav.sobre_nosotros'|trans }}
+                    </a>
+                </li>
+                {#Pagina de contacto, con formulario de contacto para los usuarios#}
+                <li class="nav-item">
+                    <a class="nav-link enlace-navegacion {{ ruta_actual == 'app_contacto' ? 'enlace-navegacion--activo' : '' }}" href="{{ path('app_contacto') }}">
+                        {{ 'nav.contacto'|trans }}
+                    </a>
+                </li>
+
+                {#Pagina de ajustes para los usuarios#}
+                {% if app.user %}
+                    <li class="nav-item">
+                        <a class="nav-link enlace-navegacion {{ ruta_actual == 'app_ajustes' ? 'enlace-navegacion--activo' : '' }}" href="{{ path('app_ajustes') }}">
+                            {{ 'nav.ajustes'|trans }}
+                        </a>
+                    </li>
+                {% endif %}
+
+                <li class="nav-item dropdown d-xl-none mt-2 selector-idioma-flotante w-100" data-no-translate="1">
+                    {#Boton para cambiar el idioma, en pantallas pequeñas#}
+                    <button
+                        class="selector-idioma-flotante__boton w-100"
+                        type="button"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                        aria-label="Cambiar idioma"
+                    >
+                        {#Idioma actual#}
+                        <span class="selector-idioma-flotante__texto">{{ locale_actual|upper }}</span>
+                        <span class="selector-idioma-flotante__flecha" aria-hidden="true">
+                            <svg viewBox="0 0 20 20" fill="none">
+                                <path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </span>
+                    </button>
+                    {#Menu desplegable de idiomas para traducir, en pantallas pequeñas#}
+                    <ul class="dropdown-menu selector-idioma-flotante__menu w-100">
+                        <li>
+                            <a class="dropdown-item" href="{{ path('app_cambiar_idioma', { locale: 'es' }) }}">
+                                Español
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="{{ path('app_cambiar_idioma', { locale: 'en' }) }}">
+                                English
+                            </a>
+                        </li>
+                    </ul>
+
+                </li>
+
+            </ul>
+
+            {#Si es un usuario registrado, muestra su foto de perfil, nombre, rol y opcion de cerrar sesión#}
+            {% if app.user %}
+                <div class="bloque-usuario-nav ms-xl-4 mt-3 mt-xl-0">
+                    {#avatar dle usuario#}
+                    <div class="bloque-usuario-nav__avatar">
+                        {#Si tiene foto de perfil la muestras, sino su inicial#}
+                        {% if app.user.fotoPerfil %}
+                            <img src="{{ asset('uploads/perfiles/' ~ app.user.fotoPerfil) }}" alt="Foto de perfil de {{ app.user.nombre }}">
+                        {% else %}
+                            <span>{{ nombre_visible|first|upper }}</span>
+                        {% endif %}
+                    </div>
+                    {#Informacion del usuario#}
+                    <div class="bloque-usuario-nav__contenido">
+                        {#Nombre del usuario#}
+                        <span class="bloque-usuario-nav__nombre">{{ nombre_visible }}</span>
+                        {#Rol del usuario#}
+                        <span class="bloque-usuario-nav__rol">
+                            {% if es_admin %}
+                                {{ 'nav.rol.administrador'|trans }}
+                            {% elseif es_profesor %}
+                                {{ 'nav.rol.profesor'|trans }}
+                            {% elseif es_estudiante %}
+                                {{ 'nav.rol.estudiante'|trans }}
+                            {% else %}
+                                {{ 'nav.rol.usuario'|trans }}
+                            {% endif %}
+                        </span>
+                    </div>
+                    {#Boton de cerrar sesión#}
+                    <a class="btn boton-acceso" href="{{ path('app_logout') }}">
+                        {{ 'nav.logout'|trans }}
+                    </a>
+                </div>
+            {% else %}
+                {#Sino es un usuario registrado, muestra la opción de iniciar sesión#}
+                <div class="ms-xl-4 mt-3 mt-xl-0">
+                    <a class="btn boton-acceso" href="{{ path('app_login') }}">
+                        {{ 'nav.login'|trans }}
+                    </a>
+                </div> 
+            {% endif %}
+
+
+        </div>
+    </div>
+</nav>

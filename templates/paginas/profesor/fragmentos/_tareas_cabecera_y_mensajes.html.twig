@@ -1,0 +1,53 @@
+<div class="profesor__cabecera">
+    {#Plantilla de cabecera de tareas#}
+    <div>
+        <span class="profesor__etiqueta">Tareas y correcciones</span>
+
+        {#Titulo del curso#}
+        <h1>{{ curso.titulo }}</h1>
+
+        <p class="profesor__texto">
+            Desde aquí puedes crear tareas y corregir entregas. Solo las tareas aprobadas con 50 puntos o más permiten avanzar al alumno.
+        </p>
+    </div>
+
+    <div class="profesor__estado">
+        <span class="profesor__estado-etiqueta">Resumen</span>
+
+        {#Total de tareas#}
+        <strong>{{ tareas|length }} tarea(s)</strong>
+
+        <small>
+            {#Inicializa el contador de entregas#}
+            {% set totalEntregas = 0 %}
+
+            {#Suma todas las entregas de cada tarea#}
+            {% for entregasTarea in entregasPorTarea %}
+                {% set totalEntregas = totalEntregas + entregasTarea|length %}
+            {% endfor %}
+
+            {#Muestra el total de entregas#}
+            {{ totalEntregas }} entrega(s)
+        </small>
+    </div>
+</div>
+
+{#Mensajes de exito o error#}
+{% for mensaje in app.flashes('success') %}
+    <div class="mensaje-ui mensaje-ui--exito profesor__nota">
+        <span>{{ mensaje }}</span>
+    </div>
+{% endfor %}
+
+{% for mensaje in app.flashes('error') %}
+    <div class="mensaje-ui mensaje-ui--error profesor__nota">
+        <span>{{ mensaje }}</span>
+    </div>
+{% endfor %}
+
+{#Error especifico de las tareas#}
+{% if errorTarea %}
+    <div class="mensaje-ui mensaje-ui--error profesor__nota">
+        <span>{{ errorTarea }}</span>
+    </div>
+{% endif %}

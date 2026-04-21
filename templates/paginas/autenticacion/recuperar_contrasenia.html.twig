@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+{% block title %}Recuperar contraseña | TeachingExplorer{% endblock %}
+{% block body %}
+
+    {#Pagina de recuperar la contraseña#}
+    <div data-dynamic-translate="1">
+        {#Panel informativo sobre recuperar la contraseña#}
+        <div class="autenticacion-panel autenticacion-panel--info">
+            <span class="autenticacion-panel__etiqueta">Recuperación</span>
+            <h1 class="autenticacion-panel__titulo">Recupera el acceso a tu cuenta</h1>
+            <p class="autenticacion-panel__texto">Introduce tu correo electrónico y te enviaremos un enlace seguro para restablecer tu contraseña y volver a entrar en TeachingExplorer.</p>
+        
+            <ul class="autenticacion-panel__lista">
+                <li>Enlace de recuperación por correo</li>
+                <li>Caducidad automática por seguridad</li>
+                <li>Restablecimiento rápido y sencillo</li>
+                <li>Proceso compatible con tu cuenta actual</li>
+            </ul>
+        </div>
+
+        {#Apartado del formulario#}
+        <div class="autenticacion-panel autenticacion-panel--formulario">
+
+            <div class="autenticacion-cabecera">
+                <h2>Recuperar contraseña</h2>
+                <p>Escribe el correo asociado a tu cuenta para recibir el enlace de recuperación.</p>
+            </div>
+
+            {#Notificaciones de exito y error#}
+            {% for mensaje in app.flashes('success') %}
+                <div class="mensaje-ui mensaje-ui--exito mb-3"><span>{{ mensaje }}</span></div>
+            {% endfor %}
+
+            {% if error %}
+                <div class="mensaje-ui mensaje-ui--error mb-3"><span>{{ error }}</span></div>
+            {% endif %}
+            
+            <form method="post" class="formulario-autenticacion">
+                <input type="hidden" name="_token" value="{{ csrf_token('recuperar_contrasena') }}">
+
+                <div class="campo-formulario">
+                    <label for="correo_recuperacion">Correo electrónico</label>
+                    <input id="correo_recuperacion" type="email" name="correo_recuperacion" class="form-control" autocomplete="email" required>
+                </div>
+
+                <button type="submit" class="btn btn-primary autenticacion-boton-principal">Enviar enlace</button>
+                
+                {#Volver al login#}
+                <a href="{{ path('app_login') }}" class="btn btn-outline-secondary autenticacion-boton-secundario">Volver al login</a>
+
+            </form>
+
+        </div>
+    </div>
+{% endblock %}
