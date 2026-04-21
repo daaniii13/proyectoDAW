@@ -1,42 +1,52 @@
 <!DOCTYPE html>
-<html lang="{{app.request.locale|default('es')}}">
-    <head data-no-traslate="1">
+<html lang="{{ app.request.locale|default('es') }}">
+    <head data-no-translate="1">
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>{% block title %}Teaching Explorer{% endblock %}</title>
+
+        <title>{% block title %}TeachingExplorer{% endblock %}</title>
         <meta name="description" content="{% block meta_description %}TeachingExplorer, plataforma educativa moderna para estudiantes y profesores.{% endblock %}">
         <meta name="theme-color" content="#0f172a">
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}?v=2">
+
         <script>
-            (function(){
-                try{
-                    //El tema de la pagina se guarda con LocalStorage, que por defecto sera claro
+            (function () {
+                try {
                     const tema = localStorage.getItem('te_modo') || 'claro';
                     const oscuro = tema === 'oscuro';
-                    //Variables para el fondo de la pagina dependiendo del tema
                     const fondo = oscuro ? '#0f172a' : '#f5f7fb';
+                    const esquema = oscuro ? 'dark' : 'light';
 
-                    //Cambia el fondo de la pagina por la variable de fondo
                     document.documentElement.style.backgroundColor = fondo;
-                    //Añade o quita la clase tema-oscuro
+                    document.documentElement.style.colorScheme = esquema;
                     document.documentElement.classList.toggle('tema-oscuro', oscuro);
-                }catch(e){
-
-                }
+                    document.documentElement.setAttribute('data-bs-theme', esquema);
+                } catch (e) {}
             })();
         </script>
+
         <style>
             html, body {
                 margin: 0;
                 min-height: 100%;
             }
-            {#Oculta el body hasta que cargue la pagina#}
-            body {
-                visibility: hidden;
+
+            html {
+                background-color: #f5f7fb;
             }
-            {#Muestra el body cuando carga la pagina#}
+
+            html.tema-oscuro {
+                background-color: #0f172a;
+            }
+
+            body {
+                opacity: 0;
+                background-color: transparent;
+                transition: opacity .18s ease;
+            }
+
             body.app-lista {
-                visibility: visible;
+                opacity: 1;
             }
 
             .pantalla-carga {
@@ -50,12 +60,10 @@
                 transition: opacity .2s ease, visibility .2s ease;
             }
 
-            {#Estilo para el modo oscuro#}
             html.tema-oscuro .pantalla-carga {
                 background: #0f172a;
             }
 
-            {#Oculta la pantalla de carga#}
             .pantalla-carga.oculta {
                 opacity: 0;
                 visibility: hidden;
@@ -73,53 +81,102 @@
             }
         </style>
 
-       {% block stylesheets %}
+        {% block stylesheets %}
             <link rel="stylesheet" href="{{ asset('build/app.css') }}">
             <script type="module" src="{{ asset('build/app.js') }}"></script>
         {% endblock %}
-
     </head>
+
     <body>
-        {#Enlace al contenido principal#}
+        <script>
+            (function () {
+                try {
+                    const tema = localStorage.getItem('te_modo') || 'claro';
+                    const oscuro = tema === 'oscuro';
+                    const esquema = oscuro ? 'dark' : 'light';
+
+                    document.body.classList.toggle('tema-oscuro', oscuro);
+                    document.body.setAttribute('data-bs-theme', esquema);
+                } catch (e) {}
+            })();
+        </script>
+
         <a href="#contenido-principal" class="enlace-salto">Saltar al contenido principal</a>
 
-        {#Pantalla de carga#}
         <div id="pantalla-carga" class="pantalla-carga" aria-hidden="true">
             <div class="pantalla-carga__punto"></div>
         </div>
 
-        {#Menu de navegacion#}
         <div data-no-translate="1">
             {% include 'componentes/navegacion.html.twig' %}
         </div>
 
-        {#Contenido principal para cada pagina#}
         <main id="contenido-principal" class="layout-principal" data-dynamic-translate="1">
             {% block body %}{% endblock %}
         </main>
 
-        {#Pie de pagina#}
         <div data-no-translate="1">
             {% include 'componentes/pie.html.twig' %}
         </div>
 
-        <script>
-            //Evento cuando termina de cargar la pagina
-            window.addEventListener('load', function () {
-                //Si el tema es oscuro lo se al body
-                if (document.documentElement.classList.contains('tema-oscuro')) {
-                    document.body.classList.add('tema-oscuro');
-                }
-                //Marca la app como lista para mostrar el contenido
-                document.body.classList.add('app-lista');
+        {% block javascripts %}{% endblock %}
 
-                //Oculta la pantalla de carga
-                const loader = document.getElementById('pantalla-carga');
-                if (loader) {
-                    loader.classList.add('oculta');
+        <script>
+            (function () {
+                function aplicarTemaEnBody() {
+                    try {
+                        const oscuro = document.documentElement.classList.contains('tema-oscuro');
+                        const esquema = oscuro ? 'dark' : 'light';
+
+                        document.body.classList.toggle('tema-oscuro', oscuro);
+                        document.body.setAttribute('data-bs-theme', esquema);
+                    } catch (e) {}
+                }
+
+                function mostrarAplicacion() {
+                    aplicarTemaEnBody();
+                    document.body.classList.add('app-lista');
+
+                    const loader = document.getElementById('pantalla-carga');
+                    if (loader) {
+                        loader.classList.add('oculta');
+                    }
+                }
+
+                if (document.readyState === 'loading') {
+                    document.addEventListener('DOMContentLoaded', mostrarAplicacion, { once: true });
+                } else {
+                    mostrarAplicacion();
+                }
+
+                window.addEventListener('pageshow', mostrarAplicacion);
+                window.addEventListener('load', mostrarAplicacion);
+            })();
+
+            document.addEventListener('click', function (event) {
+                const boton = event.target.closest('[data-toggle-password]');
+                if (!boton) {
+                    return;
+                }
+
+                const inputId = boton.getAttribute('data-toggle-password');
+                const input = document.getElementById(inputId);
+
+                if (!input) {
+                    return;
+                }
+
+                const mostrando = input.getAttribute('type') === 'text';
+                input.setAttribute('type', mostrando ? 'password' : 'text');
+
+                const iconoVer = boton.querySelector('.campo-password__icono--ver');
+                const iconoOcultar = boton.querySelector('.campo-password__icono--ocultar');
+
+                if (iconoVer && iconoOcultar) {
+                    iconoVer.hidden = !mostrando;
+                    iconoOcultar.hidden = mostrando;
                 }
             });
-
         </script>
     </body>
 </html>

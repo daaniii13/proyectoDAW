@@ -1,17 +1,12 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Ajustes | TeachingExplorer{% endblock %}
+{% block title %}{{ 'ajustes.meta_titulo'|trans }}{% endblock %}
 
 {% block body %}
 <div data-dynamic-translate="1">
-
-{#Cuenta bancaria que se muestra#}
 {% set cuentaBancariaDocente = 'ES12 3456 7890 1234 5678 9012' %}
-
 <section class="seccion-ajustes">
     <div class="container">
-
-        {#Cabecera#}
         <div class="ajustes__cabecera">
             <span class="ajustes__etiqueta">Configuración</span>
             <h1>Mi cuenta</h1>
@@ -20,41 +15,34 @@
             </p>
         </div>
 
-        {# Notificaciones de exito o error#}
         {% for mensaje in app.flashes('success') %}
             <div class="mensaje-ui mensaje-ui--exito mb-4">
-                <span>{{ mensaje }}</span>
+                <span>{{ mensaje|trans }}</span>
             </div>
         {% endfor %}
 
         {% for mensaje in app.flashes('error') %}
             <div class="mensaje-ui mensaje-ui--error mb-4">
-                <span>{{ mensaje }}</span>
+                <span>{{ mensaje|trans }}</span>
             </div>
         {% endfor %}
 
         <div class="ajustes__grid">
-
-            {#Opciones del perfil#}
             <section class="ajustes__bloque">
                 <h2>Perfil</h2>
 
                 <form method="post" action="{{ path('app_actualizar_perfil') }}" enctype="multipart/form-data" class="ajustes__formulario">
                     <div class="row g-3">
-
-                        {#Nombre#}
                         <div class="col-12 col-md-6">
                             <label for="nombre-usuario" class="form-label">Nombre</label>
                             <input type="text" id="nombre-usuario" name="nombre_usuario" class="form-control" value="{{ usuarioActual.nombre }}" required>
                         </div>
 
-                        {#Email#}
                         <div class="col-12 col-md-6">
                             <label for="correo-ajustes" class="form-label">Correo electrónico</label>
                             <input type="email" id="correo-ajustes" name="correo" class="form-control" value="{{ usuarioActual.email }}" required>
                         </div>
 
-                        {#Foto de perfil#}
                         <div class="col-12">
                             <label for="foto_perfil" class="form-label">Foto de perfil</label>
                             <input
@@ -66,7 +54,6 @@
                             >
                         </div>
 
-                        {# Avatar actual#}
                         <div class="col-12">
                             {% if usuarioActual.fotoPerfil %}
                                 <div class="mt-2">
@@ -85,53 +72,45 @@
                             Guardar cambios
                         </button>
                     </div>
-
                 </form>
             </section>
 
-            {#Opciones de apariencia#}
             <section class="ajustes__bloque">
-                <h2>Apariencia</h2>
+                <h2>{{ 'ajustes.apariencia'|trans }}</h2>
 
                 <div class="d-flex flex-column gap-3">
-
-                    {#Tema actual#}
                     <div class="contacto__dato">
-                        <span class="contacto__dato-titulo">Tema actual</span>
-                        <p id="tema-actual">Detectando...</p>
+                        <span class="contacto__dato-titulo">{{ 'ajustes.tema_actual'|trans }}</span>
+                        <p id="tema-actual">{{ 'ajustes.detectando'|trans }}</p>
                     </div>
 
                     <p class="mb-0 texto-suave">
-                        El botón activo cambia de contraste según el tema.
+                        El botón activo cambia de contraste según el tema y se anima ligeramente para que se identifique mejor.
                     </p>
 
-                    {#Botones de opciones#}
                     <div class="ajustes__tema-botones">
                         <button type="button" class="btn ajustes__tema-boton ajustes__tema-boton--claro" id="activar-modo-claro">
-                            Modo claro
+                            {{ 'ajustes.tema_claro'|trans }}
                         </button>
 
                         <button type="button" class="btn ajustes__tema-boton ajustes__tema-boton--oscuro" id="activar-modo-oscuro">
-                            Modo oscuro
+                            {{ 'ajustes.tema_oscuro'|trans }}
                         </button>
                     </div>
-
                 </div>
             </section>
 
-            {#Solicitud de cuenta de profesores#}
             {% if esEstudiante is defined and esEstudiante and (esProfesor is not defined or not esProfesor) and (esAdmin is not defined or not esAdmin) %}
                 <section class="ajustes__bloque ajustes__bloque--ancho">
                     <h2>Solicitar cuenta de profesor</h2>
 
-
                     {% if suscripcionProfesorAjustes is defined and suscripcionProfesorAjustes and suscripcionProfesorAjustes.estado == 'pendiente' %}
                         <div class="mensaje-ui mensaje-ui--exito mb-4">
-                            <span>Solicitud docente pendiente.</span>
+                            <span>Tienes una solicitud docente pendiente de validación. Puedes actualizar el plan solicitado y reenviar la confirmación de pago.</span>
                         </div>
                     {% else %}
                         <p class="texto-suave mb-4">
-                            Puedes solicitar acceso docente desde aquí.
+                            Si quieres mantener tu cuenta actual como estudiante y añadir acceso docente, puedes solicitarlo desde aquí.
                         </p>
                     {% endif %}
 
@@ -139,29 +118,25 @@
                         <input type="hidden" name="_token" value="{{ csrf_token('solicitar_cuenta_profesor') }}">
 
                         <div class="row g-3">
-
-                            {#Plan de suscripcion#}
                             <div class="col-12 col-lg-6">
                                 <label for="plan_docente_ajustes" class="form-label">Plan docente</label>
                                 <select id="plan_docente_ajustes" name="plan" class="form-select" required>
-                                    <option value="basico" {{ suscripcionProfesorAjustes is defined and suscripcionProfesorAjustes and (suscripcionProfesorAjustes.planSolicitado ?: suscripcionProfesorAjustes.plan) == 'basico' ? 'selected' : '' }}>Básico</option>
-                                    <option value="pro" {{ suscripcionProfesorAjustes is defined and suscripcionProfesorAjustes and (suscripcionProfesorAjustes.planSolicitado ?: suscripcionProfesorAjustes.plan) == 'pro' ? 'selected' : '' }}>Pro</option>
-                                    <option value="premium" {{ suscripcionProfesorAjustes is defined and suscripcionProfesorAjustes and (suscripcionProfesorAjustes.planSolicitado ?: suscripcionProfesorAjustes.plan) == 'premium' ? 'selected' : '' }}>Premium</option>
+                                    <option value="basico" {{ suscripcionProfesorAjustes is defined and suscripcionProfesorAjustes and (suscripcionProfesorAjustes.planSolicitado ?: suscripcionProfesorAjustes.plan) == 'basico' ? 'selected' : '' }}>Básico · 1 curso</option>
+                                    <option value="pro" {{ suscripcionProfesorAjustes is defined and suscripcionProfesorAjustes and (suscripcionProfesorAjustes.planSolicitado ?: suscripcionProfesorAjustes.plan) == 'pro' ? 'selected' : '' }}>Pro · 5 cursos</option>
+                                    <option value="premium" {{ suscripcionProfesorAjustes is defined and suscripcionProfesorAjustes and (suscripcionProfesorAjustes.planSolicitado ?: suscripcionProfesorAjustes.plan) == 'premium' ? 'selected' : '' }}>Premium · ilimitados</option>
                                 </select>
                             </div>
 
-                            {#Cuenta bancaria #}
                             <div class="col-12 col-lg-6">
-                                <label class="form-label">Cuenta bancaria</label>
+                                <label class="form-label">Cuenta bancaria para el pago</label>
                                 <div class="form-control d-flex align-items-center">{{ cuentaBancariaDocente }}</div>
                             </div>
 
-                            {#Confirmación #}
                             <div class="col-12">
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" id="confirmacion_pago_ajustes" name="confirmacion_pago" value="1" required>
                                     <label class="form-check-label" for="confirmacion_pago_ajustes">
-                                        Confirmo el pago.
+                                        Confirmo que he revisado la cuenta bancaria y he realizado el pago del plan docente.
                                     </label>
                                 </div>
                             </div>
@@ -169,39 +144,122 @@
 
                         <div class="ajustes__acciones mt-4">
                             <button type="submit" class="btn btn-primary">
-                                Enviar solicitud
+                                Enviar solicitud docente
                             </button>
                         </div>
-
                     </form>
                 </section>
             {% endif %}
 
-
-            {#Opciones de seguridad#}
             <section class="ajustes__bloque ajustes__bloque--ancho">
                 <h2>Seguridad</h2>
 
-                {#Formulario para cambiar la contraseña#}
                 <form method="post" action="{{ path('app_cambiar_contrasena') }}" class="ajustes__formulario">
                     <div class="row g-3">
-
                         <div class="col-12 col-md-4">
                             <label for="contrasena-actual" class="form-label">Contraseña actual</label>
-                            <input type="password" id="contrasena-actual" name="contrasena_actual" class="form-control" required>
+                            <div class="campo-password">
+                                <input
+                                    type="password"
+                                    id="contrasena-actual"
+                                    name="contrasena_actual"
+                                    class="form-control campo-password__input"
+                                    required
+                                >
+                                <button
+                                    type="button"
+                                    class="campo-password__toggle"
+                                    data-no-translate="1"
+                                    aria-label="Mostrar contraseña"
+                                    aria-pressed="false"
+                                >
+                                    <span class="campo-password__icono campo-password__icono--mostrar" data-no-translate="1" aria-hidden="true">
+                                        <svg viewBox="0 0 24 24" fill="none">
+                                            <path d="M2 12S5.5 5 12 5s10 7 10 7-3.5 7-10 7S2 12 2 12Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.8"/>
+                                        </svg>
+                                    </span>
+                                    <span class="campo-password__icono campo-password__icono--ocultar" data-no-translate="1" aria-hidden="true" style="display:none;">
+                                        <svg viewBox="0 0 24 24" fill="none">
+                                            <path d="M3 3L21 21" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M10.58 10.58A2 2 0 0 0 12 14a2 2 0 0 0 1.42-.58" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M9.88 5.09A10.94 10.94 0 0 1 12 5c6.5 0 10 7 10 7a17.6 17.6 0 0 1-4.04 4.94" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M6.61 6.61C4.62 8.06 3.36 10.11 2 12c0 0 3.5 7 10 7a10.8 10.8 0 0 0 5.39-1.39" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                    </span>
+                                </button>
+                            </div>
                         </div>
 
                         <div class="col-12 col-md-4">
                             <label for="nueva-contrasena" class="form-label">Nueva contraseña</label>
-                            <input type="password" id="nueva-contrasena" name="nueva_contrasena" class="form-control" required>
+                            <div class="campo-password">
+                                <input
+                                    type="password"
+                                    id="nueva-contrasena"
+                                    name="nueva_contrasena"
+                                    class="form-control campo-password__input"
+                                    required
+                                >
+                                <button
+                                    type="button"
+                                    class="campo-password__toggle"
+                                    data-no-translate="1"
+                                    aria-label="Mostrar contraseña"
+                                    aria-pressed="false"
+                                >
+                                    <span class="campo-password__icono campo-password__icono--mostrar" data-no-translate="1" aria-hidden="true">
+                                        <svg viewBox="0 0 24 24" fill="none">
+                                            <path d="M2 12S5.5 5 12 5s10 7 10 7-3.5 7-10 7S2 12 2 12Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.8"/>
+                                        </svg>
+                                    </span>
+                                    <span class="campo-password__icono campo-password__icono--ocultar" data-no-translate="1" aria-hidden="true" style="display:none;">
+                                        <svg viewBox="0 0 24 24" fill="none">
+                                            <path d="M3 3L21 21" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M10.58 10.58A2 2 0 0 0 12 14a2 2 0 0 0 1.42-.58" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M9.88 5.09A10.94 10.94 0 0 1 12 5c6.5 0 10 7 10 7a17.6 17.6 0 0 1-4.04 4.94" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M6.61 6.61C4.62 8.06 3.36 10.11 2 12c0 0 3.5 7 10 7a10.8 10.8 0 0 0 5.39-1.39" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                    </span>
+                                </button>
+                            </div>
                         </div>
-
 
                         <div class="col-12 col-md-4">
                             <label for="repetir-nueva-contrasena" class="form-label">Repetir contraseña</label>
-                            <input type="password" id="repetir-nueva-contrasena" name="repetir_nueva_contrasena" class="form-control" required>
+                            <div class="campo-password">
+                                <input
+                                    type="password"
+                                    id="repetir-nueva-contrasena"
+                                    name="repetir_nueva_contrasena"
+                                    class="form-control campo-password__input"
+                                    required
+                                >
+                                <button
+                                    type="button"
+                                    class="campo-password__toggle"
+                                    data-no-translate="1"
+                                    aria-label="Mostrar contraseña"
+                                    aria-pressed="false"
+                                >
+                                    <span class="campo-password__icono campo-password__icono--mostrar" data-no-translate="1" aria-hidden="true">
+                                        <svg viewBox="0 0 24 24" fill="none">
+                                            <path d="M2 12S5.5 5 12 5s10 7 10 7-3.5 7-10 7S2 12 2 12Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.8"/>
+                                        </svg>
+                                    </span>
+                                    <span class="campo-password__icono campo-password__icono--ocultar" data-no-translate="1" aria-hidden="true" style="display:none;">
+                                        <svg viewBox="0 0 24 24" fill="none">
+                                            <path d="M3 3L21 21" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M10.58 10.58A2 2 0 0 0 12 14a2 2 0 0 0 1.42-.58" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M9.88 5.09A10.94 10.94 0 0 1 12 5c6.5 0 10 7 10 7a17.6 17.6 0 0 1-4.04 4.94" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M6.61 6.61C4.62 8.06 3.36 10.11 2 12c0 0 3.5 7 10 7a10.8 10.8 0 0 0 5.39-1.39" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                    </span>
+                                </button>
+                            </div>
                         </div>
-
                     </div>
 
                     <div class="ajustes__acciones mt-4">
@@ -209,32 +267,26 @@
                             Actualizar contraseña
                         </button>
                     </div>
-
                 </form>
             </section>
-
-
         </div>
     </div>
 </section>
 
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-
-    //Evento, cuando cargue la pagina guarda el modo y sus variables asociadas a los botones
     const claveTema = 'te_modo';
     const elementoEstado = document.getElementById('tema-actual');
     const botonClaro = document.getElementById('activar-modo-claro');
     const botonOscuro = document.getElementById('activar-modo-oscuro');
 
-
     function actualizarEstado() {
-
-        //Funcion para actualizar el texto de tema actual
         const tema = localStorage.getItem(claveTema) || 'claro';
 
         if (elementoEstado) {
-            elementoEstado.textContent = tema === 'oscuro' ? 'Modo oscuro' : 'Modo claro';
+            elementoEstado.textContent = tema === 'oscuro'
+                ? "{{ 'ajustes.tema_oscuro'|trans|e('js') }}"
+                : "{{ 'ajustes.tema_claro'|trans|e('js') }}";
         }
 
         if (botonClaro) {
@@ -246,7 +298,6 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    //Guarda el tema en Local Storage segun el boton
     if (botonClaro) {
         botonClaro.addEventListener('click', function () {
             localStorage.setItem(claveTema, 'claro');
@@ -266,6 +317,5 @@ document.addEventListener('DOMContentLoaded', function () {
     actualizarEstado();
 });
 </script>
-
 </div>
 {% endblock %}
