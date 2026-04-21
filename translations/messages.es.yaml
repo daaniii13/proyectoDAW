@@ -124,6 +124,8 @@ profesor:
     selecciona_opcion: 'Selecciona una opción'
   tareas:
     placeholder_comentario_opcional: 'Comentario opcional'
+  panel:
+    meta_titulo: 'Panel del profesor | TeachingExplorer'
 
 inicio:
   meta_titulo: "Inicio | TeachingExplorer"

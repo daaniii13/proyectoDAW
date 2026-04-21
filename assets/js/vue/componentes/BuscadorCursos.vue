@@ -4,13 +4,13 @@
             <div class="card-body p-4 p-lg-5">
                 <div class="row g-3 align-items-end">
                     <div class="col-12">
-                        <label class="form-label buscador-cursos-vue__label">Buscar cursos</label>
+                        <label class="form-label buscador-cursos-vue__label">{{ textos.buscar_cursos }}</label>
                         <input
                             v-model="busqueda"
                             @input="buscar"
                             type="text"
                             class="form-control form-control-lg"
-                            placeholder="Ejemplo: Symfony, diseño UX, Python..."
+                            :placeholder="textos.placeholder_busqueda"
                         />
                     </div>
                 </div>
@@ -18,10 +18,9 @@
         </div>
 
         <div v-if="cargando" class="buscador-cursos-vue__estado">
-             {{ textos.cargando }}
+            {{ textos.cargando }}
         </div>
 
-        <!-- MODO 1: SIN BÚSQUEDA -->
         <div v-if="!cargando && modo === 'recomendados' && destacados.length" class="mb-5">
             <div class="buscador-cursos-vue__bloque-cabecera">
                 <h3>{{ textos.cursos_recomendados }}</h3>
@@ -44,9 +43,9 @@
                             <p class="buscador-cursos-vue__descripcion">{{ curso.descripcion }}</p>
 
                             <ul class="buscador-cursos-vue__meta mt-auto">
-                                <li><strong> {{ textos.profesor }} </strong> {{ curso.profesor || textos.sin_profesor }}</li>
-                                <li><strong> {{ textos.duracion }}</strong> {{ curso.duracion || textos.no_indicada  }}</li>
-                                <li><strong> {{ textos.precio }} </strong> {{ curso.precio ?? textos.no_indicado }} €</li>
+                                <li><strong>{{ textos.profesor }}:</strong> {{ curso.profesor || textos.sin_profesor }}</li>
+                                <li><strong>{{ textos.duracion }}:</strong> {{ curso.duracion || textos.no_indicada }}</li>
+                                <li><strong>{{ textos.precio }}:</strong> {{ curso.precio ?? textos.no_indicado }} €</li>
                             </ul>
 
                             <div class="mt-4">
@@ -60,7 +59,6 @@
             </div>
         </div>
 
-        <!-- MODO 2: BÚSQUEDA CON RESULTADOS -->
         <div v-if="!cargando && modo === 'resultados_busqueda'">
             <div class="buscador-cursos-vue__bloque-cabecera">
                 <h3>{{ textos.resultados }}</h3>
@@ -84,9 +82,9 @@
                             <p class="buscador-cursos-vue__descripcion">{{ curso.descripcion }}</p>
 
                             <ul class="buscador-cursos-vue__meta mt-auto">
-                                <li><strong>{{ textos.profesor }}</strong> {{ curso.profesor || textos.sin_profesor }}</li>
-                                <li><strong>{{ textos.duracion }}</strong> {{ curso.duracion || textos.no_indicada }}</li>
-                                <li><strong>{{ textos.precio }}</strong> {{ curso.precio ?? textos.no_indicado  }} €</li>
+                                <li><strong>{{ textos.profesor }}:</strong> {{ curso.profesor || textos.sin_profesor }}</li>
+                                <li><strong>{{ textos.duracion }}:</strong> {{ curso.duracion || textos.no_indicada }}</li>
+                                <li><strong>{{ textos.precio }}:</strong> {{ curso.precio ?? textos.no_indicado }} €</li>
                             </ul>
 
                             <div class="mt-4">
@@ -100,9 +98,8 @@
             </div>
         </div>
 
-        <!-- MODO 3: BÚSQUEDA SIN RESULTADOS -->
         <div v-if="!cargando && modo === 'sin_resultados'">
-           <div class="buscador-cursos-vue__bloque-cabecera">
+            <div class="buscador-cursos-vue__bloque-cabecera">
                 <h3>{{ textos.resultados }}</h3>
                 <p>{{ mensajeSinResultados || textos.no_hay_resultados }}</p>
                 <p>{{ textos.recomendaciones_personalizadas }}</p>
@@ -234,6 +231,7 @@ export default {
             timeoutBusqueda: null
         };
     },
+
     methods: {
         traducirNivel(valor) {
             return this.textos.niveles[valor] || valor || '';
