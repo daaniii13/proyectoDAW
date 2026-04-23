@@ -11,16 +11,17 @@
                 {% if app.user %}
                     <span class="hero-inicio__etiqueta">Bienvenido de nuevo</span>
                     <h1>Hola, {{ app.user.nombre }}</h1>
-                    <p class="hero-inicio__texto">Sigue trabajando con tu panel personalizado y accede a tus funciones principales desde TeachingExplorer.</p>
+                    <p class="hero-inicio__texto">
+                        Sigue trabajando con tu panel personalizado y accede a tus funciones principales desde TeachingExplorer.
+                    </p>
                 {% else %}
                     <span class="hero-inicio__etiqueta">Plataforma educativa moderna</span>
-                     <h1>Bienvenido a TeachingExplorer</h1>
-                     <p class="hero-inicio__texto">Descubre cursos de calidad, conecta con profesores y aprende con una experiencia clara, accesible y adaptada a tus objetivos.</p>
-
+                    <h1>Bienvenido a TeachingExplorer</h1>
+                    <p class="hero-inicio__texto">
+                        Descubre cursos de calidad, conecta con profesores y aprende con una experiencia clara, accesible y adaptada a tus objetivos.
+                    </p>
                 {% endif %}
-
             </div>
-
         </div>
     </section>
 
@@ -56,7 +57,7 @@
                             <h3>Recursos publicados</h3>
                             <p class="mb-0">{{ datosPanel.totalRecursos }}</p>
                         </article>
-                    
+
                     {% elseif datosPanel.tipo == 'estudiante' %}
                         {#Si es estudiante mostrara sus cursos y progreso total#}
                         <article class="curso-usuario">
@@ -77,7 +78,6 @@
                         </article>
                     {% endif %}
                 </div>
-
             </div>
         </section>
     {% endif %}

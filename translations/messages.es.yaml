@@ -1,4 +1,3 @@
-#Traducciones manuales de partes no traducidas automáticamente (español)
 nav:
   abrir_menu: "Abrir menú"
   cambiar_idioma: "Cambiar idioma"
@@ -126,6 +125,12 @@ profesor:
     placeholder_comentario_opcional: 'Comentario opcional'
   panel:
     meta_titulo: 'Panel del profesor | TeachingExplorer'
+  editar_curso:
+    meta_titulo: 'Editar curso | TeachingExplorer'
+  recursos_curso:
+    meta_titulo: 'Recursos del curso | TeachingExplorer'
+  tareas_curso:
+    meta_titulo: 'Tareas del curso | TeachingExplorer'
 
 inicio:
   meta_titulo: "Inicio | TeachingExplorer"

@@ -126,6 +126,12 @@ profesor:
     placeholder_comentario_opcional: "Optional comment"
   panel:
     meta_titulo: 'Teacher panel | TeachingExplorer'
+  editar_curso:
+    meta_titulo: 'Edit course | TeachingExplorer'
+  recursos_curso:
+    meta_titulo: 'Course resources | TeachingExplorer'
+  tareas_curso:
+    meta_titulo: 'Course tasks | TeachingExplorer'
 
 inicio:
   meta_titulo: "Home | TeachingExplorer"

@@ -1,67 +1,72 @@
 {% extends 'base.html.twig' %}
+
 {% block title %}{{ 'sobre_nosotros.meta_titulo'|trans }}{% endblock %}
 {% block body %}
-
-{#Plantilla de informacion acerca de nuestra aplicacion#}
 <div data-dynamic-translate="1">
-    <section class="seccion-sobre">
-        <div class="container">
-
-            <div class="sobre__hero">
-                <span class="sobre__etiqueta">Quiénes somos</span>
-                <h1>Formación accesible, moderna y orientada a resultados</h1>
-                <p class="sobre__texto">TeachingExplorer nace con el objetivo de conectar estudiantes y profesores en una plataforma clara, responsive y profesional, preparada para ofrecer una experiencia educativa moderna.</p>
-            </div>
-
-            <div class="sobre__bloques">
-                <article class="sobre__tarjeta">
-                    <h2>Nuestra misión</h2>
-                    <p>Facilitar el acceso a formación de calidad mediante una plataforma intuitiva donde aprender, enseñar y gestionar cursos sea un proceso sencillo y eficiente.</p>
-                </article>
-
-                <article class="sobre__tarjeta">
-                    <h2>Nuestra visión</h2>
-                    <p>Convertirnos en un entorno de referencia para la enseñanza digital, donde la usabilidad, la confianza y la escalabilidad formen parte del núcleo del producto.<p>
-                </article>
-
-                <article class="sobre__tarjeta">
-                    <h2>Qué ofrecemos</h2>
-                    <p>Un espacio pensado para estudiantes y profesores con herramientas para descubrir cursos, gestionar recursos, organizar aprendizaje y mejorar la experiencia educativa.</p>
-                </article>
-
-            </div>
-
-            {#Nuestros principios#}
-            <section class="sobre__valores">
-                <div class="sobre__cabecera">
-                    <span class="sobre__etiqueta">Nuestros valores</span>
-                    <h2>Principios que definen la plataforma</h2>
-                </div>
-
-                <div class="sobre__grid-valores">
-                    <article class="sobre__valor">
-                        <h3>Claridad</h3>
-                        <p>Diseño limpio, navegación comprensible y estructuras pensadas para cualquier tipo de usuario.</p>
-                    </article>
-
-                    <article class="sobre__valor">
-                        <h3>Accesibilidad</h3>
-                        <p>Interfaces legibles, responsive y preparadas para adaptarse a distintos dispositivos y perfiles.</p>
-                    </article>
-
-                    <article class="sobre__valor">
-                        <h3>Confianza</h3>
-                        <p>Una plataforma profesional que transmite estabilidad, orden y seguridad desde la primera interacción.</p>
-                    </article>
-
-                    <article class="sobre__valor">
-                        <h3>Evolución</h3>
-                        <p>Base técnica preparada para crecer con nuevas funcionalidades, roles y módulos educativos.</p>
-                    </article>
-
-                </div>
-            </section>
+<section class="seccion-sobre">
+    <div class="container">
+        {#Plantilla de informacion acerca de nuestra aplicacion#}
+        <div class="sobre__hero">
+            <span class="sobre__etiqueta">Quiénes somos</span>
+            <h1>Formación accesible, moderna y orientada a resultados</h1>
+            <p class="sobre__texto">
+                TeachingExplorer nace con el objetivo de conectar estudiantes y profesores en una plataforma clara, responsive y profesional, preparada para ofrecer una experiencia educativa moderna.
+            </p>
         </div>
-    </section>
+
+        <div class="sobre__bloques">
+            <article class="sobre__tarjeta">
+                <h2>Nuestra misión</h2>
+                <p>
+                    Facilitar el acceso a formación de calidad mediante una plataforma intuitiva donde aprender, enseñar y gestionar cursos sea un proceso sencillo y eficiente.
+                </p>
+            </article>
+
+            <article class="sobre__tarjeta">
+                <h2>Nuestra visión</h2>
+                <p>
+                    Convertirnos en un entorno de referencia para la enseñanza digital, donde la usabilidad, la confianza y la escalabilidad formen parte del núcleo del producto.
+                </p>
+            </article>
+
+            <article class="sobre__tarjeta">
+                <h2>Qué ofrecemos</h2>
+                <p>
+                    Un espacio pensado para estudiantes y profesores con herramientas para descubrir cursos, gestionar recursos, organizar aprendizaje y mejorar la experiencia educativa.
+                </p>
+            </article>
+        </div>
+
+        <section class="sobre__valores">
+            <div class="sobre__cabecera">
+                <span class="sobre__etiqueta">Nuestros valores</span>
+                <h2>Principios que definen la plataforma</h2>
+            </div>
+            {#Nuestros principios#}
+            <div class="sobre__grid-valores">
+                <article class="sobre__valor">
+                    <h3>Claridad</h3>
+                    <p>Diseño limpio, navegación comprensible y estructuras pensadas para cualquier tipo de usuario.</p>
+                </article>
+
+                <article class="sobre__valor">
+                    <h3>Accesibilidad</h3>
+                    <p>Interfaces legibles, responsive y preparadas para adaptarse a distintos dispositivos y perfiles.</p>
+                </article>
+
+                <article class="sobre__valor">
+                    <h3>Confianza</h3>
+                    <p>Una plataforma profesional que transmite estabilidad, orden y seguridad desde la primera interacción.</p>
+                </article>
+
+                <article class="sobre__valor">
+                    <h3>Evolución</h3>
+                    <p>Base técnica preparada para crecer con nuevas funcionalidades, roles y módulos educativos.</p>
+                </article>
+            </div>
+        </section>
+
+    </div>
+</section>
 </div>
 {% endblock %}

@@ -1,5 +1,7 @@
 {% extends 'base.html.twig' %}
-{% block title %}Editar curso | TeachingExplorer{% endblock %}
+
+{% block title %}{{ 'profesor.editar_curso.meta_titulo'|trans }}{% endblock %}
+
 {% block body %}
 <div data-dynamic-translate="1">
     {#Plantilla de edicion de cursos#}
@@ -102,10 +104,8 @@
                         <button type="submit" class="btn btn-primary">Guardar cambios</button>
                         <a href="{{ path('app_subir_recursos') }}" class="btn btn-outline-secondary">Cancelar</a>
                     </div>
-
                 </form>
             </section>
-
         </div>
     </section>
 </div>
