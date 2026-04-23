@@ -93,6 +93,15 @@
                             </select>
                         </div>
 
+                        {#Idioma del curso#}
+                        <div class="col-12 col-lg-4">
+                            <label for="idioma_curso" class="form-label">Idioma</label>
+                            <select id="idioma_curso" name="idioma_curso" class="form-select" required>
+                                <option value="es" {{ datosCurso.idioma|default('es') == 'es' ? 'selected' : '' }}>Español</option>
+                                <option value="en" {{ datosCurso.idioma|default('es') == 'en' ? 'selected' : '' }}>English</option>
+                            </select>
+                        </div>
+
                         {#Precio del curso#}
                         <div class="col-12 col-lg-4">
                             <label for="precio_curso" class="form-label">Precio (€)</label>
@@ -109,7 +118,7 @@
                         </div>
 
                         {#URL del banner#}
-                        <div class="col-12 col-lg-6">
+                        <div class="col-12 col-lg-4">
                             <label for="banner_url" class="form-label">URL del banner</label>
                             <input
                                 type="url"
@@ -121,7 +130,7 @@
                         </div>
 
                         {#URL de ubicacion#}
-                        <div class="col-12 col-lg-6">
+                        <div class="col-12 col-lg-4">
                             <label for="mapa_url" class="form-label">URL de mapa o ubicación</label>
                             <input
                                 type="url"

@@ -256,6 +256,7 @@ class ProfesorPanelController extends AbstractController
             'descripcion' => '',
             'nivel' => '',
             'modalidad' => '',
+            'idioma' => 'es',
             'duracion' => '',
             'precio' => '',
             'banner_url' => '',
@@ -276,16 +277,22 @@ class ProfesorPanelController extends AbstractController
             $descripcion = trim((string) $request->request->get('descripcion_curso'));
             $nivel = trim((string) $request->request->get('nivel_curso'));
             $modalidad = trim((string) $request->request->get('modalidad_curso'));
+            $idioma = trim((string) $request->request->get('idioma_curso', 'es'));
             $duracion = trim((string) $request->request->get('duracion_curso'));
             $precio = trim((string) $request->request->get('precio_curso'));
             $bannerUrl = trim((string) $request->request->get('banner_url'));
             $mapaUrl = trim((string) $request->request->get('mapa_url'));
+
+            if (!in_array($idioma, ['es', 'en'], true)) {
+                $idioma = 'es';
+            }
 
             $datosCurso = [
                 'titulo' => $titulo,
                 'descripcion' => $descripcion,
                 'nivel' => $nivel,
                 'modalidad' => $modalidad,
+                'idioma' => $idioma,
                 'duracion' => $duracion,
                 'precio' => $precio,
                 'banner_url' => $bannerUrl,
@@ -305,6 +312,7 @@ class ProfesorPanelController extends AbstractController
                 $curso->setDescripcion($descripcion);
                 $curso->setNivel($nivel);
                 $curso->setModalidad($modalidad);
+                $curso->setIdioma($idioma);
                 $curso->setDuracion($duracion);
                 $curso->setPrecio(number_format((float) $precio, 2, '.', ''));
                 $curso->setEstado('activo');

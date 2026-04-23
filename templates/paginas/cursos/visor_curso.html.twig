@@ -18,6 +18,7 @@
                     <span class="visor-curso__chip">Profesor: {{ curso.profesor.nombre }}</span>
                     <span class="visor-curso__chip">Nivel: {{ curso.nivel|traducir_dinamico }}</span>
                     <span class="visor-curso__chip">Modalidad: {{ curso.modalidad|traducir_dinamico }}</span>
+                    <span class="visor-curso__chip">Idioma: {{ curso.idioma == 'en' ? 'English' : 'Español' }}</span>
                     <span class="visor-curso__chip">Duración: {{ curso.duracion|traducir_dinamico }}</span>
                 </div>
 

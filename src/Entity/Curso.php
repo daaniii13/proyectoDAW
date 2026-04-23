@@ -31,6 +31,10 @@ class Curso
     #[ORM\Column(length: 100)]
     private ?string $modalidad = null;
 
+    /* Idioma principal del curso */
+    #[ORM\Column(length: 5)]
+    private ?string $idioma = 'es';
+
     /* Duración del curso */
     #[ORM\Column(length: 100)]
     private ?string $duracion = null;
@@ -65,6 +69,7 @@ class Curso
     {
         $this->fechaCreacion = new \DateTimeImmutable();
         $this->estado = 'activo';
+        $this->idioma = 'es';
     }
 
     public function getId(): ?int
@@ -109,6 +114,16 @@ class Curso
     public function setModalidad(string $modalidad): static
     {
         $this->modalidad = $modalidad;
+        return $this;
+    }
+
+    public function getIdioma(): ?string
+    {
+        return $this->idioma;
+    }
+    public function setIdioma(string $idioma): static
+    {
+        $this->idioma = $idioma;
         return $this;
     }
 
