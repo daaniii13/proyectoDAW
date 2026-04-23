@@ -1,3 +1,4 @@
+#Traducciones manuales de partes no traducidas automáticamente (español)
 nav:
   abrir_menu: "Abrir menú"
   cambiar_idioma: "Cambiar idioma"
@@ -176,3 +177,9 @@ registro:
   cuenta_bancaria_pago: "Cuenta bancaria para el pago"
   confirmacion_pago: "Confirmo que he revisado la cuenta bancaria y he realizado el pago"
   mostrar_contrasena: "Mostrar u ocultar contraseña"
+
+comentarios:
+  placeholder_nuevo: "Escribe tu comentario..."
+
+visor:
+  placeholder_comentario_entrega: "Comentario opcional para el profesor"

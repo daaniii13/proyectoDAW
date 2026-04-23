@@ -51,6 +51,12 @@ class InscripcionController extends AbstractController
             return $this->redirectToRoute('app_detalle_curso', ['id' => $curso->getId()]);
         }
 
+        // Solo los cursos activos aceptan nuevas inscripciones
+        if ($curso->getEstado() !== 'activo') {
+            $this->addFlash('error', 'Este curso no admite nuevas inscripciones en este momento.');
+            return $this->redirectToRoute('app_detalle_curso', ['id' => $curso->getId()]);
+        }
+
         if (!$this->isCsrfTokenValid('inscribirse_curso_' . $curso->getId(), (string) $request->request->get('_token'))) {
             throw $this->createAccessDeniedException('Token CSRF no válido.');
         }

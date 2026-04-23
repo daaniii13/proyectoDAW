@@ -111,7 +111,7 @@ ajustes:
   apariencia: "Appearance"
   tema_actual: "Current theme"
   detectando: "Detecting..."
-  tema_claro: "Clear mode"
+  tema_claro: "Light mode"
   tema_oscuro: "Dark mode"
 
 profesor:
@@ -177,3 +177,9 @@ registro:
   cuenta_bancaria_pago: "Bank account for payment"
   confirmacion_pago: "I confirm that I have reviewed the bank account and completed the payment"
   mostrar_contrasena: "Show or hide password"
+
+comentarios:
+  placeholder_nuevo: "Write your comment..."
+
+visor:
+  placeholder_comentario_entrega: "Optional comment for the teacher"

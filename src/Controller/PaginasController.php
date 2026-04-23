@@ -111,6 +111,15 @@ class PaginasController extends AbstractController
         ComentarioRepository $comentarioRepository,
         InscripcionRepository $inscripcionRepository
     ): Response {
+        $usuario = $this->getUser();
+        $esAdmin = $this->isGranted('ROLE_ADMIN');
+        $esProfesorDelCurso = $usuario instanceof User && $curso->getProfesor()?->getId() === $usuario->getId();
+
+        // Si el curso está en borrador solo pueden verlo el profesor propietario y el admin
+        if ($curso->getEstado() === 'borrador' && !$esProfesorDelCurso && !$esAdmin) {
+            throw $this->createAccessDeniedException('Este curso no está disponible públicamente.');
+        }
+
         $comentarios = $comentarioRepository->buscarPorCurso($curso->getId());
 
         // Registra el curso visitado en el historial de la sesión para el recomendador
@@ -122,7 +131,7 @@ class PaginasController extends AbstractController
 
         $inscripcionExistente = false;
         $puedeComentar = false;
-        $usuario = $this->getUser();
+        $puedeInscribirse = $curso->getEstado() === 'activo';
 
         if ($usuario instanceof User) {
             $inscripcion = $inscripcionRepository->buscarInscripcionPorCursoYEstudiante($curso->getId(), $usuario);
@@ -136,6 +145,7 @@ class PaginasController extends AbstractController
             'comentarios' => $comentarios,
             'inscripcionExistente' => $inscripcionExistente,
             'puedeComentar' => $puedeComentar,
+            'puedeInscribirse' => $puedeInscribirse,
         ]);
     }
 

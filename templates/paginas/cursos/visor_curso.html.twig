@@ -221,7 +221,7 @@
 
                                                 <div class="mb-3">
                                                     <label class="form-label">Comentario</label>
-                                                    <textarea name="comentario_entrega" class="form-control" rows="3" placeholder="Comentario opcional para el profesor">{{ entrega and entrega.comentario ? entrega.comentario|traducir_dinamico : '' }}</textarea>
+                                                    <textarea name="comentario_entrega" class="form-control" rows="3" placeholder="{{ 'visor.placeholder_comentario_entrega'|trans }}">{{ entrega and entrega.comentario ? entrega.comentario|traducir_dinamico : '' }}</textarea>
                                                 </div>
 
                                                 <button type="submit" class="btn btn-primary">
