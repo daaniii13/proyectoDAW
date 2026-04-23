@@ -121,16 +121,21 @@ class PaginasController extends AbstractController
         $session->set('cursos_clicados_recientes', array_slice($cursosClicados, 0, 15));
 
         $inscripcionExistente = false;
+        $puedeComentar = false;
         $usuario = $this->getUser();
 
         if ($usuario instanceof User) {
-            $inscripcionExistente = $inscripcionRepository->buscarUnaInscripcion($usuario, $curso->getId()) !== null;
+            $inscripcion = $inscripcionRepository->buscarInscripcionPorCursoYEstudiante($curso->getId(), $usuario);
+
+            $inscripcionExistente = $inscripcion !== null;
+            $puedeComentar = $inscripcion !== null;
         }
 
         return $this->render('paginas/cursos/detalle_curso.html.twig', [
             'curso' => $curso,
             'comentarios' => $comentarios,
             'inscripcionExistente' => $inscripcionExistente,
+            'puedeComentar' => $puedeComentar,
         ]);
     }
 

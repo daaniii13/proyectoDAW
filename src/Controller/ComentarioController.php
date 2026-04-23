@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Comentario;
 use App\Entity\Curso;
 use App\Entity\User;
+use App\Repository\InscripcionRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,7 +21,8 @@ class ComentarioController extends AbstractController
     public function crear(
         Curso $curso,
         Request $request,
-        EntityManagerInterface $entityManager
+        EntityManagerInterface $entityManager,
+        InscripcionRepository $inscripcionRepository
     ): Response {
         $usuario = $this->getUser();
 
@@ -44,6 +46,14 @@ class ComentarioController extends AbstractController
 
         if ($contenido === '') {
             $this->addFlash('error', 'El comentario no puede estar vacío.');
+            return $this->redirectToRoute('app_detalle_curso', ['id' => $curso->getId()]);
+        }
+
+        // Solo pueden comentar los usuarios inscritos en el curso
+        $inscripcion = $inscripcionRepository->buscarInscripcionPorCursoYEstudiante($curso->getId(), $usuario);
+
+        if (!$inscripcion) {
+            $this->addFlash('error', 'Solo las personas inscritas pueden comentar en este curso.');
             return $this->redirectToRoute('app_detalle_curso', ['id' => $curso->getId()]);
         }
 

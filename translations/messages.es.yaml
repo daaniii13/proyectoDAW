@@ -75,62 +75,62 @@ footer:
 
 admin:
   usuarios:
-    meta_titulo: 'Usuarios | Admin | TeachingExplorer'
-    etiqueta: 'Administración'
-    titulo: 'Usuarios registrados'
-    descripcion: 'Modifica nombre, correo, rol principal, estado y elimina usuarios si es necesario.'
-    vacio_titulo: 'No hay usuarios'
-    vacio_texto: 'Todavía no hay cuentas registradas.'
-    activo: 'Activo'
-    inactivo: 'Inactivo'
-    registro: 'Registro'
-    nombre: 'Nombre'
-    correo: 'Correo'
-    estado: 'Estado'
-    cuenta_activa: 'Cuenta activa'
-    rol_principal: 'Rol principal'
-    rol_estudiante: 'Estudiante'
-    rol_profesor: 'Profesor'
-    rol_admin: 'Admin'
-    guardar: 'Guardar cambios'
-    eliminar: 'Eliminar usuario'
-    confirmar_eliminar: '¿Seguro que quieres eliminar este usuario?'
-    flash_nombre_correo_obligatorios: 'Nombre y correo son obligatorios.'
-    flash_correo_no_valido: 'El correo no es válido.'
-    flash_correo_duplicado: 'Ya existe otro usuario con ese correo.'
-    flash_actualizado: 'Usuario actualizado correctamente.'
-    flash_no_autoborrado: 'No puedes eliminar tu propia cuenta de administrador.'
-    flash_eliminado: 'Usuario eliminado correctamente.'
-    flash_no_eliminado: 'No se pudo eliminar el usuario.'
+    meta_titulo: "Usuarios | Admin | TeachingExplorer"
+    etiqueta: "Administración"
+    titulo: "Usuarios registrados"
+    descripcion: "Modifica nombre, correo, rol principal, estado y elimina usuarios si es necesario."
+    vacio_titulo: "No hay usuarios"
+    vacio_texto: "Todavía no hay cuentas registradas."
+    activo: "Activo"
+    inactivo: "Inactivo"
+    registro: "Registro"
+    nombre: "Nombre"
+    correo: "Correo"
+    estado: "Estado"
+    cuenta_activa: "Cuenta activa"
+    rol_principal: "Rol principal"
+    rol_estudiante: "Estudiante"
+    rol_profesor: "Profesor"
+    rol_admin: "Admin"
+    guardar: "Guardar cambios"
+    eliminar: "Eliminar usuario"
+    confirmar_eliminar: "¿Seguro que quieres eliminar este usuario?"
+    flash_nombre_correo_obligatorios: "Nombre y correo son obligatorios."
+    flash_correo_no_valido: "El correo no es válido."
+    flash_correo_duplicado: "Ya existe otro usuario con ese correo."
+    flash_actualizado: "Usuario actualizado correctamente."
+    flash_no_autoborrado: "No puedes eliminar tu propia cuenta de administrador."
+    flash_eliminado: "Usuario eliminado correctamente."
+    flash_no_eliminado: "No se pudo eliminar el usuario."
   profesores:
     meta_titulo: "Profesores pendientes | Admin | TeachingExplorer"
 
 ajustes:
-  meta_titulo: 'Ajustes | TeachingExplorer'
-  apariencia: 'Apariencia'
-  tema_actual: 'Tema actual'
-  detectando: 'Detectando...'
-  tema_claro: 'Modo claro'
-  tema_oscuro: 'Modo oscuro'
+  meta_titulo: "Ajustes | TeachingExplorer"
+  apariencia: "Apariencia"
+  tema_actual: "Tema actual"
+  detectando: "Detectando..."
+  tema_claro: "Modo claro"
+  tema_oscuro: "Modo oscuro"
 
 profesor:
   crear_curso:
-    placeholder_titulo: 'Ejemplo: Aprende JavaScript'
-    placeholder_duracion: 'Ejemplo: 8 semanas'
-    placeholder_descripcion: 'Describe el contenido y objetivo del curso...'
-    placeholder_banner: 'https://...'
-    placeholder_mapa: 'https://...'
-    selecciona_opcion: 'Selecciona una opción'
+    placeholder_titulo: "Ejemplo: Aprende JavaScript"
+    placeholder_duracion: "Ejemplo: 8 semanas"
+    placeholder_descripcion: "Describe el contenido y objetivo del curso..."
+    placeholder_banner: "https://..."
+    placeholder_mapa: "https://..."
+    selecciona_opcion: "Selecciona una opción"
   tareas:
-    placeholder_comentario_opcional: 'Comentario opcional'
+    placeholder_comentario_opcional: "Comentario opcional"
   panel:
-    meta_titulo: 'Panel del profesor | TeachingExplorer'
+    meta_titulo: "Panel del profesor | TeachingExplorer"
   editar_curso:
-    meta_titulo: 'Editar curso | TeachingExplorer'
+    meta_titulo: "Editar curso | TeachingExplorer"
   recursos_curso:
-    meta_titulo: 'Recursos del curso | TeachingExplorer'
+    meta_titulo: "Recursos del curso | TeachingExplorer"
   tareas_curso:
-    meta_titulo: 'Tareas del curso | TeachingExplorer'
+    meta_titulo: "Tareas del curso | TeachingExplorer"
 
 inicio:
   meta_titulo: "Inicio | TeachingExplorer"
@@ -168,3 +168,11 @@ registro:
   lista_2: "Planes específicos para profesores"
   lista_3: "Solicitud automática al administrador para cuentas docentes"
   lista_4: "Acceso inmediato tras validación o alta"
+  plan_profesor: "Plan de profesor"
+  seleccionar_plan: "Selecciona un plan"
+  plan_basico: "Básico"
+  plan_pro: "Pro"
+  plan_premium: "Premium"
+  cuenta_bancaria_pago: "Cuenta bancaria para el pago"
+  confirmacion_pago: "Confirmo que he revisado la cuenta bancaria y he realizado el pago"
+  mostrar_contrasena: "Mostrar u ocultar contraseña"

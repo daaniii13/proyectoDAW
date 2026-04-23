@@ -35,72 +35,115 @@
                     {#Token de seguridad#}
                     <input type="hidden" name="_token" value="{{ csrf_token('editar_curso_' ~ curso.id) }}">
 
-                    <div class="mb-3">
-                        <label for="titulo_curso" class="form-label">Título del curso</label>
-                        <input type="text" id="titulo_curso" name="titulo_curso" class="form-control" value="{{ datosCurso.titulo }}" required>
+                    <div class="row g-4">
+                        <div class="col-12 col-lg-6">
+                            <label for="titulo_curso" class="form-label">Título del curso</label>
+                            <input
+                                type="text"
+                                id="titulo_curso"
+                                name="titulo_curso"
+                                class="form-control"
+                                value="{{ datosCurso.titulo }}"
+                                required
+                            >
+                        </div>
+
+                        {#Duracion#}
+                        <div class="col-12 col-lg-6">
+                            <label for="duracion_curso" class="form-label">Duración</label>
+                            <input
+                                type="text"
+                                id="duracion_curso"
+                                name="duracion_curso"
+                                class="form-control"
+                                value="{{ datosCurso.duracion }}"
+                                required
+                            >
+                        </div>
+
+                        {#Descripcion del curso#}
+                        <div class="col-12">
+                            <label for="descripcion_curso" class="form-label">Descripción</label>
+                            <textarea
+                                id="descripcion_curso"
+                                name="descripcion_curso"
+                                class="form-control"
+                                rows="5"
+                                required
+                            >{{ datosCurso.descripcion }}</textarea>
+                        </div>
+
+                        {#Nivel de dificultad del curso#}
+                        <div class="col-12 col-lg-4">
+                            <label for="nivel_curso" class="form-label">Nivel</label>
+                            <select id="nivel_curso" name="nivel_curso" class="form-select" required>
+                                <option value="Inicial" {{ datosCurso.nivel == 'Inicial' ? 'selected' : '' }}>Inicial</option>
+                                <option value="Intermedio" {{ datosCurso.nivel == 'Intermedio' ? 'selected' : '' }}>Intermedio</option>
+                                <option value="Avanzado" {{ datosCurso.nivel == 'Avanzado' ? 'selected' : '' }}>Avanzado</option>
+                            </select>
+                        </div>
+
+                        {#Modalidad del curso#}
+                        <div class="col-12 col-lg-4">
+                            <label for="modalidad_curso" class="form-label">Modalidad</label>
+                            <select id="modalidad_curso" name="modalidad_curso" class="form-select" required>
+                                <option value="Online" {{ datosCurso.modalidad == 'Online' ? 'selected' : '' }}>Online</option>
+                                <option value="Presencial" {{ datosCurso.modalidad == 'Presencial' ? 'selected' : '' }}>Presencial</option>
+                                <option value="Mixto" {{ datosCurso.modalidad == 'Mixto' ? 'selected' : '' }}>Mixto</option>
+                            </select>
+                        </div>
+
+                        {#Precio del curso#}
+                        <div class="col-12 col-lg-4">
+                            <label for="precio_curso" class="form-label">Precio (€)</label>
+                            <input
+                                type="number"
+                                step="0.01"
+                                min="0"
+                                id="precio_curso"
+                                name="precio_curso"
+                                class="form-control"
+                                value="{{ datosCurso.precio }}"
+                                required
+                            >
+                        </div>
+
+                        {#URL del banner#}
+                        <div class="col-12 col-lg-6">
+                            <label for="banner_url" class="form-label">URL del banner</label>
+                            <input
+                                type="url"
+                                id="banner_url"
+                                name="banner_url"
+                                class="form-control"
+                                value="{{ datosCurso.banner_url }}"
+                            >
+                        </div>
+
+                        {#URL de ubicacion#}
+                        <div class="col-12 col-lg-6">
+                            <label for="mapa_url" class="form-label">URL de mapa o ubicación</label>
+                            <input
+                                type="url"
+                                id="mapa_url"
+                                name="mapa_url"
+                                class="form-control"
+                                value="{{ datosCurso.mapa_url }}"
+                            >
+                        </div>
+
+                        {#Estado#}
+                        <div class="col-12 col-lg-4">
+                            <label for="estado_curso" class="form-label">Estado</label>
+                            <select id="estado_curso" name="estado_curso" class="form-select" required>
+                                <option value="activo" {{ datosCurso.estado == 'activo' ? 'selected' : '' }}>Activo</option>
+                                <option value="borrador" {{ datosCurso.estado == 'borrador' ? 'selected' : '' }}>Borrador</option>
+                                <option value="cerrado" {{ datosCurso.estado == 'cerrado' ? 'selected' : '' }}>Cerrado</option>
+                            </select>
+                        </div>
                     </div>
 
-                    {#Descripcion del curso#}
-                    <div class="mb-3">
-                        <label for="descripcion_curso" class="form-label">Descripción</label>
-                        <textarea id="descripcion_curso" name="descripcion_curso" class="form-control" rows="5" required>{{ datosCurso.descripcion }}</textarea>
-                    </div>
-
-                    {#Nivel de dificultad del curso#}
-                    <div class="mb-3">
-                        <label for="nivel_curso" class="form-label">Nivel</label>
-                        <select id="nivel_curso" name="nivel_curso" class="form-select" required>
-                            <option value="Inicial" {{ datosCurso.nivel == 'Inicial' ? 'selected' : '' }}>Inicial</option>
-                            <option value="Intermedio" {{ datosCurso.nivel == 'Intermedio' ? 'selected' : '' }}>Intermedio</option>
-                            <option value="Avanzado" {{ datosCurso.nivel == 'Avanzado' ? 'selected' : '' }}>Avanzado</option>
-                        </select>
-                    </div>
-
-                    {#Modalidad del curso#}
-                    <div class="mb-3">
-                        <label for="modalidad_curso" class="form-label">Modalidad</label>
-                        <select id="modalidad_curso" name="modalidad_curso" class="form-select" required>
-                            <option value="Online" {{ datosCurso.modalidad == 'Online' ? 'selected' : '' }}>Online</option>
-                            <option value="Presencial" {{ datosCurso.modalidad == 'Presencial' ? 'selected' : '' }}>Presencial</option>
-                            <option value="Mixto" {{ datosCurso.modalidad == 'Mixto' ? 'selected' : '' }}>Mixto</option>
-                        </select>
-                    </div>
-
-                    {#Duracion#}
-                    <div class="mb-3">
-                        <label for="duracion_curso" class="form-label">Duración</label>
-                        <input type="text" id="duracion_curso" name="duracion_curso" class="form-control" value="{{ datosCurso.duracion }}" required>
-                    </div>
-
-                    {#Precio del curso#}
-                    <div class="mb-3">
-                        <label for="precio_curso" class="form-label">Precio (€)</label>
-                        <input type="number" step="0.01" min="0" id="precio_curso" name="precio_curso" class="form-control" value="{{ datosCurso.precio }}" required>
-                    </div>
-
-                    {#Estado#}
-                    <div class="mb-3">
-                        <label for="estado_curso" class="form-label">Estado</label>
-                        <select id="estado_curso" name="estado_curso" class="form-select" required>
-                            <option value="activo" {{ datosCurso.estado == 'activo' ? 'selected' : '' }}>Activo</option>
-                            <option value="borrador" {{ datosCurso.estado == 'borrador' ? 'selected' : '' }}>Borrador</option>
-                            <option value="cerrado" {{ datosCurso.estado == 'cerrado' ? 'selected' : '' }}>Cerrado</option>
-                        </select>
-                    </div>
-
-                    {#URL del banner#}
-                    <div class="mb-3">
-                        <label for="banner_url" class="form-label">URL del banner</label>
-                        <input type="url" id="banner_url" name="banner_url" class="form-control" value="{{ datosCurso.banner_url }}">
-                    </div>
-
-                    {#URL de ubicacion#}
-                    <div class="mb-3">
-                        <label for="mapa_url" class="form-label">URL de mapa o ubicación</label>
-                        <input type="url" id="mapa_url" name="mapa_url" class="form-control" value="{{ datosCurso.mapa_url }}">
-                    </div>
-
-                    <div class="d-flex gap-2">
+                    <div class="d-flex gap-2 mt-4 flex-wrap">
                         <button type="submit" class="btn btn-primary">Guardar cambios</button>
                         <a href="{{ path('app_subir_recursos') }}" class="btn btn-outline-secondary">Cancelar</a>
                     </div>

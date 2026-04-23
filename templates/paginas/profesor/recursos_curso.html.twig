@@ -175,7 +175,7 @@
                                 </details>
 
                                 {#Eliminar recurso#}
-                                <form method="post" action="{{ path('app_profesor_eliminar_recurso', {id: recurso.id}) }}" onsubmit="return confirm('¿Seguro que quieres eliminar este recurso?');" class="mt-3">
+                                <form method="post" action="{{ path('app_profesor_eliminar_recurso', {id: recurso.id}) }}" class="mt-3">
                                     <input type="hidden" name="_token" value="{{ csrf_token('eliminar_recurso_' ~ recurso.id) }}">
                                     <button type="submit" class="btn btn-outline-danger">
                                         Eliminar recurso

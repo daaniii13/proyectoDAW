@@ -348,7 +348,7 @@
                         <a href="{{ path('app_profesor_recursos_curso', {id: curso.id}) }}" class="btn btn-outline-secondary">Recursos</a>
                         <a href="{{ path('app_profesor_tareas_curso', {id: curso.id}) }}" class="btn btn-outline-secondary">Tareas y correcciones</a>
 
-                        <form method="post" action="{{ path('app_profesor_eliminar_curso', {id: curso.id}) }}" onsubmit="return confirm('¿Seguro que quieres eliminar este curso?');">
+                        <form method="post" action="{{ path('app_profesor_eliminar_curso', {id: curso.id}) }}">
                             <input type="hidden" name="_token" value="{{ csrf_token('eliminar_curso_' ~ curso.id) }}">
                             <button type="submit" class="btn btn-outline-danger">Eliminar</button>
                         </form>

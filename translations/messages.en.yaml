@@ -125,13 +125,13 @@ profesor:
   tareas:
     placeholder_comentario_opcional: "Optional comment"
   panel:
-    meta_titulo: 'Teacher panel | TeachingExplorer'
+    meta_titulo: "Teacher panel | TeachingExplorer"
   editar_curso:
-    meta_titulo: 'Edit course | TeachingExplorer'
+    meta_titulo: "Edit course | TeachingExplorer"
   recursos_curso:
-    meta_titulo: 'Course resources | TeachingExplorer'
+    meta_titulo: "Course resources | TeachingExplorer"
   tareas_curso:
-    meta_titulo: 'Course tasks | TeachingExplorer'
+    meta_titulo: "Course tasks | TeachingExplorer"
 
 inicio:
   meta_titulo: "Home | TeachingExplorer"
@@ -169,3 +169,11 @@ registro:
   lista_2: "Specific plans for teachers"
   lista_3: "Automatic request to the administrator for teacher accounts"
   lista_4: "Immediate access after validation or registration"
+  plan_profesor: "Teacher plan"
+  seleccionar_plan: "Select a plan"
+  plan_basico: "Basic"
+  plan_pro: "Pro"
+  plan_premium: "Premium"
+  cuenta_bancaria_pago: "Bank account for payment"
+  confirmacion_pago: "I confirm that I have reviewed the bank account and completed the payment"
+  mostrar_contrasena: "Show or hide password"

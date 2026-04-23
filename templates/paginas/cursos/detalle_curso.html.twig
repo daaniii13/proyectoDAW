@@ -92,15 +92,23 @@
                 {% endfor %}
 
                 {#Si es un usuario registrado puede comentar#}
+                {% set puedeComentarCurso = puedeComentar|default(false) %}
+
                 {% if app.user %}
-                    <form method="post" action="{{ path('app_comentario_crear', {id: curso.id}) }}" class="bloque-comentarios__formulario">
-                        <input type="hidden" name="_token" value="{{ csrf_token('nuevo_comentario') }}">
-                        <label for="contenido-comentario" class="form-label">Añadir comentario</label>
-                        <textarea id="contenido-comentario" name="contenido" class="form-control" rows="4" placeholder="Escribe tu comentario..." required></textarea>
-                        <div class="mt-3">
-                            <button class="btn btn-primary">Comentar</button>
+                    {% if puedeComentarCurso %}
+                        <form method="post" action="{{ path('app_comentario_crear', {id: curso.id}) }}" class="bloque-comentarios__formulario">
+                            <input type="hidden" name="_token" value="{{ csrf_token('nuevo_comentario') }}">
+                            <label for="contenido-comentario" class="form-label">Añadir comentario</label>
+                            <textarea id="contenido-comentario" name="contenido" class="form-control" rows="4" placeholder="Escribe tu comentario..." required></textarea>
+                            <div class="mt-3">
+                                <button class="btn btn-primary">Comentar</button>
+                            </div>
+                        </form>
+                    {% else %}
+                        <div class="curso-usuario mt-4">
+                            <p class="mb-0">Solo las personas inscritas pueden comentar este curso.</p>
                         </div>
-                    </form>
+                    {% endif %}
                 {% else %}
                     <div class="curso-usuario mt-4">
                         <p class="mb-0">Inicia sesión para comentar este curso.</p>
@@ -124,27 +132,62 @@
                                         <span class="comentario-curso__fecha">{{ comentario.fechaCreacion|date('d/m/Y H:i') }}</span>
                                     </div>
 
-                                    <div class="d-flex align-items-center gap-2">
+                                    <div class="d-flex align-items-center gap-2 flex-wrap">
                                         {% if comentario.destacado %}
                                             <span class="badge text-bg-warning">Destacado</span>
                                         {% endif %}
 
-                                        {% if app.user and app.user == curso.profesor %}
+                                        {% if app.user and (app.user == curso.profesor or is_granted('ROLE_ADMIN')) %}
                                             <form method="post" action="{{ path('app_comentario_destacar', {id: comentario.id}) }}">
                                                 <input type="hidden" name="_token" value="{{ csrf_token('destacar_comentario_' ~ comentario.id) }}">
                                                 <button type="submit" class="btn btn-sm btn-outline-secondary">{{ comentario.destacado ? 'Quitar destacado' : 'Destacar' }}</button>
                                             </form>
                                         {% endif %}
 
+                                        {% if app.user and (app.user == comentario.usuario or is_granted('ROLE_ADMIN')) %}
+                                            <button
+                                                type="button"
+                                                class="btn btn-sm btn-outline-primary"
+                                                data-bs-toggle="collapse"
+                                                data-bs-target="#editar-comentario-{{ comentario.id }}"
+                                                aria-expanded="false"
+                                                aria-controls="editar-comentario-{{ comentario.id }}"
+                                            >
+                                                Editar
+                                            </button>
+
+                                            <form method="post" action="{{ path('app_comentario_eliminar', {id: comentario.id}) }}">
+                                                <input type="hidden" name="_token" value="{{ csrf_token('eliminar_comentario_' ~ comentario.id) }}">
+                                                <button type="submit" class="btn btn-sm btn-outline-danger">Eliminar</button>
+                                            </form>
+                                        {% endif %}
                                     </div>
                                 </div>
 
                                 <p class="comentario-curso__texto">{{ comentario.contenido|traducir_dinamico }}</p>
+
+                                {% if app.user and (app.user == comentario.usuario or is_granted('ROLE_ADMIN')) %}
+                                    <div class="collapse mt-3" id="editar-comentario-{{ comentario.id }}">
+                                        <form method="post" action="{{ path('app_comentario_editar', {id: comentario.id}) }}" class="bloque-comentarios__formulario">
+                                            <input type="hidden" name="_token" value="{{ csrf_token('editar_comentario_' ~ comentario.id) }}">
+                                            <label for="contenido-editar-{{ comentario.id }}" class="form-label">Editar comentario</label>
+                                            <textarea
+                                                id="contenido-editar-{{ comentario.id }}"
+                                                name="contenido"
+                                                class="form-control"
+                                                rows="4"
+                                                required
+                                            >{{ comentario.contenido }}</textarea>
+                                            <div class="mt-3">
+                                                <button type="submit" class="btn btn-primary btn-sm">Guardar cambios</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                {% endif %}
                             </article>
                         {% endfor %}
                     </div>
                 {% endif %}
-
 
             </section>
 
