@@ -24,32 +24,31 @@ class ApiCursoController extends AbstractController
         $destino = str_starts_with($locale, 'en') ? 'en' : 'es';
         $idiomaCurso = $destino === 'en' ? 'en' : 'es';
 
-        /* Guarda historial de búsquedas recientes */
         $historialBusquedas = $session->get('busquedas_recientes_cursos', $session->get('busquedas', []));
         if ($busqueda !== '') {
             array_unshift($historialBusquedas, $busqueda);
             $historialBusquedas = array_values(array_unique(array_filter($historialBusquedas)));
             $historialBusquedas = array_slice($historialBusquedas, 0, 10);
 
-            /* Mantiene compatibilidad con las dos claves antiguas */
             $session->set('busquedas_recientes_cursos', $historialBusquedas);
             $session->set('busquedas', $historialBusquedas);
         }
 
-        $traducirTexto = function (?string $texto) use ($traductorDinamico, $destino, $idiomaCurso): string {
-            if ($texto === null || trim($texto) === '') {
-                return '';
-            }
+        $mapearCursoParaApi = function ($curso) use ($traductorDinamico, $destino) {
+            $idiomaOriginalCurso = $curso->getIdioma() ?: 'es';
 
-            /* Solo traduce automáticamente cuando el curso viene en español y la web está en inglés */
-            if ($destino === 'en' && $idiomaCurso === 'es') {
-                return $traductorDinamico->traducir($texto, 'en', 'es');
-            }
+            $traducirTexto = function (?string $texto) use ($traductorDinamico, $destino, $idiomaOriginalCurso): string {
+                if ($texto === null || trim($texto) === '') {
+                    return '';
+                }
 
-            return $texto;
-        };
+                if ($destino === $idiomaOriginalCurso) {
+                    return $texto;
+                }
 
-        $mapearCurso = function ($curso) use ($traducirTexto) {
+                return $traductorDinamico->traducir($texto, $destino, $idiomaOriginalCurso);
+            };
+
             return [
                 'id' => $curso->getId(),
                 'titulo' => $traducirTexto($curso->getTitulo()),
@@ -64,37 +63,43 @@ class ApiCursoController extends AbstractController
             ];
         };
 
-        /* Resultados de búsqueda normales, pero ya filtrados por idioma del curso */
         if ($busqueda !== '') {
-            $resultados = $repo->buscarPorTextoEIdioma($busqueda, $idiomaCurso);
+            $resultados = method_exists($repo, 'buscarPorTextoEIdioma')
+                ? $repo->buscarPorTextoEIdioma($busqueda, $idiomaCurso)
+                : array_filter(
+                    $repo->buscarPorTexto($busqueda),
+                    fn($curso) => ($curso->getIdioma() ?: 'es') === $idiomaCurso
+                );
 
             if (!empty($resultados)) {
-                $dataResultados = array_map($mapearCurso, $resultados);
-
                 return $this->json([
                     'modo' => 'resultados_busqueda',
                     'mensaje' => '',
-                    'cursos' => $dataResultados,
+                    'cursos' => array_map($mapearCursoParaApi, $resultados),
                     'destacados' => [],
                 ]);
             }
         }
 
-        /* Recomendador por defecto y fallback sin resultados, siempre dentro del idioma actual */
-        $cursos = $repo->buscarCursosActivosPorIdioma($idiomaCurso);
-        $data = array_map($mapearCurso, $cursos);
+        $cursos = method_exists($repo, 'buscarCursosActivosPorIdioma')
+            ? $repo->buscarCursosActivosPorIdioma($idiomaCurso)
+            : array_filter(
+                $repo->buscarCursosActivos(),
+                fn($curso) => ($curso->getIdioma() ?: 'es') === $idiomaCurso
+            );
+
+        $dataApi = array_map($mapearCursoParaApi, $cursos);
 
         $idsCursosClicados = $session->get('cursos_clicados_recientes', []);
         if (empty($idsCursosClicados)) {
             $idsCursosClicados = $session->get('clics', []);
         }
 
+        $idsCursosClicados = array_map('intval', $idsCursosClicados);
+
         $payload = [
-            'cursos' => $data,
-            'busqueda_actual' => $busqueda,
-            'busquedas_recientes' => $historialBusquedas,
+            'cursos' => $dataApi,
             'ids_cursos_clicados' => $idsCursosClicados,
-            'idioma_web' => $idiomaCurso,
         ];
 
         $tmp = tempnam(sys_get_temp_dir(), 'rec_');
@@ -103,13 +108,12 @@ class ApiCursoController extends AbstractController
         $script = $this->getParameter('kernel.project_dir') . '/python/recomendador.py';
 
         $comandos = [
+            ['py', $script, $tmp],
             ['python', $script, $tmp],
             ['python3', $script, $tmp],
-            ['py', $script, $tmp],
         ];
 
-        $salida = null;
-        $procesoCorrecto = false;
+        $destacados = [];
 
         foreach ($comandos as $comando) {
             $process = new Process($comando);
@@ -117,8 +121,9 @@ class ApiCursoController extends AbstractController
 
             if ($process->isSuccessful()) {
                 $salida = json_decode($process->getOutput(), true);
-                $procesoCorrecto = is_array($salida);
-                if ($procesoCorrecto) {
+
+                if (is_array($salida) && isset($salida['destacados']) && is_array($salida['destacados'])) {
+                    $destacados = $salida['destacados'];
                     break;
                 }
             }
@@ -126,57 +131,37 @@ class ApiCursoController extends AbstractController
 
         @unlink($tmp);
 
+        if (empty($destacados)) {
+            $noClicados = array_values(array_filter(
+                $dataApi,
+                fn(array $curso) => !in_array((int) $curso['id'], $idsCursosClicados, true)
+            ));
+
+            $clicados = array_values(array_filter(
+                $dataApi,
+                fn(array $curso) => in_array((int) $curso['id'], $idsCursosClicados, true)
+            ));
+
+            if (!empty($noClicados)) {
+                shuffle($noClicados);
+            }
+
+            if (!empty($clicados)) {
+                shuffle($clicados);
+            }
+
+            $destacados = array_slice(array_merge($noClicados, $clicados), 0, 3);
+        }
+
         $mensajeSinResultados = $destino === 'en'
             ? 'No results were found for this search.'
             : 'No hay resultados para esta búsqueda.';
 
-        if (!$procesoCorrecto) {
-            return $this->json([
-                'modo' => $busqueda === '' ? 'recomendados' : 'sin_resultados',
-                'cursos' => [],
-                'destacados' => array_slice($data, 0, 3),
-                'mensaje' => $busqueda === '' ? '' : $mensajeSinResultados,
-            ]);
-        }
-
-        if (isset($salida['cursos']) && is_array($salida['cursos'])) {
-            $salida['cursos'] = array_map(function (array $curso) {
-                return [
-                    'id' => $curso['id'] ?? null,
-                    'titulo' => $curso['titulo'] ?? '',
-                    'descripcion' => $curso['descripcion'] ?? '',
-                    'nivel' => $curso['nivel'] ?? '',
-                    'modalidad' => $curso['modalidad'] ?? '',
-                    'profesor' => $curso['profesor'] ?? '',
-                    'duracion' => $curso['duracion'] ?? '',
-                    'precio' => $curso['precio'] ?? null,
-                    'idioma' => $curso['idioma'] ?? null,
-                    'detalleUrl' => $curso['detalleUrl'] ?? '',
-                ];
-            }, $salida['cursos']);
-        }
-
-        if (isset($salida['destacados']) && is_array($salida['destacados'])) {
-            $salida['destacados'] = array_map(function (array $curso) {
-                return [
-                    'id' => $curso['id'] ?? null,
-                    'titulo' => $curso['titulo'] ?? '',
-                    'descripcion' => $curso['descripcion'] ?? '',
-                    'nivel' => $curso['nivel'] ?? '',
-                    'modalidad' => $curso['modalidad'] ?? '',
-                    'profesor' => $curso['profesor'] ?? '',
-                    'duracion' => $curso['duracion'] ?? '',
-                    'precio' => $curso['precio'] ?? null,
-                    'idioma' => $curso['idioma'] ?? null,
-                    'detalleUrl' => $curso['detalleUrl'] ?? '',
-                ];
-            }, $salida['destacados']);
-        }
-
-        if (($salida['modo'] ?? '') === 'sin_resultados') {
-            $salida['mensaje'] = $mensajeSinResultados;
-        }
-
-        return $this->json($salida);
+        return $this->json([
+            'modo' => $busqueda === '' ? 'recomendados' : 'sin_resultados',
+            'cursos' => [],
+            'destacados' => $destacados,
+            'mensaje' => $busqueda === '' ? '' : $mensajeSinResultados,
+        ]);
     }
 }
