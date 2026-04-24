@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Curso;
 use App\Entity\EntregaTarea;
+use App\Entity\MensajeEntregaTarea;
 use App\Entity\TareaCurso;
 use App\Entity\User;
 use App\Repository\EntregaTareaRepository;
@@ -271,6 +272,16 @@ class TareaCursoController extends AbstractController
         $entrega->setComentarioProfesor($comentarioProfesor !== '' ? $comentarioProfesor : null);
         $entrega->setFechaRevision(new \DateTime());
 
+        // Guarda mensaje del profesor en el mini chat si escribió algo
+        if ($comentarioProfesor !== '') {
+            $mensaje = new MensajeEntregaTarea();
+            $mensaje->setEntrega($entrega);
+            $mensaje->setAutor($usuario);
+            $mensaje->setContenido($comentarioProfesor);
+
+            $entityManager->persist($mensaje);
+        }
+
         // La entrega se aprueba con 50 o más, por debajo queda suspensa
         if ($nota >= 50) {
             $entrega->setEstadoRevision('aprobada');
@@ -398,6 +409,12 @@ class TareaCursoController extends AbstractController
         // Si ya existe una entrega previa la reutiliza, si no, crea una nueva
         $entrega = $entregaTareaRepository->buscarUnaEntrega($tarea->getId(), $usuario);
 
+        // Si la entrega ya fue corregida, no se permite modificarla
+        if ($entrega && in_array($entrega->getEstadoRevision(), ['aprobada', 'suspensa'], true)) {
+            $this->addFlash('error', 'Esta entrega ya fue corregida y no puede modificarse.');
+            return $this->redirectToRoute('app_visor_curso', ['id' => $curso->getId()]);
+        }
+
         if (!$entrega) {
             $entrega = new EntregaTarea();
             $entrega->setTarea($tarea);
@@ -413,6 +430,16 @@ class TareaCursoController extends AbstractController
         $entrega->setNota(null);
         $entrega->setComentarioProfesor(null);
         $entrega->setFechaRevision(null);
+
+        // Guarda mensaje del alumno en el mini chat si escribió algo
+        if ($comentario !== '') {
+            $mensaje = new MensajeEntregaTarea();
+            $mensaje->setEntrega($entrega);
+            $mensaje->setAutor($usuario);
+            $mensaje->setContenido($comentario);
+
+            $entityManager->persist($mensaje);
+        }
 
         $entityManager->flush();
 

@@ -140,6 +140,7 @@
                                 {% set pendiente = entrega and entrega.estadoRevision == 'pendiente' %}
                                 {% set fueraDePlazo = tarea.fechaLimite and date() > tarea.fechaLimite %}
                                 {% set bloqueada = not tarea_anterior_aprobada and not aprobada %}
+                                {% set corregida = entrega and entrega.estadoRevision in ['aprobada', 'suspensa'] %}
 
                                 <article class="curso-usuario">
                                     <div class="curso-usuario__superior">
@@ -188,14 +189,32 @@
                                             <span>Archivo: {{ entrega.archivoEntrega }}</span>
                                         </div>
 
-                                        {% if entrega.comentarioProfesor %}
-                                            <div class="mensaje-ui {{ aprobada ? 'mensaje-ui--exito' : (suspendida ? 'mensaje-ui--error' : 'mensaje-ui--exito') }} mb-3">
-                                                <span>
-                                                    {{ aprobada ? 'Comentario del profesor:' : (suspendida ? 'Corrección del profesor:' : 'Entrega pendiente de corrección:') }}
-                                                    {{ entrega.comentarioProfesor }}
-                                                </span>
-                                            </div>
-                                        {% endif %}
+                                        {# Mini chat de la entrega #}
+                                        <div class="chat-entrega mb-3">
+                                            <div class="chat-entrega__titulo">Conversación</div>
+
+                                            {% if entrega.mensajes is empty %}
+                                                <p class="chat-entrega__vacio">Todavía no hay mensajes en esta entrega.</p>
+                                            {% else %}
+                                                <div class="chat-entrega__lista">
+                                                    {% for mensaje in entrega.mensajes %}
+                                                        {% set esProfesor = curso.profesor and mensaje.autor and curso.profesor.id == mensaje.autor.id %}
+
+                                                        <div class="chat-entrega__fila {{ esProfesor ? 'chat-entrega__fila--profesor' : 'chat-entrega__fila--alumno' }}">
+                                                            <div class="chat-entrega__burbuja">
+                                                                <div class="chat-entrega__autor">
+                                                                    {{ esProfesor ? 'Profesor' : 'Tú' }}
+                                                                </div>
+                                                                <div class="chat-entrega__texto">{{ mensaje.contenido }}</div>
+                                                                <div class="chat-entrega__fecha">
+                                                                    {{ mensaje.fechaCreacion|date('d/m/Y H:i') }}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    {% endfor %}
+                                                </div>
+                                            {% endif %}
+                                        </div>
                                     {% endif %}
 
                                     <div class="curso-usuario__acciones">
@@ -206,6 +225,10 @@
                                         {% elseif aprobada %}
                                             <button type="button" class="btn btn-outline-secondary" disabled>
                                                 Tarea aprobada
+                                            </button>
+                                        {% elseif suspendida %}
+                                            <button type="button" class="btn btn-outline-danger" disabled>
+                                                Tarea corregida
                                             </button>
                                         {% elseif fueraDePlazo %}
                                             <button type="button" class="btn btn-outline-danger" disabled>
@@ -221,18 +244,12 @@
                                                 </div>
 
                                                 <div class="mb-3">
-                                                    <label class="form-label">Comentario</label>
-                                                    <textarea name="comentario_entrega" class="form-control" rows="3" placeholder="{{ 'visor.placeholder_comentario_entrega'|trans }}">{{ entrega and entrega.comentario ? entrega.comentario|traducir_dinamico : '' }}</textarea>
+                                                    <label class="form-label">{{ entrega ? 'Nuevo mensaje' : 'Comentario' }}</label>
+                                                    <textarea name="comentario_entrega" class="form-control" rows="3" placeholder="{{ 'visor.placeholder_comentario_entrega'|trans }}"></textarea>
                                                 </div>
 
                                                 <button type="submit" class="btn btn-primary">
-                                                    {% if suspendida %}
-                                                        Reenviar tarea
-                                                    {% elseif pendiente %}
-                                                        Actualizar entrega
-                                                    {% else %}
-                                                        Entregar tarea
-                                                    {% endif %}
+                                                    {{ entrega ? 'Actualizar entrega' : 'Entregar tarea' }}
                                                 </button>
                                             </form>
                                         {% endif %}

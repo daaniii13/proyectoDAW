@@ -22,6 +22,7 @@
 @import './componentes/formularios.css';  /* Diseño de inputs, etiquetas y campos de contraseña */
 @import './componentes/tarjetas.css';     /* Estructuras base para contenedores de contenido */
 @import './componentes/testimonios.css';  /* Bloques específicos para reseñas de usuarios */
+@import './componentes/chat-entrega.css'; /* Estilos para el chat alumno - profesor */
 
 /* --- 4. CAPA DE PÁGINAS: Estilos específicos por vista --- */
 /* Aquí reside el CSS que solo afecta a páginas concretas para evitar archivos gigantes. */

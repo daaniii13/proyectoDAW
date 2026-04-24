@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\EntregaTareaRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /* Entrega de una tarea por parte de un estudiante y posterior correción del profesor */
@@ -52,11 +54,17 @@ class EntregaTarea
     #[ORM\Column(type: 'datetime', nullable: true)]
     private ?\DateTimeInterface $fechaRevision = null;
 
+    /* Mensajes del mini chat de esta entrega */
+    #[ORM\OneToMany(mappedBy: 'entrega', targetEntity: MensajeEntregaTarea::class, orphanRemoval: true)]
+    #[ORM\OrderBy(['fechaCreacion' => 'ASC'])]
+    private Collection $mensajes;
+
     public function __construct()
     {
         /* Al crear la entrega, se asigna la fecha actual y se pone pendiente de revisión */
         $this->fechaEntrega = new \DateTime();
         $this->estadoRevision = 'pendiente';
+        $this->mensajes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -160,6 +168,32 @@ class EntregaTarea
     public function setFechaRevision(?\DateTimeInterface $fechaRevision): static
     {
         $this->fechaRevision = $fechaRevision;
+        return $this;
+    }
+
+    public function getMensajes(): Collection
+    {
+        return $this->mensajes;
+    }
+
+    public function addMensaje(MensajeEntregaTarea $mensaje): static
+    {
+        if (!$this->mensajes->contains($mensaje)) {
+            $this->mensajes->add($mensaje);
+            $mensaje->setEntrega($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMensaje(MensajeEntregaTarea $mensaje): static
+    {
+        if ($this->mensajes->removeElement($mensaje)) {
+            if ($mensaje->getEntrega() === $this) {
+                $mensaje->setEntrega(null);
+            }
+        }
+
         return $this;
     }
 }
