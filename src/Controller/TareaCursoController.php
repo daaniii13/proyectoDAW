@@ -20,13 +20,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\Routing\Attribute\Route;
 
-// Controlador de gestión de tareas y entregas de un curso
-// Agrupa las acciones del profesor (crear, editar, eliminar tareas y corregir entregas)
-// y las del alumno (entregar una tarea y visualizar el archivo de entrega)
 class TareaCursoController extends AbstractController
 {
-    // Lista las tareas del curso y las entregas agrupadas por tarea para el panel del profesor
-    // Procesa la creación de una nueva tarea, validando el tipo MIME del archivo y la fecha límite si se indica
     #[Route('/profesor/curso/{id}/tareas', name: 'app_profesor_tareas_curso', requirements: ['id' => '\d+'], methods: ['GET', 'POST'])]
     public function gestionar(
         Curso $curso,
@@ -103,7 +98,6 @@ class TareaCursoController extends AbstractController
                     $entityManager->persist($tarea);
                     $entityManager->flush();
 
-                    // Recalcula el progreso de todos los inscritos al añadir una nueva tarea
                     $progresoCursoService->recalcularParaTodos($curso->getId());
 
                     $this->addFlash('success', 'Tarea creada correctamente.');
@@ -116,7 +110,6 @@ class TareaCursoController extends AbstractController
         $tareas = $tareaCursoRepository->buscarPorCurso($curso->getId());
         $entregas = $entregaTareaRepository->buscarEntregasPorCurso($curso->getId());
 
-        // Agrupa las entregas por ID de tarea para facilitar el acceso desde la vista
         $entregasPorTarea = [];
         foreach ($entregas as $entrega) {
             $tareaId = $entrega->getTarea()?->getId();
@@ -138,8 +131,6 @@ class TareaCursoController extends AbstractController
         ]);
     }
 
-    // Actualiza los datos de una tarea existente (título, descripción, fecha límite y archivo)
-    // Si se sube un archivo nuevo elimina el anterior del sistema de archivos
     #[Route('/profesor/tarea/{id}/editar', name: 'app_profesor_editar_tarea', requirements: ['id' => '\d+'], methods: ['POST'])]
     public function editar(
         TareaCurso $tarea,
@@ -194,7 +185,6 @@ class TareaCursoController extends AbstractController
             }
             $tarea->setFechaLimite($fechaLimite);
         } else {
-            // Si el campo de fecha se deja vacío elimina la fecha límite
             $tarea->setFechaLimite(null);
         }
 
@@ -208,7 +198,6 @@ class TareaCursoController extends AbstractController
                 return $this->redirectToRoute('app_profesor_tareas_curso', ['id' => $curso->getId()]);
             }
 
-            // Elimina el archivo anterior del servidor si existía
             if ($archivoAnterior) {
                 $rutaAnterior = $this->getParameter('kernel.project_dir') . '/public/uploads/tareas/' . $archivoAnterior;
                 if (is_file($rutaAnterior)) {
@@ -225,7 +214,6 @@ class TareaCursoController extends AbstractController
         return $this->redirectToRoute('app_profesor_tareas_curso', ['id' => $curso->getId()]);
     }
 
-    // El profesor corrige una entrega asignándole una nota entre 0 y 100 y un comentario opcional
     #[Route('/profesor/entrega/{id}/corregir', name: 'app_profesor_corregir_entrega', requirements: ['id' => '\d+'], methods: ['POST'])]
     public function corregir(
         EntregaTarea $entrega,
@@ -272,7 +260,6 @@ class TareaCursoController extends AbstractController
         $entrega->setComentarioProfesor($comentarioProfesor !== '' ? $comentarioProfesor : null);
         $entrega->setFechaRevision(new \DateTime());
 
-        // Guarda mensaje del profesor en el mini chat si escribió algo
         if ($comentarioProfesor !== '') {
             $mensaje = new MensajeEntregaTarea();
             $mensaje->setEntrega($entrega);
@@ -282,7 +269,6 @@ class TareaCursoController extends AbstractController
             $entityManager->persist($mensaje);
         }
 
-        // La entrega se aprueba con 50 o más, por debajo queda suspensa
         if ($nota >= 50) {
             $entrega->setEstadoRevision('aprobada');
             $this->addFlash('success', 'Entrega corregida y aprobada.');
@@ -293,7 +279,6 @@ class TareaCursoController extends AbstractController
 
         $entityManager->flush();
 
-        // Recalcula el progreso únicamente del alumno que realizó la entrega
         $estudiante = $entrega->getEstudiante();
         if ($estudiante instanceof User) {
             $progresoCursoService->recalcular($curso->getId(), $estudiante);
@@ -302,9 +287,6 @@ class TareaCursoController extends AbstractController
         return $this->redirectToRoute('app_profesor_tareas_curso', ['id' => $curso->getId()]);
     }
 
-    // El alumno sube un archivo como respuesta a una tarea
-    // Verifica que la inscripción esté activa, que el plazo no haya vencido,
-    // que las tareas anteriores estén aprobadas y que el archivo tenga un MIME permitido
     #[Route('/tarea/{id}/entregar', name: 'app_entregar_tarea', requirements: ['id' => '\d+'], methods: ['POST'])]
     public function entregar(
         TareaCurso $tarea,
@@ -337,7 +319,6 @@ class TareaCursoController extends AbstractController
             throw $this->createAccessDeniedException('No puedes entregar tareas en este curso.');
         }
 
-        // Comprueba que el plazo de entrega no haya vencido
         if ($tarea->getFechaLimite() !== null) {
             $ahora = new \DateTimeImmutable();
             $fechaLimite = \DateTimeImmutable::createFromInterface($tarea->getFechaLimite());
@@ -348,7 +329,6 @@ class TareaCursoController extends AbstractController
             }
         }
 
-        // Verifica que las tareas anteriores estén aprobadas
         $tareasCurso = $tareaCursoRepository->buscarPorCurso($curso->getId());
 
         foreach ($tareasCurso as $tareaAnterior) {
@@ -366,53 +346,59 @@ class TareaCursoController extends AbstractController
 
         $archivoEntrega = $request->files->get('archivo_entrega');
         $comentario = trim((string) $request->request->get('comentario_entrega'));
-
-        if (!$archivoEntrega) {
-            $this->addFlash('error', 'Debes adjuntar un archivo para entregar la tarea.');
-            return $this->redirectToRoute('app_visor_curso', ['id' => $curso->getId()]);
-        }
-
-        $mime = (string) $archivoEntrega->getMimeType();
-        $mimePermitidos = [
-            'application/pdf',
-            'application/msword',
-            'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-            'image/jpeg',
-            'image/png',
-            'application/zip',
-            'application/x-zip-compressed',
-        ];
-
-        if (!in_array($mime, $mimePermitidos, true)) {
-            $this->addFlash('error', 'El archivo entregado no tiene un formato permitido.');
-            return $this->redirectToRoute('app_visor_curso', ['id' => $curso->getId()]);
-        }
-
-        $directorioDestino = $this->getParameter('kernel.project_dir') . '/public/uploads/entregas';
-
-        if (!is_dir($directorioDestino)) {
-            mkdir($directorioDestino, 0775, true);
-        }
-
-        $extension = $archivoEntrega->guessExtension();
-        $nombreArchivo = $extension
-            ? uniqid('entrega_', true) . '.' . $extension
-            : uniqid('entrega_', true) . '.bin';
-
-        try {
-            $archivoEntrega->move($directorioDestino, $nombreArchivo);
-        } catch (FileException $e) {
-            $this->addFlash('error', 'No se pudo guardar la entrega.');
-            return $this->redirectToRoute('app_visor_curso', ['id' => $curso->getId()]);
-        }
-
-        // Si ya existe una entrega previa la reutiliza, si no, crea una nueva
         $entrega = $entregaTareaRepository->buscarUnaEntrega($tarea->getId(), $usuario);
 
-        // Si la entrega ya fue corregida, no se permite modificarla
-        if ($entrega && in_array($entrega->getEstadoRevision(), ['aprobada', 'suspensa'], true)) {
-            $this->addFlash('error', 'Esta entrega ya fue corregida y no puede modificarse.');
+        if ($entrega && $entrega->getEstadoRevision() === 'aprobada') {
+            $this->addFlash('error', 'Esta entrega ya fue aprobada y no puede modificarse.');
             return $this->redirectToRoute('app_visor_curso', ['id' => $curso->getId()]);
+        }
+
+        if (!$entrega && !$archivoEntrega) {
+            $this->addFlash('error', 'Debes adjuntar un archivo para realizar la primera entrega.');
+            return $this->redirectToRoute('app_visor_curso', ['id' => $curso->getId()]);
+        }
+
+        if ($entrega && !$archivoEntrega && $comentario === '') {
+            $this->addFlash('error', 'Debes adjuntar un archivo o escribir un mensaje.');
+            return $this->redirectToRoute('app_visor_curso', ['id' => $curso->getId()]);
+        }
+
+        $nombreArchivo = null;
+
+        if ($archivoEntrega) {
+            $mime = (string) $archivoEntrega->getMimeType();
+            $mimePermitidos = [
+                'application/pdf',
+                'application/msword',
+                'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+                'image/jpeg',
+                'image/png',
+                'application/zip',
+                'application/x-zip-compressed',
+            ];
+
+            if (!in_array($mime, $mimePermitidos, true)) {
+                $this->addFlash('error', 'El archivo entregado no tiene un formato permitido.');
+                return $this->redirectToRoute('app_visor_curso', ['id' => $curso->getId()]);
+            }
+
+            $directorioDestino = $this->getParameter('kernel.project_dir') . '/public/uploads/entregas';
+
+            if (!is_dir($directorioDestino)) {
+                mkdir($directorioDestino, 0775, true);
+            }
+
+            $extension = $archivoEntrega->guessExtension();
+            $nombreArchivo = $extension
+                ? uniqid('entrega_', true) . '.' . $extension
+                : uniqid('entrega_', true) . '.bin';
+
+            try {
+                $archivoEntrega->move($directorioDestino, $nombreArchivo);
+            } catch (FileException $e) {
+                $this->addFlash('error', 'No se pudo guardar la entrega.');
+                return $this->redirectToRoute('app_visor_curso', ['id' => $curso->getId()]);
+            }
         }
 
         if (!$entrega) {
@@ -422,16 +408,17 @@ class TareaCursoController extends AbstractController
             $entityManager->persist($entrega);
         }
 
-        $entrega->setArchivoEntrega($nombreArchivo);
-        $entrega->setComentario($comentario !== '' ? $comentario : null);
-        $entrega->setFechaEntrega(new \DateTime());
-        // Al volver a entregar, resetea el estado de revisión para que el profesor la vuelva a corregir
-        $entrega->setEstadoRevision('pendiente');
-        $entrega->setNota(null);
-        $entrega->setComentarioProfesor(null);
-        $entrega->setFechaRevision(null);
+        if ($nombreArchivo !== null) {
+            $entrega->setArchivoEntrega($nombreArchivo);
+            $entrega->setFechaEntrega(new \DateTime());
+            $entrega->setEstadoRevision('pendiente');
+            $entrega->setNota(null);
+            $entrega->setComentarioProfesor(null);
+            $entrega->setFechaRevision(null);
+        }
 
-        // Guarda mensaje del alumno en el mini chat si escribió algo
+        $entrega->setComentario($comentario !== '' ? $comentario : $entrega->getComentario());
+
         if ($comentario !== '') {
             $mensaje = new MensajeEntregaTarea();
             $mensaje->setEntrega($entrega);
@@ -450,8 +437,6 @@ class TareaCursoController extends AbstractController
         return $this->redirectToRoute('app_visor_curso', ['id' => $curso->getId()]);
     }
 
-    // Elimina una tarea y su archivo físico asociado si lo tiene
-    // Recalcula el progreso de todos los inscritos tras la eliminación
     #[Route('/profesor/tarea/{id}/eliminar', name: 'app_profesor_eliminar_tarea', requirements: ['id' => '\d+'], methods: ['POST'])]
     public function eliminar(
         TareaCurso $tarea,
@@ -486,7 +471,6 @@ class TareaCursoController extends AbstractController
             throw $this->createAccessDeniedException('Token CSRF no válido.');
         }
 
-        // Guarda la ruta del archivo antes de eliminar la tarea
         $rutaArchivo = null;
         if ($tarea->getArchivoProfesor()) {
             $rutaArchivo = $this->getParameter('kernel.project_dir') . '/public/uploads/tareas/' . $tarea->getArchivoProfesor();
@@ -497,7 +481,6 @@ class TareaCursoController extends AbstractController
         $entityManager->remove($tarea);
         $entityManager->flush();
 
-        // Elimina el archivo físico después de confirmar la eliminación en la base de datos
         if ($rutaArchivo && is_file($rutaArchivo)) {
             @unlink($rutaArchivo);
         }
@@ -511,8 +494,6 @@ class TareaCursoController extends AbstractController
         ]);
     }
 
-    // Permite ver el archivo de una entrega directamente en el navegador
-    // Solo accesible para el profesor del curso o el administrador
     #[Route('/profesor/entrega/{id}/ver', name: 'app_profesor_ver_entrega', requirements: ['id' => '\d+'], methods: ['GET'])]
     public function verEntrega(EntregaTarea $entrega): Response
     {
@@ -551,7 +532,6 @@ class TareaCursoController extends AbstractController
             throw $this->createNotFoundException('El archivo de la entrega no existe en el servidor.');
         }
 
-        // Devuelve el archivo para que se muestre directamente en el navegador (no como descarga)
         $response = new BinaryFileResponse($rutaArchivo);
         $response->setContentDisposition(
             ResponseHeaderBag::DISPOSITION_INLINE,
@@ -561,9 +541,6 @@ class TareaCursoController extends AbstractController
         return $response;
     }
 
-    // Valida el tipo MIME del archivo del profesor, crea el directorio si no existe
-    // y mueve el archivo con un nombre único. Devuelve null si todo fue correcto
-    // o el mensaje de error en caso contrario
     private function guardarArchivoProfesor(mixed $archivoProfesor, TareaCurso $tarea): ?string
     {
         $mime = (string) $archivoProfesor->getMimeType();

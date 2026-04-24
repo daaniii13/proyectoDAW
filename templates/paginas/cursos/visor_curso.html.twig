@@ -140,7 +140,6 @@
                                 {% set pendiente = entrega and entrega.estadoRevision == 'pendiente' %}
                                 {% set fueraDePlazo = tarea.fechaLimite and date() > tarea.fechaLimite %}
                                 {% set bloqueada = not tarea_anterior_aprobada and not aprobada %}
-                                {% set corregida = entrega and entrega.estadoRevision in ['aprobada', 'suspensa'] %}
 
                                 <article class="curso-usuario">
                                     <div class="curso-usuario__superior">
@@ -189,24 +188,23 @@
                                             <span>Archivo: {{ entrega.archivoEntrega }}</span>
                                         </div>
 
-                                        {# Mini chat de la entrega #}
-                                        <div class="chat-entrega mb-3">
-                                            <div class="chat-entrega__titulo">Conversación</div>
+                                        <div class="border rounded-4 p-3 bg-white mb-3">
+                                            <div class="fw-semibold mb-3">Conversación</div>
 
                                             {% if entrega.mensajes is empty %}
-                                                <p class="chat-entrega__vacio">Todavía no hay mensajes en esta entrega.</p>
+                                                <p class="text-muted mb-0">Todavía no hay mensajes en esta entrega.</p>
                                             {% else %}
-                                                <div class="chat-entrega__lista">
+                                                <div class="d-flex flex-column gap-3">
                                                     {% for mensaje in entrega.mensajes %}
                                                         {% set esProfesor = curso.profesor and mensaje.autor and curso.profesor.id == mensaje.autor.id %}
 
-                                                        <div class="chat-entrega__fila {{ esProfesor ? 'chat-entrega__fila--profesor' : 'chat-entrega__fila--alumno' }}">
-                                                            <div class="chat-entrega__burbuja">
-                                                                <div class="chat-entrega__autor">
+                                                        <div class="d-flex {{ esProfesor ? 'justify-content-end' : 'justify-content-start' }}">
+                                                            <div class="p-3 rounded-4 {{ esProfesor ? 'bg-primary text-white' : 'bg-light border' }}" style="max-width: 78%; min-width: 220px;">
+                                                                <div class="small fw-semibold mb-1">
                                                                     {{ esProfesor ? 'Profesor' : 'Tú' }}
                                                                 </div>
-                                                                <div class="chat-entrega__texto">{{ mensaje.contenido }}</div>
-                                                                <div class="chat-entrega__fecha">
+                                                                <div style="white-space: pre-wrap; word-break: break-word;">{{ mensaje.contenido }}</div>
+                                                                <div class="small mt-2 {{ esProfesor ? 'text-white-50' : 'text-muted' }}">
                                                                     {{ mensaje.fechaCreacion|date('d/m/Y H:i') }}
                                                                 </div>
                                                             </div>
@@ -226,10 +224,6 @@
                                             <button type="button" class="btn btn-outline-secondary" disabled>
                                                 Tarea aprobada
                                             </button>
-                                        {% elseif suspendida %}
-                                            <button type="button" class="btn btn-outline-danger" disabled>
-                                                Tarea corregida
-                                            </button>
                                         {% elseif fueraDePlazo %}
                                             <button type="button" class="btn btn-outline-danger" disabled>
                                                 Plazo finalizado
@@ -240,16 +234,16 @@
 
                                                 <div class="mb-3">
                                                     <label class="form-label">Archivo de entrega</label>
-                                                    <input type="file" name="archivo_entrega" class="form-control" required>
+                                                    <input type="file" name="archivo_entrega" class="form-control" {{ entrega ? '' : 'required' }}>
                                                 </div>
 
                                                 <div class="mb-3">
-                                                    <label class="form-label">{{ entrega ? 'Nuevo mensaje' : 'Comentario' }}</label>
-                                                    <textarea name="comentario_entrega" class="form-control" rows="3" placeholder="{{ 'visor.placeholder_comentario_entrega'|trans }}"></textarea>
+                                                    <label class="form-label">{{ entrega ? 'Mensaje o actualización' : 'Comentario' }}</label>
+                                                    <textarea name="comentario_entrega" class="form-control" rows="3" placeholder="{{ 'visor.placeholder_comentario_entrega'|trans }}">{{ entrega and entrega.comentario ? entrega.comentario : '' }}</textarea>
                                                 </div>
 
                                                 <button type="submit" class="btn btn-primary">
-                                                    {{ entrega ? 'Actualizar entrega' : 'Entregar tarea' }}
+                                                    {{ entrega ? 'Enviar mensaje o actualizar entrega' : 'Entregar tarea' }}
                                                 </button>
                                             </form>
                                         {% endif %}
