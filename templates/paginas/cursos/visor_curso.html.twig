@@ -1,0 +1,304 @@
+{% extends 'base.html.twig' %}
+{% block title %}{{ curso.titulo|traducir_dinamico }} | Visor | TeachingExplorer{% endblock %}
+{% block body %}
+<div data-dynamic-translate="1">
+{#Vista del curso#}
+    <section class="seccion-visor-curso">
+        <div class="container">
+            <div class="visor-curso__hero">
+                <div class="visor-curso__principal">
+                    <span class="visor-curso__etiqueta">Curso</span>
+                    <h1>{{ curso.titulo|traducir_dinamico }}</h1>
+                    <p class="visor-curso__texto">{{ curso.descripcion|traducir_dinamico }}</p>
+
+                    <div class="visor-curso__chips">
+                        {#Informacion sobre el curso#}
+                        <span class="visor-curso__chip">Profesor: {{ curso.profesor.nombre }}</span>
+                        <span class="visor-curso__chip">Nivel: {{ curso.nivel|traducir_dinamico }}</span>
+                        <span class="visor-curso__chip">Modalidad: {{ curso.modalidad|traducir_dinamico }}</span>
+                        <span class="visor-curso__chip">Duración: {{ curso.duracion|traducir_dinamico }}</span>
+                    </div>
+
+                    {#Notificacion para errores y exitos#}
+                    {% for mensaje in app.flashes('success') %}
+                        <div class="mensaje-ui mensaje-ui--exito mt-4">
+                            <span>{{ mensaje }}</span>
+                        </div>
+                    {% endfor %}
+
+
+                    {% for mensaje in app.flashes('error') %}
+                        <div class="mensaje-ui mensaje-ui--error mt-4">
+                            <span>{{ mensaje }}</span>
+                        </div>
+                    {% endfor %}
+
+                    {#Progreso del curso si el alumno esta inscrito y el profesor lo acepto#}
+                    {% if inscripcion %}
+                        <div class="mt-4 mb-5">
+                            <h2 class="h5 mb-3">Tu progreso</h2>
+                            <div class="barra-progreso-curso" aria-label="Progreso del curso">
+                                <div class="barra-progreso-curso__relleno" style="width: {{ inscripcion.progreso }}%;">
+                                    {{ inscripcion.progreso }}%
+                                </div>
+                            </div>
+
+                            <p class="texto-suave mt-2 mb-0">El progreso avanza al completar recursos y tener aprobadas las tareas en orden.</p>
+                       
+                        </div>
+
+                    {% endif %}
+
+                    <div class="mt-5">
+                        <h2 class="h4 mb-4">Contenido del curso</h2>
+
+                        {#Recursos del profesor#}
+                        {% if recursos is empty %}
+                            <div class="estado-vacio">
+                                <div class="estado-vacio__icono">0</div>
+                                <h3 class="estado-vacio__titulo">Todavía no hay recursos publicados</h3>
+                                <p class="estado-vacio__texto">El profesor añadirá contenido próximamente.</p>
+
+                            </div>
+
+                        {% else %}
+                            <div class="d-flex flex-column gap-3">
+                                {#Se crea la variable recurso_anterior-visto se usa para los recuros vayan escalonados#}
+                                {#Lo dejamos en true para que el primer recurso se siempre accesible#}
+                                {% set recurso_anterior_visto = true %}
+                                {#Bucle de listado de recursos#}
+                                {% for recurso in recursos %}
+                                    {% set ya_visto = recurso.id in recursosVistosIds %}
+                                    {#Guardamos si el recurso ya ha sido visto por su id#}
+                                    {% set bloqueado = not recurso_anterior_visto and not ya_visto %}
+                                    {#Bloquea el recurso si no hemos visto el anterior y no hemos visto este recurso #}
+
+
+                                    <article class="curso-usuario">
+                                        <div class="curso-usuario__superior">
+                                        {#Orden del recurso asignado por el profesor#}
+                                            <span class="badge text-bg-primary">#{{ recurso.orden }}</span>
+                                            <span class="curso-usuario__progreso">
+                                                {{ recurso.tipo|traducir_dinamico|capitalize }}
+                                                    {#Condicional si el curso ya ha sido visto y los que aun no#}
+                                                {% if ya_visto %}
+                                                    · Visto
+                                                {% elseif bloqueado %}
+                                                    · Bloqueado
+                                                {% endif %}
+                                           
+                                            </span>
+                                        </div>
+
+                                        {#Titulo y contenido#}
+                                        <h3>{{ recurso.titulo|traducir_dinamico }}</h3>
+                                        <p>{{ recurso.contenido|traducir_dinamico }}</p>
+
+
+                                        {#Si el recurso tiene un archivo adjunto lo muestra#}
+                                        {% if recurso.archivoUrl %}
+                                            <div class="mb-3">
+                                                <a href="{{ asset('uploads/recursos/' ~ recurso.archivoUrl) }}" target="_blank" class="btn btn-outline-secondary">Ver archivo adjunto</a>
+                                               
+                                            </div>
+                                        {% endif %}
+
+                                        {#Si el ya sea visto es recurso se marcara tambien si no has visto el anterior, sino la opcion de ver y marcar#}
+                                        <div class="curso-usuario__acciones">
+                                            {% if ya_visto %}
+                                                <button type="button" class="btn btn-outline-secondary" disabled>Ya visto</button>
+                                            {% elseif bloqueado %}
+                                                <button type="button" class="btn btn-outline-secondary" disabled>Completa primero el recurso anterior</button>
+                                            {% else %}
+                                                <form method="post" action="{{ path('app_recurso_visto', {id: recurso.id}) }}">
+                                                    <input type="hidden" name="_token" value="{{ csrf_token('marcar_recurso_visto_' ~ recurso.id) }}">
+                                                    <button type="submit" class="btn btn-primary">Marcar como visto</button>
+                                                </form>
+                                            {% endif %}
+                                        </div>
+
+                                    </article>
+
+                                    {#Cambiamos el set para que en la siguiente iteracion sepa si ya vimos o no el recurso#}
+                                    {% set recurso_anterior_visto = ya_visto %}
+
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    {#Tareas#}
+                    <div class="mt-5">
+                        <h2 class="h4 mb-4">Tareas del curso</h2>
+
+                        {% if tareas is empty %}
+                            <div class="estado-vacio">
+                                <div class="estado-vacio__icono">0</div>
+                                <h3 class="estado-vacio__titulo">Todavía no hay tareas publicadas</h3>
+                                <p class="estado-vacio__texto">El profesor añadirá tareas cuando corresponda.</p>
+
+
+                            </div>
+                        {% else %}
+                            <div class="d-flex flex-column gap-3">
+                                {#Variable inicailizada en true para que la primera tarea no necesite que la anterior este aprobada#}
+                                {% set tarea_anterior_aprobada = true %}
+
+                                {#Lista de tareas#} 
+                                {% for tarea in tareas %}
+                                    {#Busca si existe una entrega para la tarea en el array enviado desde el controlador#}
+                                    {% set entrega = entregasPorTarea[tarea.id]|default(null) %}
+
+                                    {#Define las varibales segun el estado de la revision#}
+                                    {% set aprobada = entrega and entrega.estadoRevision == 'aprobada' %}
+                                    {% set suspendida = entrega and entrega.estadoRevision == 'suspensa' %}
+                                    {% set pendiente = entrega and entrega.estadoRevision == 'pendiente' %}
+                                    {#Variable de si la fecha actual es mayor a la fecha limite#}
+                                    {% set fueraDePlazo = tarea.fechaLimite and date() > tarea.fechaLimite %}
+                                    {#Variable de bloqueo si la anterior no esa aprobada#}
+                                    {% set bloqueada = not tarea_anterior_aprobada and not aprobada %}
+
+
+                                    <article class="curso-usuario">
+                                        <div class="curso-usuario__superior">
+                                            {#Seccion superior de la tarea con su estado#}
+                                            <span class="badge text-bg-secondary">Tarea</span>
+                                            <span class="curso-usuario__progreso">
+
+
+                                                {% if aprobada %}
+                                                    Aprobada
+                                                {% elseif suspendida %}
+                                                    Suspensa
+                                                {% elseif pendiente %}
+                                                    Pendiente de corrección
+                                                {% elseif fueraDePlazo %}
+                                                    Fuera de plazo
+                                                {% elseif bloqueada %}
+                                                    Bloqueada
+                                                {% else %}
+                                                    Pendiente
+                                                {% endif %}
+
+                                            </span>
+                                        </div>
+
+                                        {#Titulo y descripcion#}
+                                        <h3>{{ tarea.titulo|traducir_dinamico }}</h3>
+                                        <p>{{ tarea.descripcion|traducir_dinamico }}</p>
+
+                                        {#Fecha limite y nota si esta entregada#}
+                                        <div class="curso-usuario__meta">
+
+                                            <span>Fecha límite:
+                                                {{ tarea.fechaLimite ? tarea.fechaLimite|date('d/m/Y H:i') : 'Sin fecha límite' }}
+                                            </span>
+
+
+                                            {% if entrega and entrega.nota is not null %}
+                                                <span>Nota: {{ entrega.nota }}/100</span>
+                                            {% endif %}
+
+                                        </div>
+                                        
+                                        {#Si la tarea tiene archivo adjunto muestra el enlace#}
+                                        {% if tarea.archivoProfesor %}
+                                            <div class="mb-3">
+                                                <a href="{{ asset('uploads/tareas/' ~ tarea.archivoProfesor) }}" target="_blank" class="btn btn-outline-secondary">Ver archivo de la tarea</a>
+                                            </div>
+                                        {% endif %}
+
+                                        {#Detalles sobre la entrega su fue realizada#}
+                                        {% if entrega %}
+
+                                            <div class="curso-usuario__meta mb-3">
+                                                <span>Última entrega: {{ entrega.fechaEntrega|date('d/m/Y H:i') }}</span>
+                                                <span>Archivo: {{ entrega.archivoEntrega }}</span>
+                                            </div>
+
+                                            {#Respuesta del profesor con nota y comentario#}
+                                            {% if entrega.comentarioProfesor %}
+                                                <div class="mensaje-ui {{ aprobada ? 'mensaje-ui--exito' : (suspendida ? 'mensaje-ui--error' : 'mensaje-ui--exito') }} mb-3">
+                                                    <span>
+                                                        {{ aprobada ? 'Comentario del profesor:' : (suspendida ? 'Corrección del profesor:' : 'Entrega pendiente de corrección:') }}
+                                                        {{ entrega.comentarioProfesor }}
+                                                    </span>
+                                                </div>  
+                                            {% endif %}
+
+                                        {% endif %}
+
+                                        {#Acciones sobre la entrega segun el estado de la entrega#}
+                                        <div class="curso-usuario__acciones">
+                                            {% if bloqueada %}
+                                                <button type="button" class="btn btn-outline-secondary" disabled>Necesitas aprobar la tarea anterior</button>
+                                            {% elseif aprobada %}
+                                                <button type="button" class="btn btn-outline-secondary" disabled>Tarea aprobada</button>
+                                            {% elseif fueraDePlazo %}
+                                                <button type="button" class="btn btn-outline-danger" disabled>Plazo finalizado</button>
+                                            {% else %}
+                                                {#Formulario de entrega#}
+                                                <form method="post" action="{{ path('app_entregar_tarea', {id: tarea.id}) }}" enctype="multipart/form-data" class="w-100">
+                                                    <input type="hidden" name="_token" value="{{ csrf_token('entregar_tarea_' ~ tarea.id) }}">
+                                                   
+                                                    <div class="mb-3">
+                                                        <label class="form-label">Archivo de entrega</label>
+                                                        <input type="file" name="archivo_entrega" class="form-control" required>
+                                                    </div>
+
+
+                                                    <div class="mb-3">
+                                                        <label class="form-label">Comentario</label>
+                                                        <textarea name="comentario_entrega" class="form-control" rows="3" placeholder="Comentario opcional para el profesor">{{ entrega and entrega.comentario ? entrega.comentario|traducir_dinamico : '' }}</textarea>
+
+                                                    </div>
+
+                                                    <button type="submit" class="btn btn-primary">
+
+                                                        {% if suspendida %}
+                                                            Reenviar tarea
+                                                        {% elseif pendiente %}
+                                                            Actualizar entrega
+                                                        {% else %}
+                                                            Entregar tarea
+                                                        {% endif %}
+                                                    </button>
+
+
+                                                </form>
+                                            {% endif %}
+                                        </div>
+
+                                    </article>
+                                    {#Cambiamos la variable de anterior aprobada para la siguiente tarea#}
+                                    {% set tarea_anterior_aprobada = aprobada %}
+
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+
+                    </div>
+
+
+                </div>
+
+                {#Informacion sobre el acceso al curso#}
+                <aside class="visor-curso__panel">
+                    <h2 class="h5 mb-3">Información del acceso</h2>
+                    <ul class="visor-curso__lista">
+                        <li>El contenido se desbloquea solo con inscripción activa.</li>
+                        <li>El estudiante debe pagar y avisar del pago.</li>
+                        <li>El profesor valida manualmente la solicitud.</li>
+                        <li>Recursos y tareas deben completarse en orden.</li>
+                        <li>Las tareas solo cuentan para el progreso cuando están aprobadas.</li>
+                        <li>Si la fecha límite termina, la tarea ya no se puede entregar.</li>
+                    </ul>
+                    {#Enlace a la pagina de mis cursos#}
+                    <a href="{{ path('app_mis_cursos') }}" class="btn btn-outline-secondary w-100 mt-3">Volver a mis cursos</a>
+                </aside>
+
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}
