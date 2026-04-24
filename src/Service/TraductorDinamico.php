@@ -8,7 +8,8 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 class TraductorDinamico
 {
     private const CACHE_VERSION = 'v6_no_cache_on_failure';
-    private const API_URL = 'http://127.0.0.1:5000/translate';
+    private const API_URL = 'https://translate.fedilab.app/translate';
+    //private const API_URL = 'http://127.0.0.1:5000/translate';
     private const PROTECTED_TAGS = ['script', 'style', 'textarea'];
     private const PLACEHOLDER_ATTR = 'data-traductor-placeholder';
 
