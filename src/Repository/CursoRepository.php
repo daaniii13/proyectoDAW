@@ -19,24 +19,45 @@ class CursoRepository extends ServiceEntityRepository
     /* Método para obtener todos los cursos que están activos */
     public function buscarCursosActivos(): array
     {
-        return $this->createQueryBuilder('c') 
-            ->leftJoin('c.profesor', 'p') 
-            ->addSelect('p') 
-            ->where('c.estado = :estado') 
-            ->setParameter('estado', 'activo') 
-            ->orderBy('c.id', 'DESC') 
-            ->getQuery() 
-            ->getResult(); 
+        return $this->createQueryBuilder('c')
+            ->leftJoin('c.profesor', 'p')
+            ->addSelect('p')
+            ->where('c.estado = :estado')
+            ->setParameter('estado', 'activo')
+            ->orderBy('c.id', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
+
+    /* Método para obtener cursos activos filtrados por idioma del curso */
+    public function buscarCursosActivosPorIdioma(string $idioma): array
+    {
+        return $this->createQueryBuilder('c')
+            ->leftJoin('c.profesor', 'p')
+            ->addSelect('p')
+            ->where('c.estado = :estado')
+            ->andWhere('c.idioma = :idioma')
+            ->setParameter('estado', 'activo')
+            ->setParameter('idioma', $idioma)
+            ->orderBy('c.id', 'DESC')
+            ->getQuery()
+            ->getResult();
     }
 
     /* Buscar cursos activos con filtros opcionales */
-    public function buscarCursosActivosFiltrados(?string $busqueda, ?string $nivel, ?string $modalidad): array
+    public function buscarCursosActivosFiltrados(?string $busqueda, ?string $nivel, ?string $modalidad, ?string $idioma = null): array
     {
         $qb = $this->createQueryBuilder('c')
             ->leftJoin('c.profesor', 'p')
             ->addSelect('p')
             ->where('c.estado = :estado')
             ->setParameter('estado', 'activo');
+
+        /* Filtro por idioma del curso */
+        if ($idioma !== null && $idioma !== '') {
+            $qb->andWhere('c.idioma = :idioma')
+                ->setParameter('idioma', $idioma);
+        }
 
         /* Filtro por texto en título, descripción o nombre del profesor */
         if ($busqueda !== null && $busqueda !== '') {
@@ -69,9 +90,26 @@ class CursoRepository extends ServiceEntityRepository
             ->leftJoin('c.profesor', 'p')
             ->addSelect('p')
             ->where('(c.titulo LIKE :texto OR c.descripcion LIKE :texto OR p.nombre LIKE :texto)')
-            ->andWhere('c.estado = :estado') // Solo activos
+            ->andWhere('c.estado = :estado')
             ->setParameter('texto', '%' . $texto . '%')
             ->setParameter('estado', 'activo')
+            ->orderBy('c.id', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
+
+    /* Buscar cursos activos por texto y por idioma del curso */
+    public function buscarPorTextoEIdioma(string $texto, string $idioma): array
+    {
+        return $this->createQueryBuilder('c')
+            ->leftJoin('c.profesor', 'p')
+            ->addSelect('p')
+            ->where('(c.titulo LIKE :texto OR c.descripcion LIKE :texto OR p.nombre LIKE :texto)')
+            ->andWhere('c.estado = :estado')
+            ->andWhere('c.idioma = :idioma')
+            ->setParameter('texto', '%' . $texto . '%')
+            ->setParameter('estado', 'activo')
+            ->setParameter('idioma', $idioma)
             ->orderBy('c.id', 'DESC')
             ->getQuery()
             ->getResult();
@@ -92,11 +130,11 @@ class CursoRepository extends ServiceEntityRepository
     public function contarCursosDeProfesor(User $profesor): int
     {
         return (int) $this->createQueryBuilder('c')
-            ->select('COUNT(c.id)') // Conteo de cursos
+            ->select('COUNT(c.id)')
             ->where('c.profesor = :profesor')
             ->setParameter('profesor', $profesor)
             ->getQuery()
-            ->getSingleScalarResult(); // Devuelve un único valor
+            ->getSingleScalarResult();
     }
 
     /* Contar solo los cursos activos de un profesor */
@@ -105,7 +143,7 @@ class CursoRepository extends ServiceEntityRepository
         return (int) $this->createQueryBuilder('c')
             ->select('COUNT(c.id)')
             ->where('c.profesor = :profesor')
-            ->andWhere('c.estado = :estado') // Filtro adicional por estado
+            ->andWhere('c.estado = :estado')
             ->setParameter('profesor', $profesor)
             ->setParameter('estado', 'activo')
             ->getQuery()

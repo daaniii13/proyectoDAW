@@ -20,23 +20,33 @@ class ApiCursoController extends AbstractController
     ): JsonResponse {
         $busqueda = trim((string) $request->query->get('q', ''));
         $session = $request->getSession();
-        $locale = (string) $request->getLocale();
-        $destino = str_starts_with(strtolower($locale), 'en') ? 'en' : 'es';
+        $locale = strtolower((string) $request->getLocale());
+        $destino = str_starts_with($locale, 'en') ? 'en' : 'es';
+        $idiomaCurso = $destino === 'en' ? 'en' : 'es';
 
+        /* Guarda historial de búsquedas recientes */
+        $historialBusquedas = $session->get('busquedas_recientes_cursos', $session->get('busquedas', []));
         if ($busqueda !== '') {
-            $historialBusquedas = $session->get('busquedas', []);
             array_unshift($historialBusquedas, $busqueda);
-            $session->set('busquedas', array_slice(array_unique($historialBusquedas), 0, 10));
+            $historialBusquedas = array_values(array_unique(array_filter($historialBusquedas)));
+            $historialBusquedas = array_slice($historialBusquedas, 0, 10);
+
+            /* Mantiene compatibilidad con las dos claves antiguas */
+            $session->set('busquedas_recientes_cursos', $historialBusquedas);
+            $session->set('busquedas', $historialBusquedas);
         }
 
-        $traducirTexto = function (?string $texto) use ($traductorDinamico, $destino): string {
+        $traducirTexto = function (?string $texto) use ($traductorDinamico, $destino, $idiomaCurso): string {
             if ($texto === null || trim($texto) === '') {
                 return '';
             }
 
-            return $destino === 'en'
-                ? $traductorDinamico->traducir($texto, 'en', 'es')
-                : $texto;
+            /* Solo traduce automáticamente cuando el curso viene en español y la web está en inglés */
+            if ($destino === 'en' && $idiomaCurso === 'es') {
+                return $traductorDinamico->traducir($texto, 'en', 'es');
+            }
+
+            return $texto;
         };
 
         $mapearCurso = function ($curso) use ($traducirTexto) {
@@ -49,12 +59,14 @@ class ApiCursoController extends AbstractController
                 'profesor' => $curso->getProfesor()?->getNombre(),
                 'duracion' => $traducirTexto($curso->getDuracion()),
                 'precio' => $curso->getPrecio(),
+                'idioma' => $curso->getIdioma(),
                 'detalleUrl' => $this->generateUrl('app_detalle_curso', ['id' => $curso->getId()]),
             ];
         };
 
+        /* Resultados de búsqueda normales, pero ya filtrados por idioma del curso */
         if ($busqueda !== '') {
-            $resultados = $repo->buscarPorTexto($busqueda);
+            $resultados = $repo->buscarPorTextoEIdioma($busqueda, $idiomaCurso);
 
             if (!empty($resultados)) {
                 $dataResultados = array_map($mapearCurso, $resultados);
@@ -68,8 +80,8 @@ class ApiCursoController extends AbstractController
             }
         }
 
-        $cursos = $repo->buscarCursosActivos();
-
+        /* Recomendador por defecto y fallback sin resultados, siempre dentro del idioma actual */
+        $cursos = $repo->buscarCursosActivosPorIdioma($idiomaCurso);
         $data = array_map($mapearCurso, $cursos);
 
         $idsCursosClicados = $session->get('cursos_clicados_recientes', []);
@@ -80,8 +92,9 @@ class ApiCursoController extends AbstractController
         $payload = [
             'cursos' => $data,
             'busqueda_actual' => $busqueda,
-            'busquedas_recientes' => $session->get('busquedas', []),
+            'busquedas_recientes' => $historialBusquedas,
             'ids_cursos_clicados' => $idsCursosClicados,
+            'idioma_web' => $idiomaCurso,
         ];
 
         $tmp = tempnam(sys_get_temp_dir(), 'rec_');
@@ -89,27 +102,35 @@ class ApiCursoController extends AbstractController
 
         $script = $this->getParameter('kernel.project_dir') . '/python/recomendador.py';
 
-        $process = new Process(['python', $script, $tmp]);
-        $process->run();
+        $comandos = [
+            ['python', $script, $tmp],
+            ['python3', $script, $tmp],
+            ['py', $script, $tmp],
+        ];
 
-        unlink($tmp);
+        $salida = null;
+        $procesoCorrecto = false;
+
+        foreach ($comandos as $comando) {
+            $process = new Process($comando);
+            $process->run();
+
+            if ($process->isSuccessful()) {
+                $salida = json_decode($process->getOutput(), true);
+                $procesoCorrecto = is_array($salida);
+                if ($procesoCorrecto) {
+                    break;
+                }
+            }
+        }
+
+        @unlink($tmp);
 
         $mensajeSinResultados = $destino === 'en'
             ? 'No results were found for this search.'
             : 'No hay resultados para esta búsqueda.';
 
-        if (!$process->isSuccessful()) {
-            return $this->json([
-                'modo' => $busqueda === '' ? 'recomendados' : 'sin_resultados',
-                'cursos' => [],
-                'destacados' => array_slice($data, 0, 3),
-                'mensaje' => $busqueda === '' ? '' : $mensajeSinResultados,
-            ]);
-        }
-
-        $salida = json_decode($process->getOutput(), true);
-
-        if (!is_array($salida)) {
+        if (!$procesoCorrecto) {
             return $this->json([
                 'modo' => $busqueda === '' ? 'recomendados' : 'sin_resultados',
                 'cursos' => [],
@@ -119,32 +140,34 @@ class ApiCursoController extends AbstractController
         }
 
         if (isset($salida['cursos']) && is_array($salida['cursos'])) {
-            $salida['cursos'] = array_map(function (array $curso) use ($traducirTexto) {
+            $salida['cursos'] = array_map(function (array $curso) {
                 return [
                     'id' => $curso['id'] ?? null,
-                    'titulo' => $traducirTexto($curso['titulo'] ?? ''),
-                    'descripcion' => $traducirTexto($curso['descripcion'] ?? ''),
-                    'nivel' => $traducirTexto($curso['nivel'] ?? ''),
-                    'modalidad' => $traducirTexto($curso['modalidad'] ?? ''),
+                    'titulo' => $curso['titulo'] ?? '',
+                    'descripcion' => $curso['descripcion'] ?? '',
+                    'nivel' => $curso['nivel'] ?? '',
+                    'modalidad' => $curso['modalidad'] ?? '',
                     'profesor' => $curso['profesor'] ?? '',
-                    'duracion' => $traducirTexto($curso['duracion'] ?? ''),
+                    'duracion' => $curso['duracion'] ?? '',
                     'precio' => $curso['precio'] ?? null,
+                    'idioma' => $curso['idioma'] ?? null,
                     'detalleUrl' => $curso['detalleUrl'] ?? '',
                 ];
             }, $salida['cursos']);
         }
 
         if (isset($salida['destacados']) && is_array($salida['destacados'])) {
-            $salida['destacados'] = array_map(function (array $curso) use ($traducirTexto) {
+            $salida['destacados'] = array_map(function (array $curso) {
                 return [
                     'id' => $curso['id'] ?? null,
-                    'titulo' => $traducirTexto($curso['titulo'] ?? ''),
-                    'descripcion' => $traducirTexto($curso['descripcion'] ?? ''),
-                    'nivel' => $traducirTexto($curso['nivel'] ?? ''),
-                    'modalidad' => $traducirTexto($curso['modalidad'] ?? ''),
+                    'titulo' => $curso['titulo'] ?? '',
+                    'descripcion' => $curso['descripcion'] ?? '',
+                    'nivel' => $curso['nivel'] ?? '',
+                    'modalidad' => $curso['modalidad'] ?? '',
                     'profesor' => $curso['profesor'] ?? '',
-                    'duracion' => $traducirTexto($curso['duracion'] ?? ''),
+                    'duracion' => $curso['duracion'] ?? '',
                     'precio' => $curso['precio'] ?? null,
+                    'idioma' => $curso['idioma'] ?? null,
                     'detalleUrl' => $curso['detalleUrl'] ?? '',
                 ];
             }, $salida['destacados']);
