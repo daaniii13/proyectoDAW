@@ -1,26 +1,16 @@
-/* ==================================================
-   VARIABLES Y AJUSTE DEL CUERPO
-   ================================================== */
+/* VARIABLES Y AJUSTE DEL CUERPO */
 
-/* Definimos la altura de la barra de navegación como una variable global.
-   Esto es súper útil porque si algún día decides hacer la barra más alta o más baja,
-   solo cambias este valor y toda la web se adapta automáticamente.
-*/
+/* Definimos la altura de la barra de navegación como una variable global. */
 :root {
     --altura-navbar: 92px;
 }
 
-/* Como la barra de navegación tiene posición "fixed" (está flotando sobre la página),
-   sacaría al contenido principal de su sitio y lo taparía. 
-   Para evitarlo, empujamos todo el <body> hacia abajo exactamente la misma distancia que mide la barra.
-*/
+/* Como la barra de navegación tiene posición "fixed" (está flotando sobre la página), */
 body {
     padding-top: var(--altura-navbar);
 }
 
-/* ==================================================
-   BARRA DE NAVEGACIÓN PRINCIPAL (HEADER)
-   ================================================== */
+/* BARRA DE NAVEGACIÓN PRINCIPAL (HEADER) */
 
 .barra-navegacion {
     position: fixed; /* Fija la barra en la pantalla para que siempre sea visible al hacer scroll */
@@ -33,10 +23,7 @@ body {
     background-color: rgba(255, 255, 255, 0.96); /* Blanco con un 4% de transparencia */
     border-bottom: 1px solid var(--color-borde);
     
-    /* EFECTO GLASSMORPHISM (Cristal esmerilado)
-       Desenfoca todo lo que pase por debajo de la barra de navegación.
-       El prefijo -webkit- es necesario para que funcione bien en navegadores como Safari.
-    */
+    /* EFECTO GLASSMORPHISM (Cristal esmerilado) */
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     
@@ -63,9 +50,7 @@ body.tema-oscuro .barra-navegacion {
     position: relative;
 }
 
-/* ==================================================
-   LOGOTIPO / MARCA
-   ================================================== */
+/* LOGOTIPO / MARCA */
 
 .marca {
     font-size: 1.35rem;
@@ -80,9 +65,7 @@ body.tema-oscuro .barra-navegacion {
     color: var(--color-secundario);
 }
 
-/* ==================================================
-   ENLACES DEL MENÚ
-   ================================================== */
+/* ENLACES DEL MENÚ */
 
 .enlace-navegacion {
     position: relative;
@@ -108,9 +91,7 @@ body.tema-oscuro .barra-navegacion {
     background-color: rgba(37, 99, 235, 0.09);
 }
 
-/* ==================================================
-   BOTÓN DE ACCESO / LOGIN (Call To Action)
-   ================================================== */
+/* BOTÓN DE ACCESO / LOGIN (Call To Action) */
 
 /* Botón principal de la cabecera con efecto de flotabilidad al hacer hover */
 .boton-acceso {
@@ -137,9 +118,7 @@ body.tema-oscuro .barra-navegacion {
     box-shadow: 0 10px 22px rgba(37, 99, 235, 0.28);
 }
 
-/* ==================================================
-   MENÚ HAMBURGUESA (MÓVILES) - BOOTSTRAP OVERRIDES
-   ================================================== */
+/* MENÚ HAMBURGUESA (MÓVILES) - BOOTSTRAP OVERRIDES */
 
 /* Personalización del botón que abre el menú en móviles */
 .navbar-toggler {
@@ -153,11 +132,7 @@ body.tema-oscuro .barra-navegacion {
     border-color: var(--color-secundario);
 }
 
-/* TRUCO MAESTRO PARA EL ÍCONO HAMBURGUESA:
-   Bootstrap usa un SVG de fondo para el ícono. Para no tener que cambiar la imagen 
-   entera en modo oscuro, usamos filtros CSS.
-   'contrast(0.2)' lo hace gris oscuro por defecto.
-*/
+/* TRUCO MAESTRO PARA EL ÍCONO HAMBURGUESA: */
 .navbar-toggler-icon {
     filter: contrast(0.2);
 }
@@ -167,9 +142,7 @@ body.tema-oscuro .navbar-toggler-icon {
     filter: invert(1);
 }
 
-/* ==================================================
-   BLOQUE DEL USUARIO (Cuando está logueado)
-   ================================================== */
+/* BLOQUE DEL USUARIO (Cuando está logueado) */
 
 /* Contenedor que agrupa el avatar y el nombre del usuario logueado en la barra superior */
 .bloque-usuario-nav {
@@ -224,9 +197,7 @@ body.tema-oscuro .navbar-toggler-icon {
     line-height: 1.1;
 }
 
-/* ==================================================
-   SELECTOR DE IDIOMA FLOTANTE
-   ================================================== */
+/* SELECTOR DE IDIOMA FLOTANTE */
 
 /* Botón con menú desplegable para cambiar el idioma */
 .selector-idioma-flotante {
@@ -311,9 +282,7 @@ body:not(.tema-oscuro) .selector-idioma-flotante__boton:active {
     color: #111827;
 }
 
-/* ==================================================
-   RESPONSIVE DESIGN: TABLETS Y MÓVILES (MENÚ COLAPSABLE)
-   ================================================== */
+/* RESPONSIVE DESIGN: TABLETS Y MÓVILES (MENÚ COLAPSABLE) */
 
 @media (max-width: 1199.98px) {
     /* La barra de navegación es un poco más estrecha en móviles */
@@ -325,9 +294,7 @@ body:not(.tema-oscuro) .selector-idioma-flotante__boton:active {
         padding: 0.8rem 0;
     }
 
-    /* Estilos para el menú una vez que se abre ("colapsa") en móviles.
-       Se le da aspecto de una tarjeta flotante con sombras.
-    */
+    /* Estilos para el menú una vez que se abre ("colapsa") en móviles. */
     .barra-navegacion .navbar-collapse {
         margin-top: 0.9rem;
         padding: 1rem;
@@ -343,9 +310,7 @@ body:not(.tema-oscuro) .selector-idioma-flotante__boton:active {
         box-shadow: 0 16px 32px rgba(2, 6, 23, 0.32);
     }
 
-    /* Adaptación del selector de idioma para el menú móvil:
-       Ocupa todo el ancho en lugar de estar flotando a un lado.
-    */
+    /* Adaptación del selector de idioma para el menú móvil: */
     .selector-idioma-flotante {
         display: block;
         width: 100%;
@@ -369,9 +334,7 @@ body:not(.tema-oscuro) .selector-idioma-flotante__boton:active {
         margin-top: 0.45rem;
     }
 
-    /* El bloque del usuario pasa de estar alineado horizontalmente con una línea
-       a estar apilado verticalmente en el menú móvil.
-    */
+    /* El bloque del usuario pasa de estar alineado horizontalmente con una línea */
     .bloque-usuario-nav {
         margin-left: 0;
         padding-left: 0;
@@ -381,9 +344,7 @@ body:not(.tema-oscuro) .selector-idioma-flotante__boton:active {
     }
 }
 
-/* ==================================================
-   RESPONSIVE DESIGN: PANTALLAS MUY PEQUEÑAS (SMARTPHONES)
-   ================================================== */
+/* RESPONSIVE DESIGN: PANTALLAS MUY PEQUEÑAS (SMARTPHONES) */
 
 @media (max-width: 575.98px) {
     /* Barra aún más compacta */

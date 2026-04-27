@@ -1,10 +1,6 @@
-/* ==================================================
-   TESTIMONIOS REUTILIZABLES
-   ================================================== */
+/* TESTIMONIOS REUTILIZABLES */
 
-/* Contenedor principal de la tarjeta de testimonio.
-   Define la "caja" blanca con bordes redondeados y sombra suave.
-*/
+/* Contenedor principal de la tarjeta de testimonio. */
 .testimonio-base {
     padding: var(--espacio-6); /* Espacio interior generoso para que respire el texto */
     background-color: var(--color-superficie);

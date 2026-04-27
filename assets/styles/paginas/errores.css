@@ -1,14 +1,10 @@
-/* Estilos para la sección principal de las páginas de error. */
+/* Página de error (404, 500, etc.) */
 .seccion-error {
-    /* Aplica un generoso relleno vertical para centrar el mensaje. */
     padding: 6rem 0;
-    
-    /* Crea un fondo con un degradado suave de azul muy claro a gris. */
     background: linear-gradient(180deg, #f8fbff 0%, #f5f7fb 100%);
 }
 
-/* Ajustes visuales específicos cuando se activa el tema oscuro. */
+/* Tema oscuro */
 body.tema-oscuro .seccion-error {
-    /* Cambia el fondo a un azul marino muy oscuro para mantener la coherencia visual. */
     background: #0f172a;
 }

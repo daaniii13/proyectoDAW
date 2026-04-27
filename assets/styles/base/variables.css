@@ -1,132 +1,109 @@
-/* ==================================================
-   VARIABLES GLOBALES
-   ================================================== */
-
-/* La pseudo-clase :root selecciona el elemento raíz del documento (normalmente <html>).
-   Al definir las variables aquí, nos aseguramos de que estén disponibles globalmente
-   para ser usadas en cualquier parte de nuestra hoja de estilos.
-   Las variables CSS siempre empiezan con dos guiones (--).
-*/
+/* Variables globales de TeachingExplorer
+   Definidas en :root para estar disponibles en toda la hoja de estilos */
 :root {
-    /* Colores principales de la marca e interfaz */
-    --color-primario: #1e3a5f;       /* Azul marino oscuro, usado probablemente para títulos o cabeceras */
-    --color-primario-oscuro: #152b46; /* Versión más oscura para efectos al pasar el ratón (hover) */
-    --color-secundario: #2563eb;     /* Azul vibrante (estilo primary) para botones principales o enlaces */
-    --color-acento: #22c55e;         /* Verde esmeralda para destacar acciones, precios o novedades */
-    --color-acento-suave: #eaf7f0;   /* Fondo verde muy clarito para acompañar al color acento sin saturar */
+    /* Colores principales */
+    --color-primario: #1e3a5f;
+    --color-primario-oscuro: #152b46;
+    --color-secundario: #2563eb;       /* Azul corporativo: botones, enlaces activos */
+    --color-acento: #22c55e;           /* Verde: precios, novedades */
+    --color-acento-suave: #eaf7f0;
 
-    /* Fondos base de la aplicación */
-    --color-fondo: #f5f7fb;                 /* Gris/azul muy claro para el fondo general de la página */
-    --color-superficie: #ffffff;            /* Blanco puro para las tarjetas, paneles y contenedores */
-    --color-superficie-secundaria: #eef3f9; /* Un tono ligeramente gris para subpaneles o secciones secundarias */
+    /* Fondos */
+    --color-fondo: #f5f7fb;
+    --color-superficie: #ffffff;
+    --color-superficie-secundaria: #eef3f9;
 
-    /* Colores tipográficos (textos) */
-    --color-texto: #1f2937;       /* Gris casi negro para máxima legibilidad sin cansar la vista (mejor que #000) */
-    --color-texto-suave: #6b7280; /* Gris medio para descripciones, fechas, subtítulos o notas */
-    --color-texto-inverso: #ffffff; /* Texto blanco para cuando el fondo es oscuro (ej. texto dentro de botones) */
+    /* Texto */
+    --color-texto: #1f2937;
+    --color-texto-suave: #6b7280;
+    --color-texto-inverso: #ffffff;
 
-    /* Colores para líneas divisorias y bordes de tarjetas/inputs */
+    /* Bordes */
     --color-borde: #d8e1ec;
-    --color-borde-fuerte: #bfd2ea; /* Para bordes que necesiten más contraste (ej. un campo de texto al hacer click) */
+    --color-borde-fuerte: #bfd2ea;
 
-    /* Paleta semántica (Feedback visual para el usuario) */
-    --color-exito: #22c55e; /* Operaciones correctas (Success) */
-    --color-aviso: #f59e0b; /* Advertencias (Warning) */
-    --color-error: #ef4444; /* Fallos o acciones destructivas (Danger) */
-    --color-info: #2563eb;  /* Información neutral (Info) */
+    /* Estados de feedback (éxito, aviso, error, info) */
+    --color-exito: #22c55e;
+    --color-aviso: #f59e0b;
+    --color-error: #ef4444;
+    --color-info: #2563eb;
 
-    /* Familias tipográficas */
-    /* 'Inter' es la fuente principal. Si el dispositivo no la tiene, probará en orden con las siguientes */
+    /* Tipografía */
     --fuente-principal: "Inter", "Segoe UI", Arial, sans-serif;
     --fuente-secundaria: "Segoe UI", Arial, sans-serif;
 
-    /* Escala de tamaños de fuente (usando 'rem' para buena accesibilidad visual y escalado) */
-    --texto-xs: 0.75rem;    /* Extra pequeño (ej. etiquetas, insignias) */
-    --texto-sm: 0.875rem;   /* Pequeño (ej. texto secundario, ayudas en formularios) */
-    --texto-base: 1rem;     /* Tamaño normal por defecto (equivale típicamente a 16px) */
+    /* Escala de tamaños de fuente */
+    --texto-xs: 0.75rem;
+    --texto-sm: 0.875rem;
+    --texto-base: 1rem;
     --texto-md: 1.125rem;
     --texto-lg: 1.25rem;
     --texto-xl: 1.5rem;
     --texto-2xl: 2rem;
-    --texto-3xl: 2.75rem;   /* Títulos muy grandes (como el H1 de la portada) */
+    --texto-3xl: 2.75rem;
 
-    /* Grosor de la fuente (Font Weights) */
-    --peso-regular: 400; /* Texto normal de los párrafos */
-    --peso-medio: 500;   /* Ligeramente resaltado (útil para botones o nombres) */
-    --peso-semi: 600;    /* Seminegrita (títulos menores) */
-    --peso-bold: 700;    /* Negrita fuerte (títulos principales) */
+    /* Pesos de fuente */
+    --peso-regular: 400;
+    --peso-medio: 500;
+    --peso-semi: 600;
+    --peso-bold: 700;
 
-    /* Sistema de espaciados (márgenes y rellenos) matemático y consistente */
+    /* Espaciado */
     --espacio-1: 0.25rem;
     --espacio-2: 0.5rem;
     --espacio-3: 0.75rem;
-    --espacio-4: 1rem;    /* Espacio base estándar */
+    --espacio-4: 1rem;
     --espacio-5: 1.25rem;
     --espacio-6: 1.5rem;
     --espacio-8: 2rem;
     --espacio-10: 2.5rem;
     --espacio-12: 3rem;
-    --espacio-16: 4rem;   /* Espaciado grande entre secciones completas de la web */
+    --espacio-16: 4rem;
 
-    /* Bordes redondeados (Border Radius) */
+    /* Bordes redondeados */
     --radio-sm: 0.375rem;
-    --radio-md: 0.75rem;  /* Redondeo estándar moderno para tarjetas y botones */
+    --radio-md: 0.75rem;
     --radio-lg: 1rem;
     --radio-xl: 1.5rem;
-    --radio-pill: 999px;  /* Redondeo total (forma de pastilla) para badges o botones especiales */
+    --radio-pill: 999px;
 
-    /* Sombras para dar profundidad y jerarquía visual (Box Shadows) */
-    --sombra-suave: 0 8px 24px rgba(15, 23, 42, 0.06);  /* Sombra ligera para tarjetas base */
-    --sombra-media: 0 12px 32px rgba(15, 23, 42, 0.1);  /* Sombra media al hacer hover */
-    --sombra-fuerte: 0 16px 40px rgba(15, 23, 42, 0.14); /* Sombra pesada para menús desplegables o modales */
+    /* Sombras */
+    --sombra-suave: 0 8px 24px rgba(15, 23, 42, 0.06);
+    --sombra-media: 0 12px 32px rgba(15, 23, 42, 0.1);
+    --sombra-fuerte: 0 16px 40px rgba(15, 23, 42, 0.14);
 
-    /* Ancho máximo del contenedor principal para que el contenido no se estire demasiado en pantallas gigantes */
+    /* Ancho máximo del contenedor principal */
     --ancho-contenedor: 1280px;
 
-    /* Tiempos y curvas de animación estándar */
-    --transicion-rapida: 0.2s ease; /* Cambios rápidos (ej. Hover en botones o enlaces) */
-    --transicion-media: 0.3s ease;  /* Cambios más notables (ej. Abrir un menú o cambiar de modo claro a oscuro) */
+    /* Duraciones de transición */
+    --transicion-rapida: 0.2s ease;
+    --transicion-media: 0.3s ease;
 }
 
-/* ==================================================
-   TEMA OSCURO PROFESIONAL
-   ================================================== */
-
-/* Cuando el <body> recibe la clase 'tema-oscuro', las variables definidas aquí 
-   sobrescriben a las de :root. Es la magia de las variables CSS: no tienes 
-   que reescribir toda tu hoja de estilos, solo cambias los colores base y 
-   toda la interfaz se repinta automáticamente.
-*/
+/* Sobreescritura de variables para el tema oscuro */
 body.tema-oscuro {
-    /* Invertimos colores primarios para que destaquen sobre fondos oscuros */
     --color-primario: #e5e7eb;
     --color-primario-oscuro: #f8fafc;
-    --color-secundario: #3b82f6; /* Un azul ligeramente más claro para contrastar mejor con el negro */
+    --color-secundario: #3b82f6;
     --color-acento: #22c55e;
-    --color-acento-suave: rgba(34, 197, 94, 0.12); /* Usamos opacidad en vez de un color sólido para fondos suaves */
+    --color-acento-suave: rgba(34, 197, 94, 0.12);
 
-    /* Fondos muy oscuros en lugar de los grises/blancos originales */
     --color-fondo: #0b1220;
     --color-superficie: #111827;
     --color-superficie-secundaria: #172033;
 
-    /* El texto normal pasa a ser claro */
     --color-texto: #e5e7eb;
     --color-texto-suave: #94a3b8;
     --color-texto-inverso: #ffffff;
 
-    /* Los bordes se vuelven líneas sutiles con transparencia blanca/gris */
     --color-borde: rgba(148, 163, 184, 0.16);
     --color-borde-fuerte: rgba(148, 163, 184, 0.28);
 
-    /* Mantenemos los colores de estado pero asegurándonos de que se vean bien en pantallas oscuras */
     --color-exito: #22c55e;
     --color-aviso: #f59e0b;
     --color-error: #ef4444;
     --color-info: #3b82f6;
 
-    /* Las sombras en modo oscuro necesitan ser más pesadas y oscuras para notarse, 
-       ya que hay menos contraste con el fondo base. */
     --sombra-suave: 0 10px 26px rgba(0, 0, 0, 0.28);
     --sombra-media: 0 16px 36px rgba(0, 0, 0, 0.36);
     --sombra-fuerte: 0 20px 44px rgba(0, 0, 0, 0.45);

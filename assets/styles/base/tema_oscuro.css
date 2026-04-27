@@ -3,23 +3,15 @@
    PALETA PROFESIONAL
    ================================================== */
 
-/* Esta es la clase principal ("trigger").
-   Cuando el usuario cambia al modo oscuro, JavaScript añade la clase 'tema-oscuro' al <body>.
-   Al usar "body.tema-oscuro", nos aseguramos de que TODAS las reglas de este archivo 
-   solo se apliquen cuando el modo oscuro esté activo.
-*/
+/* Clase raíz del tema oscuro: JavaScript añade esta clase al <body> al activarlo */
 body.tema-oscuro {
     background-color: #0f172a; /* Fondo principal: un azul muy oscuro casi negro */
     color: #e5e7eb; /* Texto general: un gris muy claro para no cansar la vista */
 }
 
-/* ==================================================
-   TIPOGRAFÍA GENERAL
-   ================================================== */
+/* --- Tipografía --- */
 
-/* Todos los encabezados (H1 al H6) deben resaltar un poco más que el texto normal.
-   Se usa un blanco casi puro (#f8fafc). El !important asegura que sobreescriba a Bootstrap.
-*/
+/* Encabezados en blanco casi puro para contrastar sobre fondos oscuros */
 body.tema-oscuro h1,
 body.tema-oscuro h2,
 body.tema-oscuro h3,
@@ -29,7 +21,7 @@ body.tema-oscuro h6 {
     color: #f8fafc !important;
 }
 
-/* Párrafos, listas y elementos de texto base adquieren un gris claro amigable con la vista. */
+/* Texto base en gris claro */
 body.tema-oscuro p,
 body.tema-oscuro li,
 body.tema-oscuro label,
@@ -38,10 +30,7 @@ body.tema-oscuro small {
     color: #cbd5e1;
 }
 
-/* Textos secundarios o descriptivos (clases específicas de tu diseño).
-   Se les asigna un gris más apagado (#94a3b8) para establecer una jerarquía visual
-   y que no compitan con la información principal.
-*/
+/* Textos secundarios: color más apagado para jerarquía visual */
 body.tema-oscuro .texto-suave,
 body.tema-oscuro .hero-inicio__texto,
 body.tema-oscuro .mis-cursos__texto,
@@ -57,13 +46,9 @@ body.tema-oscuro .seccion-testimonios__cabecera p {
     color: #94a3b8 !important;
 }
 
-/* ==================================================
-   FONDOS POR SECCIÓN
-   ================================================== */
+/* --- Fondos de secciones principales --- */
 
-/* Todas las secciones principales o contenedores grandes de la web heredan 
-   el color de fondo principal muy oscuro para mantener la coherencia.
-*/
+/* Aplica el fondo oscuro principal a todas las secciones */
 body.tema-oscuro .hero-inicio,
 body.tema-oscuro .seccion-mis-cursos,
 body.tema-oscuro .seccion-detalle-curso,
@@ -79,27 +64,21 @@ body.tema-oscuro .seccion-destacados {
     background: #0f172a !important;
 }
 
-/* ==================================================
-   BARRA SUPERIOR Y NAVEGACIÓN
-   ================================================== */
+/* --- Navegación --- */
 
-/* La barra donde se reproduce el curso o barras secundarias superiores.
-   Usa un tono un pelín más claro que el fondo base para diferenciarse ligeramente.
-*/
+/* Barra secundaria superior */
 body.tema-oscuro .barra-previsualizacion {
     background-color: #111827 !important;
     border-bottom: 1px solid rgba(148, 163, 184, 0.12) !important;
 }
 
-/* La barra de navegación principal (Header).
-   Tiene un poco de transparencia (0.94) por si usas un efecto blur (cristal) detrás.
-*/
+/* Navbar principal con ligera transparencia */
 body.tema-oscuro .barra-navegacion {
     background-color: rgba(15, 23, 42, 0.94) !important;
     border-bottom: 1px solid rgba(148, 163, 184, 0.12) !important;
 }
 
-/* Asegura que el logo (marca) y los enlaces del menú sean de color blanco puro. */
+/* Logo y enlaces del menú en blanco */
 body.tema-oscuro .marca,
 body.tema-oscuro .enlace-navegacion,
 body.tema-oscuro .barra-previsualizacion__titulo,
@@ -108,15 +87,9 @@ body.tema-oscuro .interruptor-tema__texto {
     color: #f8fafc !important;
 }
 
-/* ==================================================
-   TARJETAS Y PANELES PRINCIPALES (ELEVACIÓN 1)
-   ================================================== */
+/* --- Tarjetas y paneles (elevación 1) --- */
 
-/* En el modo oscuro, la profundidad (sombras) no se nota tanto.
-   La técnica estándar es hacer que los elementos "superpuestos" (como tarjetas) 
-   tengan un color de fondo ligeramente más claro (#111827) que el fondo de la página.
-   También se les añade un borde sutil para enmarcarlas.
-*/
+/* Tarjetas con fondo más claro que el fondo base para crear profundidad */
 body.tema-oscuro .tarjeta-base,
 body.tema-oscuro .curso-usuario,
 body.tema-oscuro .tarjeta-destacada,
@@ -142,13 +115,9 @@ body.tema-oscuro .buscador-cursos .card {
     box-shadow: 0 18px 38px rgba(0, 0, 0, 0.28) !important; /* Sombra más oscura para dar volumen */
 }
 
-/* ==================================================
-   SUBPANELES (ELEVACIÓN 2)
-   ================================================== */
+/* --- Subpaneles dentro de tarjetas (elevación 2) --- */
 
-/* Elementos que van DENTRO de las tarjetas (aún más elevados).
-   Se aclaran un paso más (#1e293b) para crear una escalera visual correcta.
-*/
+/* Elementos anidados un tono más claro */
 body.tema-oscuro .profesor__tarjeta-resumen,
 body.tema-oscuro .profesor__fila,
 body.tema-oscuro .profesor__solicitud,
@@ -164,7 +133,7 @@ body.tema-oscuro .buscador-cursos__filtros {
     border-color: rgba(148, 163, 184, 0.14) !important;
 }
 
-/* Elementos activos o destacados dentro de un subpanel (ej. módulo de curso actual) */
+/* Estado activo dentro de subpanel */
 body.tema-oscuro .profesor__fila--cabecera,
 body.tema-oscuro .suscripcion__tarjeta--activa,
 body.tema-oscuro .visor-curso__modulo--activo {
@@ -172,13 +141,9 @@ body.tema-oscuro .visor-curso__modulo--activo {
     border-color: rgba(59, 130, 246, 0.28) !important; /* Borde con tinte azulado */
 }
 
-/* ==================================================
-   TEXTOS DENTRO DE TARJETAS
-   ================================================== */
+/* --- Textos dentro de tarjetas --- */
 
-/* Asegura que todos los textos interiores de las tarjetas tengan contraste 
-   suficiente contra los fondos aclarados que definimos arriba.
-*/
+/* Texto claro para contrastar con fondos oscuros de las tarjetas */
 body.tema-oscuro .curso-usuario h3,
 body.tema-oscuro .curso-usuario p,
 body.tema-oscuro .curso-usuario span,
@@ -202,13 +167,9 @@ body.tema-oscuro .modulo-curso p {
     color: #cbd5e1 !important;
 }
 
-/* ==================================================
-   ETIQUETAS SUAVES (BADGES Y PILLS CUSTOM)
-   ================================================== */
+/* --- Etiquetas (badges) en modo oscuro --- */
 
-/* Diseño de "cristal tintado" para las etiquetas de categoría, niveles, etc.
-   Fondo azul muy transparente con texto azul pastel para que brille sutilmente.
-*/
+/* Estilo cristal azulado para etiquetas de categoría */
 body.tema-oscuro .detalle-curso__datos span,
 body.tema-oscuro .autenticacion__etiqueta,
 body.tema-oscuro .mis-cursos__etiqueta,
@@ -219,7 +180,7 @@ body.tema-oscuro .panel-vue__etiqueta {
     border: 1px solid rgba(59, 130, 246, 0.18);
 }
 
-/* Pequeñas variaciones de etiquetas para el detalle del curso */
+/* Variaciones de etiquetas en detalle del curso */
 body.tema-oscuro .detalle-curso__etiqueta {
     background-color: rgba(59, 130, 246, 0.16) !important;
     color: #bfdbfe !important;
@@ -232,13 +193,9 @@ body.tema-oscuro .detalle-curso__datos span {
     border-color: rgba(148, 163, 184, 0.16) !important;
 }
 
-/* ==================================================
-   ARREGLO 1: PANELES VISUALES DE AUTENTICACIÓN
-   ================================================== */
+/* --- Panel informativo de autenticación en modo oscuro --- */
 
-/* En el modo oscuro, la mitad del formulario de login es oscura, pero la parte 
-   decorativa/informativa mantiene un degradado azul vibrante para no perder la marca.
-*/
+/* Panel lateral de login mantiene degradado azul vibrante */
 body.tema-oscuro .autenticacion__panel--informacion,
 body.tema-oscuro .autenticacion__panel--destacado,
 body.tema-oscuro .autenticacion__panel--visual {
@@ -247,14 +204,14 @@ body.tema-oscuro .autenticacion__panel--visual {
     box-shadow: 0 18px 40px rgba(0, 0, 0, 0.28) !important;
 }
 
-/* Fuerza el texto de estos paneles azules a ser casi blanco */
+/* Texto blanco en paneles azules */
 body.tema-oscuro .autenticacion__panel--informacion *,
 body.tema-oscuro .autenticacion__panel--destacado *,
 body.tema-oscuro .autenticacion__panel--visual * {
     color: #eff6ff !important;
 }
 
-/* Ajusta las etiquetas que van sobre el fondo azul brillante para que sean blancas translúcidas */
+/* Etiquetas sobre fondo azul: blancas translúcidas */
 body.tema-oscuro .autenticacion__panel--informacion .autenticacion__etiqueta,
 body.tema-oscuro .autenticacion__panel--destacado .autenticacion__etiqueta,
 body.tema-oscuro .autenticacion__panel--visual .autenticacion__etiqueta {
@@ -263,13 +220,9 @@ body.tema-oscuro .autenticacion__panel--visual .autenticacion__etiqueta {
     border-color: rgba(255, 255, 255, 0.18) !important;
 }
 
-/* ==================================================
-   CAMPOS DE FORMULARIO (INPUTS)
-   ================================================== */
+/* --- Campos de formulario --- */
 
-/* Adapta las cajas de texto (inputs, textareas, selects) de Bootstrap al tema oscuro.
-   Fondo oscuro, texto blanco y bordes suaves.
-*/
+/* Inputs con fondo oscuro y texto claro */
 body.tema-oscuro .form-control,
 body.tema-oscuro .form-select,
 body.tema-oscuro textarea,
@@ -280,16 +233,14 @@ body.tema-oscuro select {
     border-color: rgba(148, 163, 184, 0.18) !important;
 }
 
-/* Asegura que el texto de ayuda ("placeholder") sea visible pero sutil */
+/* Placeholder en gris suave */
 body.tema-oscuro .form-control::placeholder,
 body.tema-oscuro textarea::placeholder,
 body.tema-oscuro input::placeholder {
     color: #94a3b8 !important;
 }
 
-/* Estado Focus (cuando el usuario hace clic para escribir).
-   Borde azul brillante y un anillo exterior (box-shadow) azul transparente.
-*/
+/* Focus con borde azul y anillo exterior */
 body.tema-oscuro .form-control:focus,
 body.tema-oscuro .form-select:focus,
 body.tema-oscuro textarea:focus,
@@ -301,27 +252,23 @@ body.tema-oscuro select:focus {
     box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.16) !important;
 }
 
-/* ==================================================
-   BOTONES SECUNDARIOS (OUTLINE)
-   ================================================== */
+/* --- Botones secundarios --- */
 
-/* Botones con borde transparente y texto gris por defecto */
+/* Outline button adaptado al tema oscuro */
 body.tema-oscuro .btn-outline-secondary {
     color: #cbd5e1 !important;
     border-color: rgba(148, 163, 184, 0.28) !important;
     background-color: transparent !important;
 }
 
-/* Al pasar el ratón (hover), se rellenan de un tono gris azulado oscuro */
+/* Hover: se rellena de gris oscuro */
 body.tema-oscuro .btn-outline-secondary:hover {
     color: #ffffff !important;
     background-color: #1f2937 !important;
     border-color: #475569 !important;
 }
 
-/* ==================================================
-   ARREGLO 2: CORRECCIÓN DE BADGES (PIQUETES) DE BOOTSTRAP
-   ================================================== */
+/* --- Badges de Bootstrap en modo oscuro --- */
 
 /* Bootstrap usa etiquetas (badges) grises claras o blancas por defecto (text-bg-light).
    En modo oscuro, eso es ilegible o chirría a la vista. Las forzamos a ser oscuras.
@@ -336,7 +283,7 @@ body.tema-oscuro .badge.text-bg-light {
     border: 1px solid rgba(148, 163, 184, 0.18) !important;
 }
 
-/* Fuerza el texto blanco puro en los badges que tienen fondos fuertes (azul, verde, etc.) */
+/* Texto blanco en paneles azules */
 body.tema-oscuro .badge.text-bg-primary,
 body.tema-oscuro .badge.text-bg-success,
 body.tema-oscuro .badge.text-bg-warning,
@@ -344,11 +291,9 @@ body.tema-oscuro .badge.text-bg-info {
     color: #ffffff !important;
 }
 
-/* ==================================================
-   PLACEHOLDERS VISUALES (CAJAS VACÍAS)
-   ================================================== */
+/* --- Placeholders de vídeo y mapa --- */
 
-/* Cuando falta un vídeo o un mapa, se muestra una caja con un degradado sutil oscuro */
+/* Caja de placeholder con degradado oscuro */
 body.tema-oscuro .visor-curso__video-placeholder,
 body.tema-oscuro .contacto__mapa-placeholder {
     background: linear-gradient(135deg, #1e293b 0%, #243247 100%) !important;
@@ -356,9 +301,7 @@ body.tema-oscuro .contacto__mapa-placeholder {
     color: #cbd5e1 !important;
 }
 
-/* ==================================================
-   PIE DE PÁGINA (FOOTER)
-   ================================================== */
+/* --- Footer --- */
 
 /* El footer funciona como el "suelo" de la aplicación.
    Suele llevar el color más oscuro de toda la paleta (#0b1220).
@@ -375,14 +318,12 @@ body.tema-oscuro footer * {
     color: #cbd5e1 !important;
 }
 
-/* Garantiza que el área principal de contenido (<main>) mantenga el fondo oscuro general */
+/* Main mantiene el fondo oscuro general */
 body.tema-oscuro main {
     background-color: #0f172a !important;
 }
 
-/* ==================================================
-   ETIQUETAS DE INTRO / PILLS EN MODO OSCURO
-   ================================================== */
+/* --- Pills de sección en modo oscuro --- */
 html.tema-oscuro .hero-inicio__etiqueta,
 html.tema-oscuro .seccion-destacados__etiqueta,
 html.tema-oscuro .seccion-testimonios__etiqueta,

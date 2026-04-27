@@ -1,10 +1,6 @@
-/* ==================================================
-   PÁGINAS DE CURSOS
-   ================================================== */
+/* PÁGINAS DE CURSOS */
 
-/* Contenedor común para las tres grandes áreas de cursos.
-   Aplica un espaciado vertical generoso y un degradado de fondo suave.
-*/
+/* Contenedor común para las tres grandes áreas de cursos. */
 .seccion-mis-cursos,
 .seccion-detalle-curso,
 .seccion-visor-curso {
@@ -19,9 +15,7 @@
     max-width: 1280px;
 }
 
-/* Encabezados de página. Se limita el ancho máximo para que el texto 
-   no se extienda demasiado horizontalmente.
-*/
+/* Encabezados de página. Se limita el ancho máximo para que el texto */
 .mis-cursos__cabecera,
 .visor-curso__cabecera,
 .bloque-comentarios__cabecera {
@@ -44,15 +38,9 @@
     border-radius: var(--radio-pill);
 }
 
-/* ==================================================
-   LISTADO DE CURSOS (MIS CURSOS)
-   ================================================== */
+/* LISTADO DE CURSOS (MIS CURSOS) */
 
-/* Cuadrícula Inteligente: 
-   'repeat(auto-fit, minmax(320px, 1fr))' crea tantas columnas como quepan
-   de al menos 320px. Si no caben más, se estiran para ocupar el resto (1fr). 
-   ¡Es totalmente responsivo sin usar media queries!
-*/
+/* Cuadrícula Inteligente: */
 .mis-cursos__grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -127,9 +115,7 @@
     color: var(--color-texto);
 }
 
-/* Contenedor de botones al final de la tarjeta. 
-   'margin-top: auto' empuja los botones siempre al final si la tarjeta crece. 
-*/
+/* Contenedor de botones al final de la tarjeta. */
 .curso-usuario__acciones {
     display: flex;
     gap: var(--espacio-3);
@@ -145,9 +131,7 @@
     font-weight: var(--peso-semi);
 }
 
-/* ==================================================
-   PÁGINA DE DETALLE Y VISOR
-   ================================================== */
+/* PÁGINA DE DETALLE Y VISOR */
 
 /* Contenedor de la imagen principal del curso */
 .detalle-curso__banner {
@@ -166,10 +150,7 @@
     object-fit: cover; /* Ajusta la imagen al hueco sin deformarla */
 }
 
-/* Layout de dos columnas:
-   1.25fr para el contenido principal (más ancho).
-   0.75fr para la columna lateral (mínimo 280px).
-*/
+/* Layout de dos columnas: */
 .detalle-curso__hero,
 .visor-curso__hero {
     display: grid;
@@ -250,9 +231,7 @@
     margin: 0 0 1.5rem 0;
 }
 
-/* ==================================================
-   BARRA DE PROGRESO PERSONALIZADA
-   ================================================== */
+/* BARRA DE PROGRESO PERSONALIZADA */
 
 .barra-progreso-curso {
     width: 100%;
@@ -281,9 +260,7 @@
     white-space: nowrap;
 }
 
-/* ==================================================
-   BLOQUE DE COMENTARIOS
-   ================================================== */
+/* BLOQUE DE COMENTARIOS */
 
 .bloque-comentarios {
     margin-top: 4rem;
@@ -313,9 +290,7 @@
     color: var(--color-texto-suave);
 }
 
-/* ==================================================
-   ESTADO VACÍO (Empty State)
-   ================================================== */
+/* ESTADO VACÍO (Empty State) */
 
 .estado-vacio {
     padding: var(--espacio-7);
@@ -351,9 +326,7 @@
     line-height: 1.7;
 }
 
-/* ==================================================
-   RESPONSIVE DESIGN (Adaptación a pantallas)
-   ================================================== */
+/* RESPONSIVE DESIGN (Adaptación a pantallas) */
 
 /* En tablets y móviles, las dos columnas pasan a ser una sola */
 @media (max-width: 991.98px) {
@@ -382,9 +355,7 @@
     }
 }
 
-/* ==================================================
-   FIX BOTÓN "VER DETALLE" EN BUSCADOR (VUE)
-   ================================================== */
+/* FIX BOTÓN "VER DETALLE" EN BUSCADOR (VUE) */
 
 .buscador-cursos-vue .btn.btn-primary {
     background: linear-gradient(90deg, #2563eb, #3b82f6) !important;

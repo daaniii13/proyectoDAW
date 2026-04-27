@@ -1,6 +1,4 @@
-/* ==================================================
-   PÁGINA DE AJUSTES
-   ================================================== */
+/* PÁGINA DE AJUSTES */
 
 /* Contenedor principal de toda la página de ajustes. */
 .seccion-ajustes {
@@ -34,9 +32,7 @@
     border-radius: var(--radio-pill);
 }
 
-/* Título principal de la página. 
-   Usa clamp() para que la letra sea enorme en PC (4rem) pero se encoja sola en móviles (2.3rem).
-*/
+/* Título principal de la página. */
 .ajustes__cabecera h1 {
     margin-bottom: var(--espacio-4);
     font-size: clamp(2.3rem, 4vw, 4rem);
@@ -51,9 +47,7 @@
     color: var(--color-texto-suave);
 }
 
-/* ==================================================
-   GRID Y BLOQUES DE AJUSTES
-   ================================================== */
+/* GRID Y BLOQUES DE AJUSTES */
 
 /* Define una cuadrícula de 2 columnas iguales para organizar los paneles de ajustes */
 .ajustes__grid {
@@ -71,9 +65,7 @@
     box-shadow: var(--sombra-suave);
 }
 
-/* Modificador: Si queremos que un panel ocupe todo el ancho (las 2 columnas)
-   'grid-column: 1 / -1' le dice que empiece en la primera línea y termine en la última.
-*/
+/* Modificador: Si queremos que un panel ocupe todo el ancho (las 2 columnas) */
 .ajustes__bloque--ancho {
     grid-column: 1 / -1;
 }
@@ -98,9 +90,7 @@
     font-weight: var(--peso-semi);
 }
 
-/* ==================================================
-   BOTONES PARA ELEGIR TEMA (CLARO / OSCURO)
-   ================================================== */
+/* BOTONES PARA ELEGIR TEMA (CLARO / OSCURO) */
 
 .ajustes__tema-botones {
     display: flex;
@@ -163,9 +153,7 @@ body.tema-oscuro .ajustes__tema-boton--activo {
     }
 }
 
-/* ==================================================
-   CAMPOS DE CONTRASEÑA ESPECÍFICOS PARA AJUSTES
-   ================================================== */
+/* CAMPOS DE CONTRASEÑA ESPECÍFICOS PARA AJUSTES */
 
 .campo-password {
     position: relative;
@@ -241,9 +229,7 @@ body.tema-oscuro .ajustes__tema-boton--activo {
     display: block;
 }
 
-/* ==================================================
-   TARJETAS DE SUSCRIPCIÓN (Planes)
-   ================================================== */
+/* TARJETAS DE SUSCRIPCIÓN (Planes) */
 
 /* Cuadrícula para mostrar los planes uno al lado del otro */
 .suscripcion__estado {
@@ -259,9 +245,7 @@ body.tema-oscuro .ajustes__tema-boton--activo {
     border-radius: var(--radio-xl);
 }
 
-/* Diferenciador visual clave: El plan que el usuario tiene contratado actualmente
-   tiene un fondo azulado y bordes resaltados.
-*/
+/* Diferenciador visual clave: El plan que el usuario tiene contratado actualmente */
 .suscripcion__tarjeta--activa {
     background-color: #f1f7ff;
     border-color: #bfd2ea;
@@ -289,9 +273,7 @@ body.tema-oscuro .ajustes__tema-boton--activo {
     line-height: 1.7;
 }
 
-/* ==================================================
-   ADAPTACIONES AL MODO OSCURO
-   ================================================== */
+/* ADAPTACIONES AL MODO OSCURO */
 
 body.tema-oscuro .seccion-ajustes {
     background: linear-gradient(180deg, #07111f 0%, #08101d 100%); /* Degradado mucho más oscuro */
@@ -307,9 +289,7 @@ body.tema-oscuro .campo-password__toggle { color: #94a3b8; }
 body.tema-oscuro .campo-password__toggle:hover { color: #dbeafe; background-color: rgba(148, 163, 184, 0.12); }
 body.tema-oscuro .campo-password__toggle--activo { color: #ffffff; background-color: rgba(59, 130, 246, 0.2); }
 
-/* ==================================================
-   RESPONSIVE DESIGN
-   ================================================== */
+/* RESPONSIVE DESIGN */
 
 /* TABLETS: Menos de 992px */
 @media (max-width: 991.98px) {

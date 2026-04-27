@@ -1,10 +1,6 @@
-/* ==================================================
-   PÁGINA DEL PROFESOR
-   ================================================== */
+/* PÁGINA DEL PROFESOR */
 
-/* ==================================================
-   BASE CLARA
-   ================================================== */
+/* BASE CLARA */
 
 .seccion-profesor {
     padding: 5rem 0;
@@ -16,9 +12,7 @@
     max-width: 1280px;
 }
 
-/* ==================================================
-   CABECERA
-   ================================================== */
+/* CABECERA */
 
 .profesor__cabecera {
     display: flex;
@@ -61,9 +55,7 @@
     margin-bottom: 1.5rem;
 }
 
-/* ==================================================
-   GRID Y BLOQUES
-   ================================================== */
+/* GRID Y BLOQUES */
 
 .profesor__grid {
     display: grid;
@@ -111,9 +103,7 @@
     color: inherit;
 }
 
-/* ==================================================
-   RESUMEN DEL PLAN
-   ================================================== */
+/* RESUMEN DEL PLAN */
 
 .profesor__resumen-plan {
     padding: 1.35rem;
@@ -150,9 +140,7 @@
     line-height: 1.7;
 }
 
-/* ==================================================
-   FORMULARIOS
-   ================================================== */
+/* FORMULARIOS */
 
 .profesor__formulario .form-control,
 .profesor__formulario .form-select,
@@ -174,9 +162,7 @@
     min-height: 140px;
 }
 
-/* ==================================================
-   TARJETAS DE CURSOS / BLOQUES REUTILIZADOS
-   ================================================== */
+/* TARJETAS DE CURSOS / BLOQUES REUTILIZADOS */
 
 .curso-usuario {
     background: #ffffff;
@@ -234,9 +220,7 @@
     color: #64748b;
 }
 
-/* ==================================================
-   TABLA DE ENTREGAS
-   ================================================== */
+/* TABLA DE ENTREGAS */
 
 .profesor__tabla-entregas {
     margin-bottom: 0;
@@ -311,9 +295,7 @@
     border-color: #94a3b8 !important;
 }
 
-/* ==================================================
-   MODO CLARO EXPLÍCITO
-   ================================================== */
+/* MODO CLARO EXPLÍCITO */
 
 body:not(.tema-oscuro) .seccion-profesor {
     background: linear-gradient(180deg, #f8fbff 0%, #f5f7fb 100%);
@@ -376,9 +358,7 @@ body:not(.tema-oscuro) .profesor__formulario textarea {
     border-color: #cbd5e1 !important;
 }
 
-/* ==================================================
-   MODO OSCURO
-   ================================================== */
+/* MODO OSCURO */
 
 body.tema-oscuro .seccion-profesor {
     background: linear-gradient(180deg, #0b1220 0%, #0f172a 100%);
@@ -553,9 +533,7 @@ body.tema-oscuro .profesor__tabla-entregas .btn-outline-secondary:hover {
     border-color: rgba(148, 163, 184, 0.36) !important;
 }
 
-/* ==================================================
-   RESPONSIVE
-   ================================================== */
+/* RESPONSIVE */
 
 @media (max-width: 991.98px) {
     .profesor__grid {
@@ -583,9 +561,7 @@ body.tema-oscuro .profesor__tabla-entregas .btn-outline-secondary:hover {
     }
 }
 
-/* ==================================================
-   BADGES AZULES EN GESTIÓN DOCENTE (MODO CLARO)
-   ================================================== */
+/* BADGES AZULES EN GESTIÓN DOCENTE (MODO CLARO) */
 
 body:not(.tema-oscuro) .seccion-profesor .badge.text-bg-primary,
 body:not(.tema-oscuro) .seccion-profesor .badge.bg-primary,

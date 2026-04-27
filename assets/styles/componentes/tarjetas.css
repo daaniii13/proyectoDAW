@@ -1,10 +1,6 @@
-/* ==================================================
-   TARJETAS REUTILIZABLES (CARDS)
-   ================================================== */
+/* TARJETAS REUTILIZABLES (CARDS) */
 
-/* Contenedor principal de la tarjeta. 
-   Es la "caja" blanca donde meteremos cursos, testimonios, etc.
-*/
+/* Contenedor principal de la tarjeta. */
 .tarjeta-base {
     padding: var(--espacio-6);
     background-color: var(--color-superficie);
@@ -46,22 +42,15 @@
     align-items: center; /* Centra los elementos verticalmente */
     gap: var(--espacio-3); /* Separación mínima por si los elementos se juntan mucho */
     
-    /* El margin-top: auto es un truco maestro. Si la tarjeta es más alta que su contenido,
-       esto empuja al pie obligatoriamente hasta el fondo de la tarjeta. */
+    /* El margin-top: auto es un truco maestro. Si la tarjeta es más alta que su contenido, */
     margin-top: auto; 
     
     flex-wrap: wrap; /* Si la pantalla es muy pequeña, permite que los botones salten a la siguiente línea */
 }
 
-/* ==================================================
-   MEJORAS DE INTERACCIÓN EN TARJETAS (ACCESIBILIDAD)
-   ================================================== */
+/* MEJORAS DE INTERACCIÓN EN TARJETAS (ACCESIBILIDAD) */
 
-/* :focus-within es una maravilla de CSS. 
-   Significa: "Aplica estos estilos a la tarjeta si el usuario hace foco 
-   (con el teclado o el ratón) en CUALQUIER enlace o botón que esté DENTRO de ella".
-   Así, los usuarios que navegan con el tabulador saben perfectamente en qué tarjeta están.
-*/
+/* :focus-within es una maravilla de CSS. */
 .tarjeta-base:focus-within {
     border-color: rgba(59, 130, 246, 0.35); /* Borde azulado */
     box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.08), var(--sombra-media); /* Anillo de luz exterior azul */
@@ -73,9 +62,7 @@ body.tema-oscuro .tarjeta-base:focus-within {
     box-shadow: 0 0 0 4px rgba(96, 165, 250, 0.12), var(--sombra-media);
 }
 
-/* ==================================================
-   ESTADOS VACÍOS Y MENSAJES VISUALES
-   ================================================== */
+/* ESTADOS VACÍOS Y MENSAJES VISUALES */
 
 /* Estilos para cuando no hay resultados (ej. "No tienes cursos", "Buscador vacío"). */
 .estado-vacio {
@@ -161,10 +148,7 @@ body.tema-oscuro .estado-vacio__texto {
     color: #94a3b8;
 }
 
-/* En modo oscuro, en lugar de usar fondos sólidos pastel, usamos negro/gris oscuro 
-   y teñimos el fondo con una capa muy sutil (rgba) del color correspondiente, 
-   para no romper la estética oscura.
-*/
+/* En modo oscuro, en lugar de usar fondos sólidos pastel, usamos negro/gris oscuro */
 body.tema-oscuro .mensaje-ui--info {
     color: #bfdbfe; background-color: rgba(37, 99, 235, 0.14); border-color: rgba(59, 130, 246, 0.22);
 }
@@ -181,14 +165,9 @@ body.tema-oscuro .mensaje-ui--error {
     color: #fecaca; background-color: rgba(239, 68, 68, 0.12); border-color: rgba(239, 68, 68, 0.2);
 }
 
-/* ==================================================
-   UNIFICACIÓN DE PANELES (Layouts generales)
-   ================================================== */
+/* UNIFICACIÓN DE PANELES (Layouts generales) */
 
-/* Similar a una tarjeta base, pero pensada para contener secciones enteras 
-   (como un formulario de ajustes gigante) en lugar de pequeños ítems repetidos.
-   No tiene efecto Hover.
-*/
+/* Similar a una tarjeta base, pero pensada para contener secciones enteras */
 .panel-unificado {
     padding: var(--espacio-6);
     background-color: var(--color-superficie);

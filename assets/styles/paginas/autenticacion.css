@@ -1,16 +1,11 @@
-/* ==================================================
-   PÁGINA DE AUTENTICACIÓN (LOGIN / REGISTRO)
-   ================================================== */
+/* PÁGINA DE AUTENTICACIÓN (LOGIN / REGISTRO) */
 
 /* Espaciado general de la sección para separarla de la cabecera y el pie de página */
 .seccion-autenticacion {
     padding: 4rem 0;
 }
 
-/* Define la estructura principal a dos columnas.
-   1.05fr y 0.95fr crea una asimetría muy sutil (el panel izquierdo es ligerísimamente más ancho).
-   'align-items: stretch' hace que ambos paneles tengan exactamente la misma altura.
-*/
+/* Define la estructura principal a dos columnas. */
 .autenticacion-layout {
     display: grid;
     grid-template-columns: 1.05fr 0.95fr;
@@ -24,9 +19,7 @@
     overflow: hidden; /* Evita que el contenido interior se salga de las esquinas redondeadas */
 }
 
-/* ==================================================
-   PANEL IZQUIERDO: INFORMACIÓN / DECORACIÓN
-   ================================================== */
+/* PANEL IZQUIERDO: INFORMACIÓN / DECORACIÓN */
 
 .autenticacion-panel--info {
     /* Mezcla de gradientes radiales y lineales para crear un fondo vibrante y complejo */
@@ -88,9 +81,7 @@
     line-height: 1.5;
 }
 
-/* ==================================================
-   PANEL DERECHO: FORMULARIO DE ACCESO/REGISTRO
-   ================================================== */
+/* PANEL DERECHO: FORMULARIO DE ACCESO/REGISTRO */
 
 .autenticacion-panel--formulario {
     background: rgba(255, 255, 255, 0.96); /* Blanco casi opaco */
@@ -152,9 +143,7 @@
     box-shadow: 0 0 0 0.2rem rgba(59, 130, 246, 0.14); /* Anillo de foco azul */
 }
 
-/* ==================================================
-   CAMPO DE CONTRASEÑA (REFINADO PARA LOGIN)
-   ================================================== */
+/* CAMPO DE CONTRASEÑA (REFINADO PARA LOGIN) */
 
 .campo-password {
     position: relative;
@@ -219,9 +208,7 @@
     display: block;
 }
 
-/* ==================================================
-   OPCIONES ADICIONALES (RECORDAR Y RECUPERAR)
-   ================================================== */
+/* OPCIONES ADICIONALES (RECORDAR Y RECUPERAR) */
 
 /* Fila que contiene el checkbox de "Recordarme" y el enlace de "Olvidé mi contraseña" */
 .autenticacion-opciones {
@@ -251,9 +238,7 @@
     text-decoration: underline;
 }
 
-/* ==================================================
-   BOTONES DE ACCIÓN PRINCIPALES
-   ================================================== */
+/* BOTONES DE ACCIÓN PRINCIPALES */
 
 .autenticacion-boton-principal {
     min-height: 56px;
@@ -273,9 +258,7 @@
     justify-content: center;
 }
 
-/* ==================================================
-   SEPARADOR SOCIAL ("O continúa con")
-   ================================================== */
+/* SEPARADOR SOCIAL ("O continúa con") */
 
 .autenticacion-separador {
     position: relative;
@@ -304,9 +287,7 @@
     font-weight: 600;
 }
 
-/* ==================================================
-   BOTÓN DE GOOGLE LOGIN
-   ================================================== */
+/* BOTÓN DE GOOGLE LOGIN */
 
 .boton-google-login {
     width: 100%;
@@ -360,9 +341,7 @@
     text-decoration: underline;
 }
 
-/* ==================================================
-   ADAPTACIÓN AL MODO OSCURO
-   ================================================== */
+/* ADAPTACIÓN AL MODO OSCURO */
 
 /* El panel del formulario adopta fondos oscuros azulados y sombras mucho más pesadas */
 body.tema-oscuro .autenticacion-panel--formulario {
@@ -426,9 +405,7 @@ body.tema-oscuro .boton-google-login:hover {
 body.tema-oscuro .autenticacion-registro { color: #cbd5e1; }
 body.tema-oscuro .autenticacion-registro a { color: #93c5fd; }
 
-/* ==================================================
-   RESPONSIVE DESIGN
-   ================================================== */
+/* RESPONSIVE DESIGN */
 
 /* TABLETS: Menos de 992px */
 @media (max-width: 991.98px) {

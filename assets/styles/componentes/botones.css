@@ -1,10 +1,6 @@
-/* ==================================================
-   BOTONES REUTILIZABLES
-   ================================================== */
+/* BOTONES REUTILIZABLES */
 
-/* Estilos base compartidos para los tres tipos de botones personalizados.
-   Agruparlos aquí evita repetir código (DRY: Don't Repeat Yourself).
-*/
+/* Estilos base compartidos para los tres tipos de botones personalizados. */
 .boton-principal,
 .boton-secundario,
 .boton-suave {
@@ -84,13 +80,9 @@
     background-color: #dfeeff; /* Se oscurece ligeramente al hacer hover */
 }
 
-/* ==================================================
-   ADAPTACIÓN AL MODO OSCURO
-   ================================================== */
+/* ADAPTACIÓN AL MODO OSCURO */
 
-/* El botón principal no necesita cambios porque ya es azul con texto blanco,
-   pero los secundarios y suaves sí necesitan ajustes de contraste.
-*/
+/* El botón principal no necesita cambios porque ya es azul con texto blanco, */
 
 /* El botón secundario en modo oscuro usa texto gris claro y bordes adaptados */
 body.tema-oscuro .boton-secundario {
@@ -115,14 +107,9 @@ body.tema-oscuro .boton-suave:hover {
     background-color: rgba(59, 130, 246, 0.18); /* Aumenta un poco la opacidad al pasar el ratón */
 }
 
-/* ==================================================
-   CONSISTENCIA EXTRA EN BOTONES (BOOTSTRAP)
-   ================================================== */
+/* CONSISTENCIA EXTRA EN BOTONES (BOOTSTRAP) */
 
-/* Estos estilos se aplican a la clase `.btn` nativa de Bootstrap.
-   El objetivo es que si utilizas botones de Bootstrap (ej. btn-primary, btn-danger),
-   hereden automáticamente la misma forma y animaciones que tus botones personalizados.
-*/
+/* Estos estilos se aplican a la clase `.btn` nativa de Bootstrap. */
 .btn {
     min-height: 44px; /* Un poco más pequeños que los personalizados, pero aún táctiles */
     border-radius: var(--radio-pill); /* Fuerza a que sean redondos (pastilla) */

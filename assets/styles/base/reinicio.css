@@ -1,74 +1,46 @@
-/* ==================================================
-   REINICIO GLOBAL
-   ================================================== */
-
-/* Aplica 'box-sizing: border-box' a todos los elementos y sus pseudo-elementos.
-   Esto hace que el padding y el border se incluyan dentro del ancho y alto total 
-   del elemento, evitando que las cajas se desborden de forma inesperada.
-*/
+/* Reset global: box-sizing para todos los elementos */
 *,
 *::before,
 *::after {
     box-sizing: border-box;
 }
 
-/* Configuración base del documento HTML. 
-   - font-size: 16px establece la medida base para los 'rem'.
-   - scroll-behavior: smooth hace que los anclajes internos (ir hacia arriba/abajo) se deslicen suavemente.
-   - min-height: 100% asegura que el HTML ocupe al menos toda la pantalla.
-*/
+/* Configuración base del documento */
 html {
     font-size: 16px;
     scroll-behavior: smooth;
     min-height: 100%;
 }
 
-/* Configuración del cuerpo (body) de la página.
-   Aquí se establece la estructura Flexbox para permitir un "Sticky Footer" (pie de página que siempre se queda abajo).
-   También se definen las variables CSS para la tipografía y los colores base.
-*/
+/* Body con flex column para sticky footer */
 body {
-    margin: 0; /* Elimina el margen por defecto del navegador */
-    min-width: 320px; /* Evita que la web se rompa en pantallas extremadamente estrechas (ej. relojes) */
-    min-height: 100vh; /* Asegura que el body ocupe el 100% del alto de la ventana (Viewport Height) */
-    
-    /* Configuración Flexbox para el contenedor principal */
+    margin: 0;
+    min-width: 320px;
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
-    
-    /* Variables de tipografía (presumiblemente definidas en otro archivo) */
     font-family: var(--fuente-principal);
     font-size: var(--texto-base);
     font-weight: var(--peso-regular);
-    line-height: 1.5; /* Mejora la legibilidad del texto */
-    
-    /* Variables de color */
+    line-height: 1.5;
     color: var(--color-texto);
     background-color: var(--color-fondo);
-    
-    /* Mejoras en el renderizado de la fuente para que se vea más nítida */
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
-    
-    /* Transición suave para cuando el usuario cambie entre Modo Claro y Modo Oscuro */
+    /* Transición suave al cambiar de tema claro a oscuro */
     transition:
         background-color var(--transicion-media),
         color var(--transicion-media);
 }
 
-/* Hace que el contenedor principal crezca para ocupar todo el espacio disponible.
-   Esto empuja el <footer> hacia el final de la pantalla si hay poco contenido.
-*/
+/* El main crece para empujar el footer al fondo */
 main,
 .layout-principal {
     display: block;
-    flex: 1 0 auto; 
+    flex: 1 0 auto;
 }
 
-/* Comportamiento responsivo por defecto para imágenes y elementos multimedia.
-   'max-width: 100%' asegura que nunca se salgan del ancho de su contenedor padre.
-   'display: block' elimina un pequeño espacio blanco que los navegadores dejan debajo de las imágenes.
-*/
+/* Imágenes y multimedia responsivos por defecto */
 img,
 picture,
 video,
@@ -78,9 +50,7 @@ svg {
     max-width: 100%;
 }
 
-/* Fuerza a los elementos de formulario a heredar la tipografía del body.
-   Por defecto, los navegadores les asignan fuentes distintas (como Arial o Courier).
-*/
+/* Formularios heredan la tipografía del body */
 input,
 button,
 textarea,
@@ -88,22 +58,18 @@ select {
     font: inherit;
 }
 
-/* Asegura que todos los botones muestren la "manita" al pasar el ratón por encima */
+/* Cursor pointer en todos los botones */
 button {
     cursor: pointer;
 }
 
-/* Elimina el subrayado por defecto de los enlaces y hace que hereden 
-   el color del texto que los rodea.
-*/
+/* Elimina subrayado y hereda el color en los enlaces */
 a {
     color: inherit;
     text-decoration: none;
 }
 
-/* Elimina los márgenes, rellenos y viñetas de las listas. 
-   Útil para usar <ul> y <ol> en la estructura (ej. menús de navegación) sin estilos molestos.
-*/
+/* Listas sin estilos por defecto (útil para menús de navegación) */
 ul,
 ol {
     margin: 0;
@@ -111,16 +77,14 @@ ol {
     list-style: none;
 }
 
-/* Excepción: Si una lista NO tiene ninguna clase (es decir, es puro contenido de texto), 
-   le devuelve el sangrado y las viñetas por defecto para que sea legible.
-*/
+/* Excepción: listas de contenido sin clase recuperan su sangría */
 ul:not([class]),
 ol:not([class]) {
     padding-left: 1.25rem;
     list-style: initial;
 }
 
-/* Elimina el margen superior de los textos para que el espaciado se controle solo por el margen inferior */
+/* Elimina el margen superior de los bloques de texto */
 p,
 h1,
 h2,
@@ -131,35 +95,23 @@ h6 {
     margin-top: 0;
 }
 
-/* ==================================================
-   ACCESIBILIDAD BÁSICA Y ESTADOS DE FOCO
-   ================================================== */
-
-/* Elimina el borde de enfoque por defecto del navegador que suele ser inconsistente.
-   ¡Atención! Esto solo es seguro porque justo debajo estamos definiendo ':focus-visible'.
-*/
+/* Accesibilidad: elimina el outline por defecto pero lo mantiene para teclado */
 :focus {
     outline: none;
 }
 
-/* :focus-visible es una pseudo-clase moderna para accesibilidad.
-   Añade un borde azul brillante alrededor de botones o enlaces SOLO cuando 
-   el usuario navega usando el teclado (Tabulador), y no cuando hace clic con el ratón.
-*/
+/* Anillo de foco visible solo al navegar con teclado */
 :focus-visible {
     outline: 3px solid rgba(59, 130, 246, 0.55);
     outline-offset: 3px;
     border-radius: 0.5rem;
 }
 
-/* Ajusta el color del contorno de enfoque cuando la página está en modo oscuro */
 body.tema-oscuro :focus-visible {
     outline-color: rgba(96, 165, 250, 0.7);
 }
 
-/* Aplica transiciones suaves a elementos interactivos para cuando cambian de estado 
-   (al hacer hover, focus, active, etc.).
-*/
+/* Transiciones suaves en todos los elementos interactivos */
 a,
 button,
 input,
@@ -175,9 +127,7 @@ summary,
         transform var(--transicion-rapida);
 }
 
-/* Estilos visuales para los campos de formulario o botones que estén desactivados.
-   Baja la opacidad y cambia el cursor para indicar que no se pueden usar.
-*/
+/* Estilo visual para elementos desactivados */
 button:disabled,
 input:disabled,
 select:disabled,
@@ -186,21 +136,17 @@ textarea:disabled {
     opacity: 0.65;
 }
 
-/* Personaliza el color de fondo cuando el usuario selecciona/resalta texto con el ratón. 
-*/
+/* Color de selección de texto */
 ::selection {
-    background-color: rgba(37, 99, 235, 0.18); /* Azul clarito */
+    background-color: rgba(37, 99, 235, 0.18);
     color: inherit;
 }
 
-/* Ajusta el color de la selección de texto para el modo oscuro */
 body.tema-oscuro ::selection {
     background-color: rgba(96, 165, 250, 0.24);
 }
 
-/* .enlace-salto (Skip Link) es una técnica vital para lectores de pantalla.
-   Es un enlace que normalmente está oculto (-100px arriba), pero...
-*/
+/* Skip link: enlace oculto para saltar al contenido principal (accesibilidad) */
 .enlace-salto {
     position: absolute;
     left: 1rem;
@@ -213,18 +159,11 @@ body.tema-oscuro ::selection {
     transition: top var(--transicion-media);
 }
 
-/* ...cuando el usuario pulsa 'Tab' al cargar la página, el enlace se vuelve visible,
-   permitiéndole saltar el menú de navegación y llegar directo al contenido principal.
-*/
 .enlace-salto:focus {
     top: 1rem;
 }
 
-/* Media query de Accesibilidad muy importante.
-   Si el usuario tiene configurado en su sistema operativo que prefiere "movimiento reducido" 
-   (por problemas de vértigo, mareos o epilepsia), esto elimina instantáneamente 
-   TODAS las animaciones, transiciones y scrolls suaves de la página.
-*/
+/* Desactiva todas las animaciones si el usuario las ha reducido en su sistema */
 @media (prefers-reduced-motion: reduce) {
     *,
     *::before,
