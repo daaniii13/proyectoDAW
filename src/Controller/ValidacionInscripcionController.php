@@ -10,6 +10,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
 
 // Controlador de validación del flujo de inscripción
 // Gestiona los cambios de estado de una inscripción a lo largo del proceso de pago:
@@ -56,7 +58,8 @@ class ValidacionInscripcionController extends AbstractController
         int $id,
         Request $request,
         InscripcionRepository $inscripcionRepository,
-        EntityManagerInterface $entityManager
+        EntityManagerInterface $entityManager,
+        MailerInterface $mailer
     ): Response {
         $usuario = $this->getUser();
 
@@ -84,6 +87,36 @@ class ValidacionInscripcionController extends AbstractController
         $inscripcion->setEstado('activa');
         $entityManager->flush();
 
+        // Al aceptar la solicitud se envía un correo al alumno para avisarle
+        try {
+            $alumno = $inscripcion->getEstudiante();
+            $curso = $inscripcion->getCurso();
+            $nombreAlumno = (string) $alumno->getNombre();
+            $tituloCurso = (string) $curso->getTitulo();
+
+            $email = (new Email())
+                ->from('teachingexplorerdaw@gmail.com')
+                ->to((string) $alumno->getEmail())
+                ->subject('Inscripción aceptada - ' . $tituloCurso)
+                ->text(
+                    "Hola {$nombreAlumno},\n\n" .
+                    "Tu solicitud de inscripción en el curso \"{$tituloCurso}\" ha sido aceptada.\n\n" .
+                    "Ya puedes acceder al contenido del curso desde tu panel de 'Mis cursos'.\n\n" .
+                    "¡Bienvenido!"
+                )
+                ->html(
+                    '<h2>¡Inscripción aceptada!</h2>' .
+                    '<p>Hola ' . htmlspecialchars($nombreAlumno, ENT_QUOTES, 'UTF-8') . ',</p>' .
+                    '<p>Tu solicitud de inscripción en el curso <strong>' . htmlspecialchars($tituloCurso, ENT_QUOTES, 'UTF-8') . '</strong> ha sido aceptada.</p>' .
+                    '<p>Ya puedes acceder al contenido desde tu panel de <em>Mis cursos</em>.</p>' .
+                    '<p>¡Bienvenido!</p>'
+                );
+
+            $mailer->send($email);
+        } catch (\Throwable $e) {
+            // Si el correo falla no interrumpimos el flujo. La inscripción ya fue activada correctamente
+        }
+
         $this->addFlash('success', 'Inscripción activada correctamente.');
 
         return $this->redirectToRoute('app_subir_recursos');
@@ -96,7 +129,8 @@ class ValidacionInscripcionController extends AbstractController
         int $id,
         Request $request,
         InscripcionRepository $inscripcionRepository,
-        EntityManagerInterface $entityManager
+        EntityManagerInterface $entityManager,
+        MailerInterface $mailer
     ): Response {
         $usuario = $this->getUser();
 
@@ -122,6 +156,32 @@ class ValidacionInscripcionController extends AbstractController
 
         $inscripcion->setEstado('rechazada');
         $entityManager->flush();
+
+        // Al rechazar la solicitud se envía un correo al alumno para avisarle
+        try {
+            $alumno = $inscripcion->getEstudiante();
+            $curso = $inscripcion->getCurso();
+            $nombreAlumno = (string) $alumno->getNombre();
+            $tituloCurso = (string) $curso->getTitulo();
+
+            $email = (new Email())
+                ->from('teachingexplorerdaw@gmail.com')
+                ->to((string) $alumno->getEmail())
+                ->subject('Solicitud de inscripción rechazada - ' . $tituloCurso)
+                ->text(
+                    "Hola {$nombreAlumno},\n\n" .
+                    "Lamentablemente, tu solicitud de inscripción en el curso \"{$tituloCurso}\" ha sido rechazada." 
+                )
+                ->html(
+                    '<h2>Solicitud de inscripción rechazada</h2>' .
+                    '<p>Hola ' . htmlspecialchars($nombreAlumno, ENT_QUOTES, 'UTF-8') . ',</p>' .
+                    '<p>Lamentablemente, tu solicitud de inscripción en el curso <strong>' . htmlspecialchars($tituloCurso, ENT_QUOTES, 'UTF-8') . '</strong> ha sido rechazada.</p>' 
+                );
+
+            $mailer->send($email);
+        } catch (\Throwable $e) {
+            // Si el correo falla no interrumpimos el flujo. El rechazo ya fue registrado correctamente
+        }
 
         $this->addFlash('success', 'Solicitud rechazada correctamente.');
 
