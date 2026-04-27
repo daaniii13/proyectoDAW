@@ -1,0 +1,136 @@
+/* ==================================================
+   TIPOGRAFÍA GLOBAL
+   ================================================== */
+
+/* Establece la fuente y el color base para todo el documento. 
+   Utiliza variables CSS (ej. var(--fuente-principal)) que probablemente 
+   tienes definidas en otro archivo (como variables.css o app.css). 
+*/
+body {
+    font-family: var(--fuente-principal);
+    color: var(--color-texto);
+}
+
+/* Configuración común para todos los niveles de encabezados (H1 al H6).
+   Se les asigna un margen inferior, texto en negrita (bold), 
+   un interlineado (line-height) más ajustado que el texto normal para que 
+   los títulos de varias líneas se lean bien, y un color oscuro.
+*/
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    margin-bottom: var(--espacio-4);
+    font-family: var(--fuente-principal);
+    font-weight: var(--peso-bold);
+    line-height: 1.2;
+    color: var(--color-primario-oscuro);
+}
+
+/* TAMAÑOS DE ENCABEZADOS RESPONSIVOS
+   -----------------------------------
+   La función clamp(MÍNIMO, IDEAL, MÁXIMO) permite que la fuente crezca o encoja 
+   automáticamente dependiendo del ancho de la pantalla (vw = viewport width).
+*/
+
+/* H1: Mínimo 2rem (móvil). Idealmente crece a un ritmo del 4% del ancho de la pantalla. Máximo 3.25rem (escritorio). */
+h1 {
+    font-size: clamp(2rem, 4vw, 3.25rem);
+}
+
+/* H2: Mínimo 1.75rem. Ideal 3vw. Máximo 2.5rem. */
+h2 {
+    font-size: clamp(1.75rem, 3vw, 2.5rem);
+}
+
+/* H3: Mínimo 1.35rem. Ideal 2.5vw. Máximo 2rem. */
+h3 {
+    font-size: clamp(1.35rem, 2.5vw, 2rem);
+}
+
+/* H4: Mínimo 1.15rem. Ideal 2vw. Máximo 1.5rem. */
+h4 {
+    font-size: clamp(1.15rem, 2vw, 1.5rem);
+}
+
+/* Configuración general para los párrafos de texto. */
+p {
+    margin-bottom: var(--espacio-4); /* Separación estándar entre párrafos */
+    font-size: var(--texto-base);    /* Tamaño base, normalmente 16px o 1rem */
+    color: var(--color-texto);
+}
+
+/* Configuración para textos pequeños (ej. notas al pie, ayudas en formularios). */
+small {
+    font-size: var(--texto-sm);
+    color: var(--color-texto-suave); /* Suele ser un gris para restar jerarquía visual */
+}
+
+/* Asegura que la etiqueta <strong> (negrita) use el peso de fuente correcto de nuestras variables. */
+strong {
+    font-weight: var(--peso-bold);
+}
+
+/* Clases de utilidad (Utilities) para aplicar estilos rápidos de texto directamente en el HTML */
+
+/* Vuelve cualquier texto de color gris/suave */
+.texto-suave {
+    color: var(--color-texto-suave);
+}
+
+/* Centra el texto */
+.texto-centrado {
+    text-align: center;
+}
+
+/* ==================================================
+   CONSISTENCIA VISUAL GLOBAL
+   ================================================== */
+
+/* Clases específicas para estructurar las cabeceras de las diferentes secciones de tu web. */
+
+/* Título principal de una sección. Usa la misma lógica responsiva (clamp) que el H1. */
+.titulo-seccion {
+    margin-bottom: var(--espacio-4);
+    font-size: clamp(2rem, 4vw, 3.25rem);
+    line-height: 1.1; /* Interlineado muy estrecho para títulos muy grandes */
+}
+
+/* Párrafo que suele acompañar al título de la sección explicándola brevemente. */
+.subtitulo-seccion {
+    max-width: 760px; /* Evita que las líneas de texto sean demasiado largas para una lectura cómoda */
+    margin-bottom: 0;
+    font-size: 1.08rem; /* Un pelín más grande que el texto base normal */
+    line-height: 1.8; /* Interlineado amplio para respirar y leerse bien */
+    color: var(--color-texto-suave);
+}
+
+/* Contenedor o "caja" que agrupa el título y subtítulo en la parte superior de las páginas. */
+.encabezado-pagina {
+    max-width: 820px;
+    margin-bottom: 4rem; /* Gran separación con el contenido que va debajo */
+}
+
+/* Variación del encabezado para cuando necesites que el contenido inferior esté más pegado. */
+.encabezado-pagina--compacto {
+    margin-bottom: 3rem;
+}
+
+/* MEDIA QUERIES (ADAPTACIÓN A MÓVILES)
+   ------------------------------------
+   Cuando el ancho de la pantalla sea menor a 768px (tablets pequeñas y móviles):
+*/
+@media (max-width: 767.98px) {
+    
+    /* Reduce el margen inferior del encabezado para aprovechar el espacio reducido en móviles */
+    .encabezado-pagina {
+        margin-bottom: 2.5rem;
+    }
+
+    /* Reduce el tamaño de fuente del subtítulo al tamaño base normal para que no ocupe demasiada pantalla */
+    .subtitulo-seccion {
+        font-size: 1rem;
+    }
+}

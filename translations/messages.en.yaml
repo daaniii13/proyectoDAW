@@ -1,0 +1,185 @@
+#Traducciones manuales de partes no traducidas automáticamente (inglés)
+nav:
+  abrir_menu: "Open menu"
+  cambiar_idioma: "Change language"
+  inicio: "Home"
+  mis_cursos: "My courses"
+  gestion_docente: "Teaching tools"
+  admin_profesores: "Teachers"
+  admin_usuarios: "Users"
+  sobre_nosotros: "About us"
+  contacto: "Contact"
+  ajustes: "Settings"
+  login: "Login"
+  logout: "Logout"
+  rol:
+    administrador: "Administrator"
+    profesor: "Teacher"
+    estudiante: "Student"
+    usuario: "User"
+
+login:
+  titulo_pagina: "Login"
+  titulo: "Login"
+  subtitulo: "Enter your credentials to log in to your account."
+  hero_titulo: "Log in and continue learning"
+  hero_texto: "Access your courses, track your progress, view resources, and connect with teachers from a clear, modern platform."
+  lista_1: "Access your courses and enrollments"
+  lista_2: "Progress monitoring"
+  lista_3: "Organized resources and tasks"
+  lista_4: "Quick start with Google too"
+  correo: "Email"
+  contrasena: "Password"
+  recordarme: "Remember me"
+  olvido: "Forgot your password?"
+  entrar: "Log in"
+  o_continua: "or continue with"
+  google: "Log in with Google"
+  no_cuenta: "Don't have an account yet?"
+  crear_cuenta: "Create an account"
+
+mis_cursos:
+  titulo_pagina: "My courses"
+  etiqueta: "Personal area"
+  titulo: "My courses"
+  subtitulo: "Your requests and active courses appear here."
+  vacio_titulo: "You have no courses or requests"
+  vacio_texto: "When you request an enrollment, it will appear here."
+  listado_titulo: "Courses and requests"
+  listado_subtitulo: "Real status of each enrollment according to payment and validation."
+  estado_prefijo: "Status:"
+  estado_pendiente_pago: "Pending payment"
+  estado_pendiente_validacion: "Pending validation"
+  estado_activa: "Active"
+  estado_rechazada: "Rejected"
+  estado_completada: "Completed"
+  profesor: "Teacher:"
+  duracion: "Duration:"
+  precio: "Price:"
+  progreso_aria: "Course progress"
+  ver_detalles: "View details"
+  entrar_curso: "Enter course"
+  avisar_pago: "I have already made the payment"
+  esperando_validacion: "Awaiting validation"
+  solicitud_rechazada: "Request rejected"
+  cuenta_profesor: "Teacher bank account:"
+  referencia_pago: "Payment reference:"
+  instruccion_pago: "Make the transfer and then press the button to notify the payment."
+
+footer:
+  descripcion: "Educational platform designed to connect students and teachers through a clear, accessible, and modern experience."
+  navegacion: "Navigation"
+  contacto: "Contact"
+  horario_dias: "Support from Monday to Friday"
+  horario_horas: "08:00 - 18:00"
+  derechos: "All rights reserved."
+
+admin:
+  usuarios:
+    meta_titulo: "Users | Admin | TeachingExplorer"
+    etiqueta: "Administration"
+    titulo: "Registered users"
+    descripcion: "Edit name, email, main role, status, and delete users if necessary."
+    vacio_titulo: "No users"
+    vacio_texto: "There are no registered accounts yet."
+    activo: "Active"
+    inactivo: "Inactive"
+    registro: "Registered"
+    nombre: "Name"
+    correo: "Email"
+    estado: "Status"
+    cuenta_activa: "Active account"
+    rol_principal: "Main role"
+    rol_estudiante: "Student"
+    rol_profesor: "Teacher"
+    rol_admin: "Admin"
+    guardar: "Save changes"
+    eliminar: "Delete user"
+    confirmar_eliminar: "Are you sure you want to delete this user?"
+    flash_nombre_correo_obligatorios: "Name and email are required."
+    flash_correo_no_valido: "The email is not valid."
+    flash_correo_duplicado: "Another user with that email already exists."
+    flash_actualizado: "User updated successfully."
+    flash_no_autoborrado: "You cannot delete your own administrator account."
+    flash_eliminado: "User deleted successfully."
+    flash_no_eliminado: "The user could not be deleted."
+  profesores:
+    meta_titulo: "Pending teachers | Admin | TeachingExplorer"
+
+ajustes:
+  meta_titulo: "Settings | TeachingExplorer"
+  apariencia: "Appearance"
+  tema_actual: "Current theme"
+  detectando: "Detecting..."
+  tema_claro: "Light mode"
+  tema_oscuro: "Dark mode"
+
+profesor:
+  crear_curso:
+    placeholder_titulo: "Example: Learn JavaScript"
+    placeholder_duracion: "Example: 8 weeks"
+    placeholder_descripcion: "Describe the course content and objective..."
+    placeholder_banner: "https://..."
+    placeholder_mapa: "https://..."
+    selecciona_opcion: "Select an option"
+  tareas:
+    placeholder_comentario_opcional: "Optional comment"
+  panel:
+    meta_titulo: "Teacher panel | TeachingExplorer"
+  editar_curso:
+    meta_titulo: "Edit course | TeachingExplorer"
+  recursos_curso:
+    meta_titulo: "Course resources | TeachingExplorer"
+  tareas_curso:
+    meta_titulo: "Course tasks | TeachingExplorer"
+
+inicio:
+  meta_titulo: "Home | TeachingExplorer"
+
+contacto:
+  meta_titulo: "Contact | TeachingExplorer"
+
+sobre_nosotros:
+  meta_titulo: "About us | TeachingExplorer"
+
+recuperacion:
+  meta_titulo: "Recover password | TeachingExplorer"
+
+registro:
+  meta_titulo: "Create account | TeachingExplorer"
+  titulo: "Create new account"
+  subtitulo: "Complete the form to get started."
+  nombre_completo: "Full name"
+  placeholder_nombre: "Full name and surname"
+  correo: "Email"
+  placeholder_correo: "your@email.com"
+  tipo_cuenta: "Account type"
+  seleccionar_opcion: "Select an option"
+  contrasena: "Password"
+  placeholder_contrasena: "Minimum 8 characters"
+  repetir_contrasena: "Repeat password"
+  placeholder_repetir_contrasena: "Repeat the password"
+  crear_cuenta: "Create account"
+  ya_tienes_cuenta: "Already have an account?"
+  iniciar_sesion: "Log in"
+  etiqueta: "Create account"
+  hero_titulo: "Join TeachingExplorer"
+  hero_texto: "Register as a student or teacher and access courses, educational content and modern tools."
+  lista_1: "Free registration for students"
+  lista_2: "Specific plans for teachers"
+  lista_3: "Automatic request to the administrator for teacher accounts"
+  lista_4: "Immediate access after validation or registration"
+  plan_profesor: "Teacher plan"
+  seleccionar_plan: "Select a plan"
+  plan_basico: "Basic"
+  plan_pro: "Pro"
+  plan_premium: "Premium"
+  cuenta_bancaria_pago: "Bank account for payment"
+  confirmacion_pago: "I confirm that I have reviewed the bank account and completed the payment"
+  mostrar_contrasena: "Show or hide password"
+
+comentarios:
+  placeholder_nuevo: "Write your comment..."
+
+visor:
+  placeholder_comentario_entrega: "Optional comment for the teacher"

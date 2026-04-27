@@ -1,195 +1,217 @@
-{#Bloque principal de tareas y entregas#}
 <section class="profesor__bloque profesor__bloque--ancho">
-
-    {#Cabecera#}
     <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
         <div>
             <h2 class="mb-1">Tareas y entregas</h2>
             <p class="mb-0">Cada tarea muestra sus entregas y el formulario de corrección.</p>
         </div>
-        <a href="{{ path('app_subir_recursos') }}" class="btn btn-outline-secondary">Volver al panel docente</a>
+
+        <a href="{{ path('app_subir_recursos') }}" class="btn btn-outline-secondary">
+            Volver al panel docente
+        </a>
     </div>
 
-    {#Sin tareas#}
     {% if tareas is empty %}
         <div class="estado-vacio">
             <div class="estado-vacio__icono">0</div>
             <h3 class="estado-vacio__titulo">Todavía no hay tareas</h3>
-            <p class="estado-vacio__texto">Crea la primera tarea para este curso.</p>
+            <p class="estado-vacio__texto">
+                Crea la primera tarea para este curso.
+            </p>
         </div>
     {% else %}
-
         <div class="d-flex flex-column gap-4">
-        {% for tarea in tareas %}
-            {% set entregasTarea = entregasPorTarea[tarea.id]|default([]) %}
+            {% for tarea in tareas %}
+                {% set entregasTarea = entregasPorTarea[tarea.id]|default([]) %}
 
-            <article class="curso-usuario">
+                <article class="curso-usuario">
+                    <div class="curso-usuario__superior">
+                        <span class="badge text-bg-primary">Tarea</span>
+                        <span class="curso-usuario__progreso">
+                            {{ entregasTarea|length }} entrega(s)
+                        </span>
+                    </div>
 
-                {#Cabecera tarea#}
-                <div class="curso-usuario__superior">
-                    <span class="badge text-bg-primary">Tarea</span>
-                    <span class="curso-usuario__progreso">{{ entregasTarea|length }} entrega(s)</span>
-                </div>
+                    <div class="d-flex flex-wrap justify-content-between align-items-start gap-3">
+                        <div class="flex-grow-1">
+                            <h3>{{ tarea.titulo }}</h3>
+                            <p>{{ tarea.descripcion }}</p>
 
-                {#Info tarea#}
-                <div class="d-flex flex-wrap justify-content-between align-items-start gap-3">
-                    <div class="flex-grow-1">
-                        <h3>{{ tarea.titulo }}</h3>
-                        <p>{{ tarea.descripcion }}</p>
-                        <div class="curso-usuario__meta">
-                            <span>Creada: {{ tarea.fechaCreacion|date('d/m/Y H:i') }}</span>
-                            <span>Límite: {{ tarea.fechaLimite ? tarea.fechaLimite|date('d/m/Y H:i') : 'Sin fecha límite' }}</span>
+                            <div class="curso-usuario__meta">
+                                <span>Creada: {{ tarea.fechaCreacion|date('d/m/Y H:i') }}</span>
+                                <span>
+                                    Límite:
+                                    {{ tarea.fechaLimite ? tarea.fechaLimite|date('d/m/Y H:i') : 'Sin fecha límite' }}
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="d-flex flex-wrap gap-2">
+                            {% if tarea.archivoProfesor %}
+                                <a href="{{ asset('uploads/tareas/' ~ tarea.archivoProfesor) }}" target="_blank" class="btn btn-outline-secondary">
+                                    Ver archivo de la tarea
+                                </a>
+                            {% endif %}
                         </div>
                     </div>
 
-                    {% if tarea.archivoProfesor %}
-                        <a href="{{ asset('uploads/tareas/' ~ tarea.archivoProfesor) }}" target="_blank" class="btn btn-outline-secondary">
-                            Ver archivo de la tarea
-                        </a>
-                    {% endif %}
-                </div>
+                    <details class="mt-4">
+                        <summary class="btn btn-outline-secondary">Editar tarea</summary>
 
-                {# Editar tarea #}
-                <details class="mt-4">
-                    <summary class="btn btn-outline-secondary">Editar tarea</summary>
+                        <form method="post" enctype="multipart/form-data" action="{{ path('app_profesor_editar_tarea', {id: tarea.id}) }}" class="profesor__formulario mt-3">
+                            <input type="hidden" name="_token" value="{{ csrf_token('editar_tarea_' ~ tarea.id) }}">
 
-                    <form method="post" enctype="multipart/form-data"
-                          action="{{ path('app_profesor_editar_tarea', {id: tarea.id}) }}"
-                          class="profesor__formulario mt-3">
+                            <div class="mb-3">
+                                <label class="form-label">Título</label>
+                                <input type="text" name="titulo_tarea" class="form-control" value="{{ tarea.titulo }}" required>
+                            </div>
 
-                        <input type="hidden" name="_token" value="{{ csrf_token('editar_tarea_' ~ tarea.id) }}">
+                            <div class="mb-3">
+                                <label class="form-label">Descripción</label>
+                                <textarea name="descripcion_tarea" class="form-control" rows="4" required>{{ tarea.descripcion }}</textarea>
+                            </div>
 
-                        <div class="mb-3">
-                            <label class="form-label">Título</label>
-                            <input type="text" name="titulo_tarea" class="form-control" value="{{ tarea.titulo }}" required>
-                        </div>
+                            <div class="mb-3">
+                                <label class="form-label">Fecha límite</label>
+                                <input
+                                    type="datetime-local"
+                                    name="fecha_limite_tarea"
+                                    class="form-control"
+                                    value="{{ tarea.fechaLimite ? tarea.fechaLimite|date('Y-m-d\\TH:i') : '' }}"
+                                >
+                            </div>
 
-                        <div class="mb-3">
-                            <label class="form-label">Descripción</label>
-                            <textarea name="descripcion_tarea" class="form-control" rows="4" required>{{ tarea.descripcion }}</textarea>
-                        </div>
+                            <div class="mb-3">
+                                <label class="form-label">Sustituir archivo adjunto</label>
+                                <input type="file" name="archivo_profesor" class="form-control">
+                            </div>
 
-                        <div class="mb-3">
-                            <label class="form-label">Fecha límite</label>
-                            <input type="datetime-local" name="fecha_limite_tarea" class="form-control"
-                                   value="{{ tarea.fechaLimite ? tarea.fechaLimite|date('Y-m-d\\TH:i') : '' }}">
-                        </div>
+                            <button type="submit" class="btn btn-primary">
+                                Guardar cambios
+                            </button>
+                        </form>
+                    </details>
 
-                        <div class="mb-3">
-                            <label class="form-label">Sustituir archivo</label>
-                            <input type="file" name="archivo_profesor" class="form-control">
-                        </div>
-
-                        <button type="submit" class="btn btn-primary">Guardar cambios</button>
+                    <form method="post" action="{{ path('app_profesor_eliminar_tarea', {id: tarea.id}) }}" class="mt-3">
+                        <input type="hidden" name="_token" value="{{ csrf_token('eliminar_tarea_' ~ tarea.id) }}">
+                        <button type="submit" class="btn btn-outline-danger">
+                            Eliminar tarea
+                        </button>
                     </form>
-                </details>
 
-                {# Eliminar tarea #}
-                <form method="post"
-                      action="{{ path('app_profesor_eliminar_tarea', {id: tarea.id}) }}"
-                      onsubmit="return confirm('¿Seguro que quieres eliminar esta tarea?');"
-                      class="mt-3">
-                    <input type="hidden" name="_token" value="{{ csrf_token('eliminar_tarea_' ~ tarea.id) }}">
-                    <button type="submit" class="btn btn-outline-danger">Eliminar tarea</button>
-                </form>
-
-                {# Entregas #}
-                {% if entregasTarea is empty %}
-                    <div class="estado-vacio mt-3">
-                        <div class="estado-vacio__icono">0</div>
-                        <h3 class="estado-vacio__titulo">Sin entregas todavía</h3>
-                        <p class="estado-vacio__texto">Cuando los alumnos entreguen, aparecerán aquí.</p>
-                    </div>
-                {% else %}
-
-                    <div class="table-responsive mt-3">
-                        <table class="table profesor__tabla-entregas align-middle">
-                            <thead>
-                                <tr>
-                                    <th>Alumno</th>
-                                    <th>Fecha</th>
-                                    <th>Estado</th>
-                                    <th>Nota</th>
-                                    <th>Archivo</th>
-                                    <th>Corrección</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-
+                    {% if entregasTarea is empty %}
+                        <div class="estado-vacio mt-3">
+                            <div class="estado-vacio__icono">0</div>
+                            <h3 class="estado-vacio__titulo">Sin entregas todavía</h3>
+                            <p class="estado-vacio__texto">Cuando los alumnos entreguen, aparecerán aquí.</p>
+                        </div>
+                    {% else %}
+                        <div class="d-flex flex-column gap-4 mt-4">
                             {% for entrega in entregasTarea %}
-                                <tr>
+                                <section class="border rounded-4 p-3 bg-body-tertiary">
+                                    <div class="d-flex flex-wrap justify-content-between align-items-start gap-3 mb-3">
+                                        <div>
+                                            <h4 class="mb-1">{{ entrega.estudiante.nombre }}</h4>
+                                            <div class="text-muted small">{{ entrega.estudiante.email }}</div>
+                                        </div>
 
-                                    <td>
-                                        <strong>{{ entrega.estudiante.nombre }}</strong><br>
-                                        <small>{{ entrega.estudiante.email }}</small>
-                                    </td>
+                                        <div class="d-flex flex-wrap gap-2 align-items-center">
+                                            {% if entrega.estadoRevision == 'aprobada' %}
+                                                <span class="badge text-bg-success">Aprobada</span>
+                                            {% elseif entrega.estadoRevision == 'suspensa' %}
+                                                <span class="badge text-bg-danger">Suspensa</span>
+                                            {% else %}
+                                                <span class="badge text-bg-warning">Pendiente</span>
+                                            {% endif %}
 
-                                    <td>{{ entrega.fechaEntrega|date('d/m/Y H:i') }}</td>
+                                            {% if entrega.nota is not null %}
+                                                <span class="badge text-bg-secondary">Nota: {{ entrega.nota }}/100</span>
+                                            {% endif %}
+                                        </div>
+                                    </div>
 
-                                    <td>
-                                        {% if entrega.estadoRevision == 'aprobada' %}
-                                            <span class="badge text-bg-success">Aprobada</span>
-                                        {% elseif entrega.estadoRevision == 'suspensa' %}
-                                            <span class="badge text-bg-danger">Suspensa</span>
-                                        {% else %}
-                                            <span class="badge text-bg-warning">Pendiente</span>
+                                    <div class="curso-usuario__meta mb-3">
+                                        <span>Entrega: {{ entrega.fechaEntrega|date('d/m/Y H:i') }}</span>
+                                        {% if entrega.fechaRevision %}
+                                            <span>Revisión: {{ entrega.fechaRevision|date('d/m/Y H:i') }}</span>
                                         {% endif %}
-                                    </td>
+                                    </div>
 
-                                    <td>{{ entrega.nota is not null ? entrega.nota : '-' }}</td>
-
-                                    <td>
+                                    <div class="d-flex flex-wrap gap-2 mb-3">
                                         {% if entrega.archivoEntrega %}
-                                            <a href="{{ path('app_profesor_ver_entrega', {id: entrega.id}) }}"
-                                               target="_blank"
-                                               class="btn btn-sm btn-outline-secondary">Ver entrega</a>
-                                        {% else %}-{% endif %}
-                                    </td>
+                                            <a href="{{ path('app_profesor_ver_entrega', {id: entrega.id}) }}" target="_blank" class="btn btn-sm btn-outline-secondary">
+                                                Ver entrega
+                                            </a>
+                                        {% endif %}
+                                    </div>
 
-                                    <td style="min-width: 340px;">
-                                        <form method="post"
-                                              action="{{ path('app_profesor_corregir_entrega', {id: entrega.id}) }}"
-                                              class="d-flex flex-column gap-2">
+                                    {# Mini chat de la entrega #}
+                                    <div class="border rounded-4 p-3 bg-white mb-3">
+                                        <div class="fw-semibold mb-3">Conversación</div>
 
-                                            <input type="hidden" name="_token" value="{{ csrf_token('corregir_entrega_' ~ entrega.id) }}">
+                                        {% if entrega.mensajes is empty %}
+                                            <p class="text-muted mb-0">Todavía no hay mensajes en esta entrega.</p>
+                                        {% else %}
+                                            <div class="d-flex flex-column gap-3">
+                                                {% for mensaje in entrega.mensajes %}
+                                                    {% set esProfesor = tarea.curso.profesor and mensaje.autor and tarea.curso.profesor.id == mensaje.autor.id %}
 
-                                            <div>
-                                                <label class="form-label">Nota</label>
-                                                <input type="number" name="nota" min="0" max="100"
-                                                       class="form-control"
-                                                       value="{{ entrega.nota is not null ? entrega.nota : '' }}" required>
-                                            </div>
-
-                                            <div>
-                                                <label class="form-label">Comentario</label>
-                                                <textarea name="comentario_profesor" rows="3" class="form-control">
-                                                    {{ entrega.comentarioProfesor ?: '' }}
-                                                </textarea>
-                                            </div>
-
-                                            <button type="submit" class="btn btn-primary">Guardar</button>
-                                        </form>
-
-                                        {% if entrega.comentario %}
-                                            <div class="mt-3">
-                                                <strong>Comentario del alumno:</strong>
-                                                <p class="mb-0">{{ entrega.comentario }}</p>
+                                                    <div class="d-flex {{ esProfesor ? 'justify-content-end' : 'justify-content-start' }}">
+                                                        <div class="p-3 rounded-4 {{ esProfesor ? 'bg-primary text-white' : 'bg-light border' }}" style="max-width: 78%; min-width: 220px;">
+                                                            <div class="small fw-semibold mb-1">
+                                                                {{ esProfesor ? 'Profesor' : mensaje.autor.nombre }}
+                                                            </div>
+                                                            <div style="white-space: pre-wrap; word-break: break-word;">{{ mensaje.contenido }}</div>
+                                                            <div class="small mt-2 {{ esProfesor ? 'text-white-50' : 'text-muted' }}">
+                                                                {{ mensaje.fechaCreacion|date('d/m/Y H:i') }}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                {% endfor %}
                                             </div>
                                         {% endif %}
-                                    </td>
+                                    </div>
 
-                                </tr>
+                                    {# Formulario de corrección y respuesta #}
+                                    <form method="post" action="{{ path('app_profesor_corregir_entrega', {id: entrega.id}) }}" class="d-flex flex-column gap-3">
+                                        <input type="hidden" name="_token" value="{{ csrf_token('corregir_entrega_' ~ entrega.id) }}">
+
+                                        <div class="row g-3">
+                                            <div class="col-12 col-lg-4">
+                                                <label class="form-label">Nota (0-100)</label>
+                                                <input
+                                                    type="number"
+                                                    name="nota"
+                                                    min="0"
+                                                    max="100"
+                                                    class="form-control"
+                                                    value="{{ entrega.nota is not null ? entrega.nota : '' }}"
+                                                    required
+                                                >
+                                            </div>
+
+                                            <div class="col-12 col-lg-8">
+                                                <label class="form-label">Responder al alumno</label>
+                                                <textarea
+                                                    name="comentario_profesor"
+                                                    rows="3"
+                                                    class="form-control"
+                                                    placeholder="{{ 'profesor.tareas.placeholder_comentario_opcional'|trans }}"
+                                                ></textarea>
+                                            </div>
+                                        </div>
+
+                                        <div class="d-flex flex-wrap gap-2">
+                                            <button type="submit" class="btn btn-primary">
+                                                Guardar corrección
+                                            </button>
+                                        </div>
+                                    </form>
+                                </section>
                             {% endfor %}
-
-                            </tbody>
-                        </table>
-                    </div>
-
-                {% endif %}
-
-            </article>
-        {% endfor %}
+                        </div>
+                    {% endif %}
+                </article>
+            {% endfor %}
         </div>
-
     {% endif %}
 </section>

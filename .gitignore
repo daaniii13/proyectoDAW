@@ -1,3 +1,4 @@
+#Carpetas que serán ignoradas al subir al GitHub
 /vendor/
 /node_modules/
 /var/

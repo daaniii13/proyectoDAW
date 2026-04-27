@@ -1,13 +1,13 @@
 {% extends 'base.html.twig' %}
-{% block title %}Panel del profesor | TeachingExplorer{% endblock %}
+
+{% block title %}{{ 'profesor.panel.meta_titulo'|trans }}{% endblock %}
+
 {% block body %}
 <div data-dynamic-translate="1">
-    {#Cuenta bancaria para los pagos del profesor#}
     {% set cuentaBancariaDocente = 'ES12 3456 7890 1234 5678 9012' %}
-    
+
     <section class="seccion-profesor">
         <div class="container">
-            {#Cabecera y mensajes flash#}
             {% include 'paginas/profesor/fragmentos/_panel_cabecera_y_mensajes.html.twig' with {
                 suscripcionProfesor: suscripcionProfesor,
                 cursosProfesor: cursosProfesor,
@@ -15,13 +15,11 @@
             } %}
 
             {% if modoSolicitudProfesor %}
-                {#Si el profesor esta en modo solicitud#}
                 {% include 'paginas/profesor/fragmentos/_panel_solicitud_docente.html.twig' with {
                     suscripcionProfesor: suscripcionProfesor,
                     cuentaBancariaDocente: cuentaBancariaDocente
                 } %}
             {% else %}
-                {# Suscripción, cursos y gestión #}
                 {% include 'paginas/profesor/fragmentos/_panel_suscripcion_y_cursos.html.twig' with {
                     suscripcionProfesor: suscripcionProfesor,
                     mensajeSuscripcion: mensajeSuscripcion,

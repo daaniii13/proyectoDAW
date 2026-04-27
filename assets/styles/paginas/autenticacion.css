@@ -1,0 +1,488 @@
+/* ==================================================
+   PÁGINA DE AUTENTICACIÓN (LOGIN / REGISTRO)
+   ================================================== */
+
+/* Espaciado general de la sección para separarla de la cabecera y el pie de página */
+.seccion-autenticacion {
+    padding: 4rem 0;
+}
+
+/* Define la estructura principal a dos columnas.
+   1.05fr y 0.95fr crea una asimetría muy sutil (el panel izquierdo es ligerísimamente más ancho).
+   'align-items: stretch' hace que ambos paneles tengan exactamente la misma altura.
+*/
+.autenticacion-layout {
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: 2rem;
+    align-items: stretch;
+}
+
+/* Propiedades comunes para ambos paneles (el de información y el del formulario) */
+.autenticacion-panel {
+    border-radius: 28px; /* Bordes muy redondeados, estilo app moderna */
+    overflow: hidden; /* Evita que el contenido interior se salga de las esquinas redondeadas */
+}
+
+/* ==================================================
+   PANEL IZQUIERDO: INFORMACIÓN / DECORACIÓN
+   ================================================== */
+
+.autenticacion-panel--info {
+    /* Mezcla de gradientes radiales y lineales para crear un fondo vibrante y complejo */
+    background:
+        radial-gradient(circle at top left, rgba(99, 102, 241, 0.35), transparent 35%),
+        radial-gradient(circle at bottom right, rgba(59, 130, 246, 0.28), transparent 35%),
+        linear-gradient(135deg, #4f46e5 0%, #7c3aed 45%, #2563eb 100%);
+    color: #ffffff;
+    padding: 3rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Centra el contenido verticalmente */
+    min-height: 620px; /* Altura mínima para que no quede muy aplastado si hay poco texto */
+    box-shadow: 0 24px 60px rgba(37, 99, 235, 0.25); /* Sombra azulada expansiva */
+}
+
+/* Etiqueta estilo "novedad" o "beneficio" en la parte superior del panel de info */
+.autenticacion-panel__etiqueta {
+    display: inline-flex;
+    align-self: flex-start;
+    margin-bottom: 1rem;
+    padding: 0.45rem 0.9rem;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.16); /* Blanco semitransparente (glassmorphism) */
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    font-size: 0.9rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+}
+
+/* Gran título del panel informativo */
+.autenticacion-panel__titulo {
+    margin: 0 0 1rem;
+    font-size: clamp(2rem, 3vw, 3rem); /* Tamaño fluido que se adapta a la pantalla */
+    line-height: 1.08;
+    font-weight: 800;
+    color: #ffffff;
+}
+
+/* Párrafo descriptivo */
+.autenticacion-panel__texto {
+    margin: 0 0 1.5rem;
+    font-size: 1.05rem;
+    line-height: 1.75;
+    color: rgba(255, 255, 255, 0.9);
+    max-width: 38rem;
+}
+
+/* Lista de ventajas o características en el panel azul */
+.autenticacion-panel__lista {
+    margin: 0;
+    padding-left: 1.15rem;
+    display: grid;
+    gap: 0.75rem;
+    color: rgba(255, 255, 255, 0.95);
+}
+
+.autenticacion-panel__lista li {
+    line-height: 1.5;
+}
+
+/* ==================================================
+   PANEL DERECHO: FORMULARIO DE ACCESO/REGISTRO
+   ================================================== */
+
+.autenticacion-panel--formulario {
+    background: rgba(255, 255, 255, 0.96); /* Blanco casi opaco */
+    border: 1px solid rgba(15, 23, 42, 0.08);
+    box-shadow: 0 20px 50px rgba(15, 23, 42, 0.08); /* Sombra gris suave */
+    padding: 2rem;
+    min-height: 620px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+/* Cabecera del formulario ("Bienvenido de nuevo") */
+.autenticacion-cabecera {
+    margin-bottom: 1.5rem;
+}
+
+.autenticacion-cabecera h2 {
+    margin: 0 0 0.5rem;
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: #111827;
+}
+
+.autenticacion-cabecera p {
+    margin: 0;
+    color: #64748b;
+    line-height: 1.6;
+}
+
+/* Contenedor del grid del formulario */
+.formulario-autenticacion {
+    display: grid;
+    gap: 1.2rem; /* Separación entre los diferentes campos (email, contraseña, etc.) */
+}
+
+/* Estilos de las etiquetas de los inputs */
+.campo-formulario label {
+    display: block;
+    margin-bottom: 0.45rem;
+    font-weight: 700;
+    color: #1f2937;
+}
+
+/* Cajas de texto (inputs) específicas para el login */
+.campo-formulario .form-control {
+    min-height: 54px;
+    border-radius: 16px;
+    border: 1px solid #dbe2ea;
+    background: #ffffff;
+    color: #111827;
+    padding: 0.85rem 1rem;
+    box-shadow: none;
+}
+
+/* Estado de enfoque (cuando el usuario escribe) */
+.campo-formulario .form-control:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 0.2rem rgba(59, 130, 246, 0.14); /* Anillo de foco azul */
+}
+
+/* ==================================================
+   CAMPO DE CONTRASEÑA (REFINADO PARA LOGIN)
+   ================================================== */
+
+.campo-password {
+    position: relative;
+}
+
+.campo-password__input {
+    padding-right: 3.5rem !important; /* Deja espacio para que el texto no pise al icono del ojo */
+}
+
+/* Botón flotante para revelar la contraseña */
+.campo-password__toggle {
+    position: absolute;
+    top: 50%;
+    right: 0.8rem;
+    transform: translateY(-50%); /* Centrado vertical exacto */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: #64748b;
+    cursor: pointer;
+    border-radius: 999px; /* Botón redondo */
+    transition:
+        background-color 0.2s ease,
+        color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.campo-password__toggle:hover {
+    background: rgba(37, 99, 235, 0.08);
+    color: #2563eb;
+}
+
+.campo-password__toggle:focus {
+    outline: none;
+    background: rgba(37, 99, 235, 0.12);
+    color: #2563eb;
+}
+
+/* Cuando el usuario ve la contraseña, el icono se vuelve azul */
+.campo-password__toggle--activo {
+    color: #2563eb;
+}
+
+.campo-password__icono {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    line-height: 0;
+    pointer-events: none; /* Asegura que el clic lo reciba el botón y no el SVG interior */
+}
+
+.campo-password__icono svg {
+    width: 20px;
+    height: 20px;
+    display: block;
+}
+
+/* ==================================================
+   OPCIONES ADICIONALES (RECORDAR Y RECUPERAR)
+   ================================================== */
+
+/* Fila que contiene el checkbox de "Recordarme" y el enlace de "Olvidé mi contraseña" */
+.autenticacion-opciones {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap; /* En móviles pequeños, se pondrán uno debajo del otro */
+}
+
+.autenticacion-recordar {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    color: #475569;
+    font-weight: 600;
+}
+
+.autenticacion-enlace {
+    color: #2563eb;
+    text-decoration: none;
+    font-weight: 700;
+}
+
+.autenticacion-enlace:hover {
+    color: #1d4ed8;
+    text-decoration: underline;
+}
+
+/* ==================================================
+   BOTONES DE ACCIÓN PRINCIPALES
+   ================================================== */
+
+.autenticacion-boton-principal {
+    min-height: 56px;
+    border-radius: 999px;
+    font-size: 1rem;
+    font-weight: 800;
+    margin-top: 0.25rem;
+}
+
+.autenticacion-boton-secundario {
+    min-height: 56px;
+    border-radius: 999px;
+    font-size: 1rem;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* ==================================================
+   SEPARADOR SOCIAL ("O continúa con")
+   ================================================== */
+
+.autenticacion-separador {
+    position: relative;
+    text-align: center;
+    margin: 1.4rem 0 1.2rem;
+}
+
+/* Línea horizontal detrás del texto */
+.autenticacion-separador::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    border-top: 1px solid #e5e7eb;
+    transform: translateY(-50%);
+}
+
+/* El texto del centro debe tener fondo blanco para tapar la línea y que se lea bien */
+.autenticacion-separador span {
+    position: relative;
+    display: inline-block;
+    padding: 0 0.9rem;
+    background: rgba(255, 255, 255, 0.96);
+    color: #64748b;
+    font-weight: 600;
+}
+
+/* ==================================================
+   BOTÓN DE GOOGLE LOGIN
+   ================================================== */
+
+.boton-google-login {
+    width: 100%;
+    min-height: 56px;
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    padding: 0.9rem 1.25rem;
+    background: #ffffff;
+    color: #111827;
+    border: 1px solid #dbe2ea;
+    text-decoration: none;
+    font-weight: 700;
+    transition: all 0.2s ease;
+    box-shadow: 0 10px 25px rgba(15, 23, 42, 0.05); /* Sombra muy sutil */
+}
+
+.boton-google-login:hover {
+    background: #f8fafc;
+    border-color: #cbd5e1;
+    color: #111827;
+    transform: translateY(-1px);
+}
+
+.boton-google-login__icono {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    flex-shrink: 0;
+}
+
+/* Enlace final de "¿No tienes cuenta? Regístrate" */
+.autenticacion-registro {
+    margin: 1.4rem 0 0;
+    text-align: center;
+    color: #64748b;
+    font-weight: 600;
+}
+
+.autenticacion-registro a {
+    color: #2563eb;
+    text-decoration: none;
+    font-weight: 800;
+}
+
+.autenticacion-registro a:hover {
+    text-decoration: underline;
+}
+
+/* ==================================================
+   ADAPTACIÓN AL MODO OSCURO
+   ================================================== */
+
+/* El panel del formulario adopta fondos oscuros azulados y sombras mucho más pesadas */
+body.tema-oscuro .autenticacion-panel--formulario {
+    background: linear-gradient(180deg, rgba(15, 23, 42, 0.96), rgba(15, 23, 42, 0.92));
+    border: 1px solid rgba(148, 163, 184, 0.16);
+    box-shadow: 0 20px 50px rgba(2, 6, 23, 0.45);
+}
+
+/* Se invierten los colores de texto para que destaquen sobre fondos oscuros */
+body.tema-oscuro .autenticacion-cabecera h2 { color: #f8fafc; }
+body.tema-oscuro .autenticacion-cabecera p { color: #cbd5e1; }
+body.tema-oscuro .campo-formulario label { color: #e2e8f0; }
+
+/* Los inputs pasan a ser oscuros con bordes sutiles */
+body.tema-oscuro .campo-formulario .form-control {
+    background: rgba(15, 23, 42, 0.95);
+    border-color: rgba(148, 163, 184, 0.22);
+    color: #f8fafc;
+}
+
+body.tema-oscuro .campo-formulario .form-control::placeholder { color: #94a3b8; }
+body.tema-oscuro .campo-formulario .form-control:focus {
+    border-color: #60a5fa;
+    box-shadow: 0 0 0 0.2rem rgba(96, 165, 250, 0.16);
+}
+
+/* Ajustes del botón de mostrar contraseña en modo oscuro */
+body.tema-oscuro .campo-password__toggle { color: #94a3b8; }
+body.tema-oscuro .campo-password__toggle:hover,
+body.tema-oscuro .campo-password__toggle:focus,
+body.tema-oscuro .campo-password__toggle--activo {
+    color: #93c5fd;
+    background: rgba(59, 130, 246, 0.12);
+}
+
+/* Enlaces y textos secundarios */
+body.tema-oscuro .autenticacion-recordar { color: #cbd5e1; }
+body.tema-oscuro .autenticacion-enlace { color: #93c5fd; }
+body.tema-oscuro .autenticacion-enlace:hover { color: #bfdbfe; }
+
+/* El separador "O continúa con" invierte su línea y el color de fondo del texto */
+body.tema-oscuro .autenticacion-separador::before {
+    border-top-color: rgba(148, 163, 184, 0.2);
+}
+body.tema-oscuro .autenticacion-separador span {
+    background: rgba(15, 23, 42, 0.96); /* Asegura que tape la línea usando el fondo oscuro del panel */
+    color: #94a3b8;
+}
+
+/* El botón de Google mantiene su estilo de "botón claro" pero ajustando bordes y hover */
+body.tema-oscuro .boton-google-login {
+    background: #ffffff;
+    color: #111827;
+    border-color: rgba(255, 255, 255, 0.08);
+}
+body.tema-oscuro .boton-google-login:hover {
+    background: #f3f4f6;
+    color: #111827;
+}
+
+body.tema-oscuro .autenticacion-registro { color: #cbd5e1; }
+body.tema-oscuro .autenticacion-registro a { color: #93c5fd; }
+
+/* ==================================================
+   RESPONSIVE DESIGN
+   ================================================== */
+
+/* TABLETS: Menos de 992px */
+@media (max-width: 991.98px) {
+    /* Rompe el layout de dos columnas, colocando el panel de Info arriba y el Formulario abajo */
+    .autenticacion-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .autenticacion-panel--info {
+        min-height: auto;
+        padding: 2rem;
+    }
+
+    .autenticacion-panel--formulario {
+        min-height: auto;
+    }
+}
+
+/* MÓVILES: Menos de 576px */
+@media (max-width: 575.98px) {
+    .seccion-autenticacion {
+        padding: 2.5rem 0;
+    }
+
+    /* Reduce un poco el redondeo de los bordes para no perder tanto espacio útil en móvil */
+    .autenticacion-panel--info,
+    .autenticacion-panel--formulario {
+        border-radius: 22px;
+    }
+
+    .autenticacion-panel--formulario {
+        padding: 1.35rem; /* Menos padding lateral para hacer los inputs más anchos */
+    }
+
+    .autenticacion-cabecera h2 {
+        font-size: 1.8rem;
+    }
+
+    /* Apila el "Recordarme" y "Olvidé mi contraseña" uno debajo del otro */
+    .autenticacion-opciones {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+/* Utilidad general añadida al final para mini-layouts a dos columnas */
+.grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+@media (max-width: 768px) {
+    .grid-2 {
+        grid-template-columns: 1fr;
+    }
+}

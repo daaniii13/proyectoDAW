@@ -1,3 +1,36 @@
-body {
-    background-color: skyblue;
-}
+/* ==========================================================================
+   ARCHIVO CENTRAL DE ESTILOS (Punto de entrada)
+   Este archivo organiza la carga de toda la arquitectura CSS del proyecto.
+   ========================================================================== */
+
+/* --- 1. CAPA BASE: Configuraciones globales y variables --- */
+/* Define los colores, tamaños, fuentes y temas que usarán todos los demás archivos. */
+@import './base/variables.css';
+@import './base/reinicio.css';      /* Reseteo de estilos para consistencia entre navegadores */
+@import './base/tipografia.css';    /* Reglas globales de texto y escalas tipográficas */
+@import './base/tema_oscuro.css';   /* Ajustes globales para el modo noche */
+
+/* --- 2. CAPA DE LAYOUT: Estructura y navegación --- */
+/* Define el esqueleto de la aplicación y los elementos que se repiten en todas las páginas. */
+@import './layout/grid.css';        /* Sistema de rejillas, contenedores y utilidades de espaciado */
+@import './layout/navegacion.css';  /* Barra superior, menús y enlaces de cabecera */
+@import './layout/pie.css';         /* Estructura y diseño del footer */
+
+/* --- 3. CAPA DE COMPONENTES: Elementos reutilizables --- */
+/* Bloques de interfaz independientes que pueden usarse en cualquier lugar del sitio. */
+@import './componentes/botones.css';      /* Estilos para botones principales, secundarios y suaves */
+@import './componentes/formularios.css';  /* Diseño de inputs, etiquetas y campos de contraseña */
+@import './componentes/tarjetas.css';     /* Estructuras base para contenedores de contenido */
+@import './componentes/testimonios.css';  /* Bloques específicos para reseñas de usuarios */
+@import './componentes/chat-entrega.css'; /* Estilos para el chat alumno - profesor */
+
+/* --- 4. CAPA DE PÁGINAS: Estilos específicos por vista --- */
+/* Aquí reside el CSS que solo afecta a páginas concretas para evitar archivos gigantes. */
+@import './paginas/inicio.css';          /* Hero, buscador de cursos y secciones de portada */
+@import './paginas/cursos.css';          /* Mis cursos, detalle de curso y visor de lecciones */
+@import './paginas/autenticacion.css';   /* Pantallas de Login y Registro */
+@import './paginas/ajustes.css';         /* Perfil de usuario, cambio de contraseña y temas */
+@import './paginas/contacto.css';        /* Formulario y paneles de soporte */
+@import './paginas/profesor.css';        /* Panel y herramientas para instructores */
+@import './paginas/sobre_nosotros.css';  /* Misión, visión y valores de la plataforma */
+@import './paginas/errores.css';         /* Estilos para páginas 404 y errores del servidor */

@@ -1,0 +1,185 @@
+#Traducciones manuales de partes no traducidas automáticamente (español)
+nav:
+  abrir_menu: "Abrir menú"
+  cambiar_idioma: "Cambiar idioma"
+  inicio: "Inicio"
+  mis_cursos: "Mis cursos"
+  gestion_docente: "Gestión docente"
+  admin_profesores: "Profesores"
+  admin_usuarios: "Usuarios"
+  sobre_nosotros: "Sobre nosotros"
+  contacto: "Contacto"
+  ajustes: "Ajustes"
+  login: "Login"
+  logout: "Salir"
+  rol:
+    administrador: "Administrador"
+    profesor: "Profesor"
+    estudiante: "Estudiante"
+    usuario: "Usuario"
+
+login:
+  titulo_pagina: "Iniciar sesión"
+  titulo: "Iniciar sesión"
+  subtitulo: "Introduce tus credenciales para entrar en tu cuenta."
+  hero_titulo: "Inicia sesión y continúa aprendiendo"
+  hero_texto: "Accede a tus cursos, sigue tu progreso, consulta recursos y conecta con profesores desde una plataforma clara, moderna y preparada para aprender sin complicaciones."
+  lista_1: "Acceso a tus cursos e inscripciones"
+  lista_2: "Seguimiento del progreso"
+  lista_3: "Recursos y tareas organizados"
+  lista_4: "Inicio rápido también con Google"
+  correo: "Correo electrónico"
+  contrasena: "Contraseña"
+  recordarme: "Recordarme"
+  olvido: "¿Olvidaste tu contraseña?"
+  entrar: "Entrar"
+  o_continua: "o continúa con"
+  google: "Iniciar sesión con Google"
+  no_cuenta: "¿Todavía no tienes cuenta?"
+  crear_cuenta: "Crear cuenta"
+
+mis_cursos:
+  titulo_pagina: "Mis cursos"
+  etiqueta: "Área personal"
+  titulo: "Mis cursos"
+  subtitulo: "Aquí aparecen tus solicitudes y tus cursos ya activados."
+  vacio_titulo: "No tienes cursos ni solicitudes"
+  vacio_texto: "Cuando solicites una inscripción, aparecerá aquí."
+  listado_titulo: "Cursos y solicitudes"
+  listado_subtitulo: "Estado real de cada inscripción según pago y validación."
+  estado_prefijo: "Estado:"
+  estado_pendiente_pago: "Pendiente de pago"
+  estado_pendiente_validacion: "Pendiente de validación"
+  estado_activa: "Activa"
+  estado_rechazada: "Rechazada"
+  estado_completada: "Completada"
+  profesor: "Profesor:"
+  duracion: "Duración:"
+  precio: "Precio:"
+  progreso_aria: "Progreso del curso"
+  ver_detalles: "Ver detalles"
+  entrar_curso: "Entrar al curso"
+  avisar_pago: "Ya he realizado el pago"
+  esperando_validacion: "Esperando validación"
+  solicitud_rechazada: "Solicitud rechazada"
+  cuenta_profesor: "Número de cuenta del profesor:"
+  referencia_pago: "Referencia de pago:"
+  instruccion_pago: "Realiza la transferencia y después pulsa el botón para avisar del pago."
+
+footer:
+  descripcion: "Plataforma educativa orientada a conectar estudiantes y profesores mediante una experiencia clara, accesible y moderna."
+  navegacion: "Navegación"
+  contacto: "Contacto"
+  horario_dias: "Atención de lunes a viernes"
+  horario_horas: "08:00 - 18:00"
+  derechos: "Todos los derechos reservados."
+
+admin:
+  usuarios:
+    meta_titulo: "Usuarios | Admin | TeachingExplorer"
+    etiqueta: "Administración"
+    titulo: "Usuarios registrados"
+    descripcion: "Modifica nombre, correo, rol principal, estado y elimina usuarios si es necesario."
+    vacio_titulo: "No hay usuarios"
+    vacio_texto: "Todavía no hay cuentas registradas."
+    activo: "Activo"
+    inactivo: "Inactivo"
+    registro: "Registro"
+    nombre: "Nombre"
+    correo: "Correo"
+    estado: "Estado"
+    cuenta_activa: "Cuenta activa"
+    rol_principal: "Rol principal"
+    rol_estudiante: "Estudiante"
+    rol_profesor: "Profesor"
+    rol_admin: "Admin"
+    guardar: "Guardar cambios"
+    eliminar: "Eliminar usuario"
+    confirmar_eliminar: "¿Seguro que quieres eliminar este usuario?"
+    flash_nombre_correo_obligatorios: "Nombre y correo son obligatorios."
+    flash_correo_no_valido: "El correo no es válido."
+    flash_correo_duplicado: "Ya existe otro usuario con ese correo."
+    flash_actualizado: "Usuario actualizado correctamente."
+    flash_no_autoborrado: "No puedes eliminar tu propia cuenta de administrador."
+    flash_eliminado: "Usuario eliminado correctamente."
+    flash_no_eliminado: "No se pudo eliminar el usuario."
+  profesores:
+    meta_titulo: "Profesores pendientes | Admin | TeachingExplorer"
+
+ajustes:
+  meta_titulo: "Ajustes | TeachingExplorer"
+  apariencia: "Apariencia"
+  tema_actual: "Tema actual"
+  detectando: "Detectando..."
+  tema_claro: "Modo claro"
+  tema_oscuro: "Modo oscuro"
+
+profesor:
+  crear_curso:
+    placeholder_titulo: "Ejemplo: Aprende JavaScript"
+    placeholder_duracion: "Ejemplo: 8 semanas"
+    placeholder_descripcion: "Describe el contenido y objetivo del curso..."
+    placeholder_banner: "https://..."
+    placeholder_mapa: "https://..."
+    selecciona_opcion: "Selecciona una opción"
+  tareas:
+    placeholder_comentario_opcional: "Comentario opcional"
+  panel:
+    meta_titulo: "Panel del profesor | TeachingExplorer"
+  editar_curso:
+    meta_titulo: "Editar curso | TeachingExplorer"
+  recursos_curso:
+    meta_titulo: "Recursos del curso | TeachingExplorer"
+  tareas_curso:
+    meta_titulo: "Tareas del curso | TeachingExplorer"
+
+inicio:
+  meta_titulo: "Inicio | TeachingExplorer"
+
+contacto:
+  meta_titulo: "Contacto | TeachingExplorer"
+
+sobre_nosotros:
+  meta_titulo: "Sobre nosotros | TeachingExplorer"
+
+recuperacion:
+  meta_titulo: "Recuperar contraseña | TeachingExplorer"
+
+registro:
+  meta_titulo: "Crear cuenta | TeachingExplorer"
+  titulo: "Crear nueva cuenta"
+  subtitulo: "Completa el formulario para empezar."
+  nombre_completo: "Nombre completo"
+  placeholder_nombre: "Nombre y apellidos"
+  correo: "Correo electrónico"
+  placeholder_correo: "tucorreo@ejemplo.com"
+  tipo_cuenta: "Tipo de cuenta"
+  seleccionar_opcion: "Selecciona una opción"
+  contrasena: "Contraseña"
+  placeholder_contrasena: "Mínimo 8 caracteres"
+  repetir_contrasena: "Repetir contraseña"
+  placeholder_repetir_contrasena: "Repite la contraseña"
+  crear_cuenta: "Crear cuenta"
+  ya_tienes_cuenta: "¿Ya tienes cuenta?"
+  iniciar_sesion: "Iniciar sesión"
+  etiqueta: "Crear cuenta"
+  hero_titulo: "Únete a TeachingExplorer"
+  hero_texto: "Regístrate como estudiante o profesor y accede a cursos, contenido educativo y herramientas modernas."
+  lista_1: "Registro gratuito para estudiantes"
+  lista_2: "Planes específicos para profesores"
+  lista_3: "Solicitud automática al administrador para cuentas docentes"
+  lista_4: "Acceso inmediato tras validación o alta"
+  plan_profesor: "Plan de profesor"
+  seleccionar_plan: "Selecciona un plan"
+  plan_basico: "Básico"
+  plan_pro: "Pro"
+  plan_premium: "Premium"
+  cuenta_bancaria_pago: "Cuenta bancaria para el pago"
+  confirmacion_pago: "Confirmo que he revisado la cuenta bancaria y he realizado el pago"
+  mostrar_contrasena: "Mostrar u ocultar contraseña"
+
+comentarios:
+  placeholder_nuevo: "Escribe tu comentario..."
+
+visor:
+  placeholder_comentario_entrega: "Comentario opcional para el profesor"

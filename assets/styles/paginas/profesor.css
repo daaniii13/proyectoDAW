@@ -1,0 +1,598 @@
+/* ==================================================
+   PÁGINA DEL PROFESOR
+   ================================================== */
+
+/* ==================================================
+   BASE CLARA
+   ================================================== */
+
+.seccion-profesor {
+    padding: 5rem 0;
+    background: linear-gradient(180deg, #f8fbff 0%, #f5f7fb 100%);
+    color: #1e293b;
+}
+
+.seccion-profesor .container {
+    max-width: 1280px;
+}
+
+/* ==================================================
+   CABECERA
+   ================================================== */
+
+.profesor__cabecera {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 2rem;
+    margin-bottom: 3rem;
+    flex-wrap: wrap;
+}
+
+.profesor__etiqueta,
+.profesor__estado-etiqueta {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.55rem 1rem;
+    margin-bottom: 1rem;
+    font-size: 0.92rem;
+    font-weight: 600;
+    color: #2563eb;
+    background: #eaf2fd;
+    border-radius: 999px;
+}
+
+.profesor__cabecera h1 {
+    margin: 0 0 1rem;
+    font-size: clamp(2.2rem, 4vw, 3.8rem);
+    line-height: 1.1;
+    color: #0f172a;
+}
+
+.profesor__texto {
+    max-width: 760px;
+    margin: 0;
+    font-size: 1.08rem;
+    line-height: 1.8;
+    color: #64748b;
+}
+
+.profesor__nota {
+    margin-bottom: 1.5rem;
+}
+
+/* ==================================================
+   GRID Y BLOQUES
+   ================================================== */
+
+.profesor__grid {
+    display: grid;
+    grid-template-columns: minmax(320px, 0.95fr) minmax(0, 1.05fr);
+    gap: 1.5rem;
+    align-items: start;
+}
+
+.profesor__bloque {
+    padding: 1.75rem;
+    background: #ffffff;
+    border: 1px solid #dbe4ee;
+    border-radius: 1.5rem;
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
+    color: #1e293b;
+}
+
+.profesor__bloque--ancho {
+    grid-column: 1 / -1;
+}
+
+.profesor__bloque h2,
+.profesor__bloque h3,
+.profesor__bloque h4 {
+    margin-top: 0;
+    color: #0f172a;
+}
+
+.profesor__bloque h2 {
+    margin-bottom: 1.25rem;
+    font-size: 1.45rem;
+}
+
+.profesor__bloque p,
+.profesor__bloque span,
+.profesor__bloque small,
+.profesor__bloque label,
+.profesor__bloque li {
+    color: #475569;
+}
+
+/* Mantener badges de Bootstrap sin apagarlos */
+.profesor__bloque .badge,
+.curso-usuario .badge {
+    color: inherit;
+}
+
+/* ==================================================
+   RESUMEN DEL PLAN
+   ================================================== */
+
+.profesor__resumen-plan {
+    padding: 1.35rem;
+    background: #f1f5f9;
+    border: 1px solid #dbe4ee;
+    border-radius: 1.25rem;
+}
+
+.profesor__resumen-plan-superior {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+}
+
+.profesor__resumen-plan-estado {
+    font-weight: 600;
+    color: #2563eb;
+}
+
+.profesor__resumen-plan-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    color: #475569;
+}
+
+.profesor__resumen-plan-texto {
+    margin-top: 1rem;
+    margin-bottom: 0;
+    color: #64748b;
+    line-height: 1.7;
+}
+
+/* ==================================================
+   FORMULARIOS
+   ================================================== */
+
+.profesor__formulario .form-control,
+.profesor__formulario .form-select,
+.profesor__formulario textarea {
+    min-height: 50px;
+    border-radius: 0.85rem;
+    background: #ffffff;
+    color: #0f172a;
+    border: 1px solid #cbd5e1;
+}
+
+.profesor__formulario .form-control::placeholder,
+.profesor__formulario .form-select::placeholder,
+.profesor__formulario textarea::placeholder {
+    color: #64748b;
+}
+
+.profesor__formulario textarea {
+    min-height: 140px;
+}
+
+/* ==================================================
+   TARJETAS DE CURSOS / BLOQUES REUTILIZADOS
+   ================================================== */
+
+.curso-usuario {
+    background: #ffffff;
+    border: 1px solid #dbe4ee;
+    border-radius: 1.5rem;
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
+    padding: 1.25rem;
+    color: #1e293b;
+}
+
+.curso-usuario h3,
+.curso-usuario strong {
+    color: #0f172a;
+}
+
+.curso-usuario p,
+.curso-usuario span,
+.curso-usuario small,
+.curso-usuario li {
+    color: #475569;
+}
+
+.curso-usuario__meta span {
+    color: #64748b;
+}
+
+.estado-vacio {
+    padding: 2rem 1.25rem;
+    text-align: center;
+    background: #ffffff;
+    border: 1px dashed #cbd5e1;
+    border-radius: 1.25rem;
+}
+
+.estado-vacio__icono {
+    width: 3rem;
+    height: 3rem;
+    margin: 0 auto 1rem;
+    border-radius: 999px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #eaf2fd;
+    color: #2563eb;
+    font-weight: 700;
+}
+
+.estado-vacio__titulo {
+    margin-bottom: 0.5rem;
+    color: #0f172a;
+}
+
+.estado-vacio__texto {
+    margin: 0;
+    color: #64748b;
+}
+
+/* ==================================================
+   TABLA DE ENTREGAS
+   ================================================== */
+
+.profesor__tabla-entregas {
+    margin-bottom: 0;
+    border-collapse: separate;
+    border-spacing: 0;
+    --bs-table-bg: transparent;
+    --bs-table-striped-bg: transparent;
+    --bs-table-hover-bg: transparent;
+    --bs-table-color: inherit;
+    --bs-table-border-color: #dbe4ee;
+}
+
+.profesor__tabla-entregas thead th {
+    background: #eef4fb !important;
+    color: #0f172a !important;
+    font-weight: 700;
+    border-bottom: 1px solid #d8e1ec !important;
+    padding: 1rem 0.85rem;
+    vertical-align: middle;
+}
+
+.profesor__tabla-entregas tbody td {
+    background: #ffffff !important;
+    color: #1e293b !important;
+    border-bottom: 1px solid #e2e8f0 !important;
+    padding: 1rem 0.85rem;
+    vertical-align: middle;
+}
+
+.profesor__tabla-entregas tbody tr:last-child td {
+    border-bottom: 0 !important;
+}
+
+.profesor__tabla-entregas thead th *,
+.profesor__tabla-entregas tbody td * {
+    color: inherit;
+}
+
+.profesor__tabla-entregas small {
+    color: #64748b !important;
+}
+
+.profesor__tabla-entregas .form-label {
+    color: #1e293b !important;
+    font-weight: 600;
+}
+
+.profesor__tabla-entregas .form-control,
+.profesor__tabla-entregas .form-select,
+.profesor__tabla-entregas textarea,
+.profesor__tabla-entregas input {
+    background: #f8fafc !important;
+    color: #0f172a !important;
+    border: 1px solid #cbd5e1 !important;
+}
+
+.profesor__tabla-entregas .form-control::placeholder,
+.profesor__tabla-entregas .form-select::placeholder,
+.profesor__tabla-entregas textarea::placeholder,
+.profesor__tabla-entregas input::placeholder {
+    color: #64748b !important;
+}
+
+.profesor__tabla-entregas .btn-outline-secondary {
+    border-color: #94a3b8 !important;
+    color: #475569 !important;
+}
+
+.profesor__tabla-entregas .btn-outline-secondary:hover {
+    background: #e2e8f0 !important;
+    color: #0f172a !important;
+    border-color: #94a3b8 !important;
+}
+
+/* ==================================================
+   MODO CLARO EXPLÍCITO
+   ================================================== */
+
+body:not(.tema-oscuro) .seccion-profesor {
+    background: linear-gradient(180deg, #f8fbff 0%, #f5f7fb 100%);
+    color: #1e293b;
+}
+
+body:not(.tema-oscuro) .profesor__bloque,
+body:not(.tema-oscuro) .curso-usuario,
+body:not(.tema-oscuro) .estado-vacio {
+    background: #ffffff !important;
+    border-color: #dbe4ee !important;
+    color: #1e293b !important;
+}
+
+body:not(.tema-oscuro) .profesor__bloque h2,
+body:not(.tema-oscuro) .profesor__bloque h3,
+body:not(.tema-oscuro) .profesor__bloque h4,
+body:not(.tema-oscuro) .curso-usuario h3,
+body:not(.tema-oscuro) .curso-usuario strong,
+body:not(.tema-oscuro) .estado-vacio__titulo {
+    color: #0f172a !important;
+}
+
+body:not(.tema-oscuro) .profesor__bloque p,
+body:not(.tema-oscuro) .profesor__bloque span,
+body:not(.tema-oscuro) .profesor__bloque small,
+body:not(.tema-oscuro) .profesor__bloque label,
+body:not(.tema-oscuro) .profesor__bloque li,
+body:not(.tema-oscuro) .curso-usuario p,
+body:not(.tema-oscuro) .curso-usuario span,
+body:not(.tema-oscuro) .curso-usuario small,
+body:not(.tema-oscuro) .curso-usuario li,
+body:not(.tema-oscuro) .estado-vacio__texto {
+    color: #475569 !important;
+}
+
+body:not(.tema-oscuro) .curso-usuario__meta span {
+    color: #64748b !important;
+}
+
+body:not(.tema-oscuro) .profesor__resumen-plan {
+    background: #f1f5f9 !important;
+    border-color: #dbe4ee !important;
+}
+
+body:not(.tema-oscuro) .profesor__resumen-plan-estado {
+    color: #2563eb !important;
+}
+
+body:not(.tema-oscuro) .profesor__resumen-plan-meta,
+body:not(.tema-oscuro) .profesor__resumen-plan-texto {
+    color: #475569 !important;
+}
+
+body:not(.tema-oscuro) .profesor__formulario .form-control,
+body:not(.tema-oscuro) .profesor__formulario .form-select,
+body:not(.tema-oscuro) .profesor__formulario textarea {
+    background: #ffffff !important;
+    color: #0f172a !important;
+    border-color: #cbd5e1 !important;
+}
+
+/* ==================================================
+   MODO OSCURO
+   ================================================== */
+
+body.tema-oscuro .seccion-profesor {
+    background: linear-gradient(180deg, #0b1220 0%, #0f172a 100%);
+    color: #e5e7eb;
+}
+
+body.tema-oscuro .profesor__etiqueta,
+body.tema-oscuro .profesor__estado-etiqueta {
+    background: rgba(59, 130, 246, 0.14);
+    color: #93c5fd;
+}
+
+body.tema-oscuro .profesor__cabecera h1 {
+    color: #f8fafc;
+}
+
+body.tema-oscuro .profesor__texto {
+    color: #94a3b8;
+}
+
+body.tema-oscuro .profesor__bloque {
+    background: #111827;
+    border-color: rgba(148, 163, 184, 0.14);
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.25);
+    color: #e5e7eb;
+}
+
+body.tema-oscuro .profesor__bloque h2,
+body.tema-oscuro .profesor__bloque h3,
+body.tema-oscuro .profesor__bloque h4 {
+    color: #f8fafc;
+}
+
+body.tema-oscuro .profesor__bloque p,
+body.tema-oscuro .profesor__bloque span,
+body.tema-oscuro .profesor__bloque small,
+body.tema-oscuro .profesor__bloque label,
+body.tema-oscuro .profesor__bloque li {
+    color: #cbd5e1;
+}
+
+body.tema-oscuro .profesor__resumen-plan {
+    background: #172033;
+    border-color: rgba(148, 163, 184, 0.16);
+}
+
+body.tema-oscuro .profesor__resumen-plan-estado {
+    color: #93c5fd;
+}
+
+body.tema-oscuro .profesor__resumen-plan-meta {
+    color: #e5e7eb;
+}
+
+body.tema-oscuro .profesor__resumen-plan-texto {
+    color: #94a3b8;
+}
+
+body.tema-oscuro .profesor__formulario .form-control,
+body.tema-oscuro .profesor__formulario .form-select,
+body.tema-oscuro .profesor__formulario textarea {
+    background: #091224;
+    color: #f8fafc;
+    border: 1px solid rgba(148, 163, 184, 0.2);
+}
+
+body.tema-oscuro .profesor__formulario .form-control::placeholder,
+body.tema-oscuro .profesor__formulario .form-select::placeholder,
+body.tema-oscuro .profesor__formulario textarea::placeholder {
+    color: #94a3b8;
+}
+
+body.tema-oscuro .curso-usuario {
+    background: #0f172a;
+    border-color: rgba(148, 163, 184, 0.14);
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.25);
+    color: #e5e7eb;
+}
+
+body.tema-oscuro .curso-usuario h3,
+body.tema-oscuro .curso-usuario strong {
+    color: #f8fafc;
+}
+
+body.tema-oscuro .curso-usuario p,
+body.tema-oscuro .curso-usuario span,
+body.tema-oscuro .curso-usuario small,
+body.tema-oscuro .curso-usuario li {
+    color: #cbd5e1;
+}
+
+body.tema-oscuro .curso-usuario__meta span {
+    color: #94a3b8;
+}
+
+body.tema-oscuro .estado-vacio {
+    background: #0f172a;
+    border-color: rgba(148, 163, 184, 0.18);
+}
+
+body.tema-oscuro .estado-vacio__icono {
+    background: rgba(59, 130, 246, 0.14);
+    color: #93c5fd;
+}
+
+body.tema-oscuro .estado-vacio__titulo {
+    color: #f8fafc;
+}
+
+body.tema-oscuro .estado-vacio__texto {
+    color: #94a3b8;
+}
+
+html.tema-oscuro .profesor__tabla-entregas thead th,
+body.tema-oscuro .profesor__tabla-entregas thead th {
+    background: #162033 !important;
+    color: #f8fafc !important;
+    border-bottom: 1px solid rgba(148, 163, 184, 0.18) !important;
+}
+
+html.tema-oscuro .profesor__tabla-entregas tbody td,
+body.tema-oscuro .profesor__tabla-entregas tbody td {
+    background: #0f172a !important;
+    color: #e5e7eb !important;
+    border-bottom: 1px solid rgba(148, 163, 184, 0.14) !important;
+}
+
+html.tema-oscuro .profesor__tabla-entregas small,
+body.tema-oscuro .profesor__tabla-entregas small {
+    color: #94a3b8 !important;
+}
+
+html.tema-oscuro .profesor__tabla-entregas .form-label,
+body.tema-oscuro .profesor__tabla-entregas .form-label {
+    color: #dbe4f0 !important;
+}
+
+html.tema-oscuro .profesor__tabla-entregas .form-control,
+html.tema-oscuro .profesor__tabla-entregas .form-select,
+html.tema-oscuro .profesor__tabla-entregas textarea,
+html.tema-oscuro .profesor__tabla-entregas input,
+body.tema-oscuro .profesor__tabla-entregas .form-control,
+body.tema-oscuro .profesor__tabla-entregas .form-select,
+body.tema-oscuro .profesor__tabla-entregas textarea,
+body.tema-oscuro .profesor__tabla-entregas input {
+    background: #091224 !important;
+    color: #f8fafc !important;
+    border: 1px solid rgba(148, 163, 184, 0.22) !important;
+}
+
+html.tema-oscuro .profesor__tabla-entregas .form-control::placeholder,
+html.tema-oscuro .profesor__tabla-entregas .form-select::placeholder,
+html.tema-oscuro .profesor__tabla-entregas textarea::placeholder,
+html.tema-oscuro .profesor__tabla-entregas input::placeholder,
+body.tema-oscuro .profesor__tabla-entregas .form-control::placeholder,
+body.tema-oscuro .profesor__tabla-entregas .form-select::placeholder,
+body.tema-oscuro .profesor__tabla-entregas textarea::placeholder,
+body.tema-oscuro .profesor__tabla-entregas input::placeholder {
+    color: #94a3b8 !important;
+}
+
+html.tema-oscuro .profesor__tabla-entregas .btn-outline-secondary,
+body.tema-oscuro .profesor__tabla-entregas .btn-outline-secondary {
+    border-color: rgba(148, 163, 184, 0.28) !important;
+    color: #dbe4f0 !important;
+}
+
+html.tema-oscuro .profesor__tabla-entregas .btn-outline-secondary:hover,
+body.tema-oscuro .profesor__tabla-entregas .btn-outline-secondary:hover {
+    background: rgba(148, 163, 184, 0.12) !important;
+    color: #ffffff !important;
+    border-color: rgba(148, 163, 184, 0.36) !important;
+}
+
+/* ==================================================
+   RESPONSIVE
+   ================================================== */
+
+@media (max-width: 991.98px) {
+    .profesor__grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .seccion-profesor {
+        padding: 3rem 0;
+    }
+
+    .profesor__texto {
+        font-size: 1rem;
+    }
+
+    .profesor__bloque,
+    .curso-usuario {
+        padding: 1rem;
+    }
+
+    .profesor__tabla-entregas thead th,
+    .profesor__tabla-entregas tbody td {
+        padding: 0.85rem 0.75rem;
+    }
+}
+
+/* ==================================================
+   BADGES AZULES EN GESTIÓN DOCENTE (MODO CLARO)
+   ================================================== */
+
+body:not(.tema-oscuro) .seccion-profesor .badge.text-bg-primary,
+body:not(.tema-oscuro) .seccion-profesor .badge.bg-primary,
+body:not(.tema-oscuro) .seccion-profesor .badge.text-primary {
+    color: #ffffff !important;
+}
+
+body:not(.tema-oscuro) .seccion-profesor .badge.text-bg-primary {
+    background-color: #0d6efd !important;
+}
