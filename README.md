@@ -360,10 +360,6 @@ Hay una carpeta llamada `images` en la raíz del repositorio donde se encuentran
 ![Página principal 1](images/screenshot-inicio.png)
 ![Página principal 2](images/screenshot-inicio2.png)
 
-### Mis cursos
-
-![Mis cursos](images/screenshot-mis-cursos.png)
-
 ### Sobre nosotros
 
 ![Sobre nosotros](images/screenshot-sobre-nosotros.png)
@@ -375,7 +371,11 @@ Hay una carpeta llamada `images` en la raíz del repositorio donde se encuentran
 ### Login y registro
 
 ![Iniciar sesión](images/screenshot-login.png)
-![Crear cuenta](images/screenshot-login.png)
+![Crear cuenta](images/screenshot-login2.png)
+
+### Mis cursos
+
+![Mis cursos](images/screenshot-mis-cursos.png)
 
 ### Panel del profesor
 
