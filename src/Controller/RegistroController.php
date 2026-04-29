@@ -124,15 +124,24 @@ class RegistroController extends AbstractController
                     $this->addFlash('success', 'Cuenta creada correctamente. Ya puedes iniciar sesión.');
                 }
 
-                return $this->redirectToRoute('app_login');
+                $redirectUrl = $request->request->get('redirect') ?? $request->query->get('redirect');
+
+                return $this->redirectToRoute('app_login', [
+                    'redirect' => ($redirectUrl && str_starts_with($redirectUrl, '/')) ? $redirectUrl : null
+                ]);
             }
         }
+
+        // Lee la URL de retorno desde el parámetro GET de la petición
+        $redirectUrl = $request->query->get('redirect');
 
         return $this->render('paginas/autenticacion/registro.html.twig', [
             'error' => $error,
             'datos' => $datos,
-            // Número de cuenta donde los profesores deben realizar el pago del plan docente
             'cuentaBancariaDocente' => 'ES12 3456 7890 1234 5678 9012',
+            // Pasa la URL de retorno al template para incluirla como campo oculto en el formulario
+            'redirectUrl' => $redirectUrl,
         ]);
     }
 }
+

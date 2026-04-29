@@ -31,6 +31,7 @@
 
                     <div class="detalle-curso__acciones">
                         {% if app.user and ('ROLE_ESTUDIANTE' in app.user.roles or 'ROLE_PROFESOR' in app.user.roles) %}
+                            
                             {% if app.user == curso.profesor %}
                                 <button type="button" class="btn btn-outline-secondary" disabled>Este es tu curso</button>
 
@@ -39,13 +40,25 @@
 
                             {% elseif inscripcionExistente %}
                                 <button type="button" class="btn btn-outline-secondary" disabled>Ya tienes una solicitud o inscripción</button>
+
                             {% else %}
                                 <form method="post" action="{{ path('app_inscribirse_curso', {id: curso.id}) }}" class="d-inline">
                                     <input type="hidden" name="_token" value="{{ csrf_token('inscribirse_curso_' ~ curso.id) }}">
                                     <button type="submit" class="btn btn-primary">Solicitar inscripción</button>
                                 </form>
                             {% endif %}
+
+                        {% elseif not app.user %}
+                            {{-- Botones redireccionadores en caso que el usuario intente matricularse sin iniciar sesión --}}
+                            <a href="{{ path('app_registro', {redirect: path('app_detalle_curso', {id: curso.id})}) }}"
+                            class="btn btn-primary">
+                                Matricularse
+                            </a>
+                            <p class="texto-suave mt-2" style="font-size: 0.875rem;">
+                                ¿Ya tienes cuenta? <a href="{{ path('app_login') }}">Inicia sesión</a>
+                            </p>
                         {% endif %}
+                        
 
                         <a href="{{ path('app_inicio') }}" class="btn btn-outline-secondary">Volver</a>
                     </div>
