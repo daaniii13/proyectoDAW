@@ -52,7 +52,7 @@
                             {# Botones redireccionadores en caso que el usuario intente matricularse sin iniciar sesión #}
                             <a href="{{ path('app_registro', {'redirect': path('app_detalle_curso', {'id': curso.id})}) }}" class="btn btn-primary">Matricularse</a>
                             <p class="texto-suave mt-2" style="font-size: 0.875rem;">
-                                ¿Ya tienes cuenta? <a href="{{ path('app_login') }}">Inicia sesión</a>
+                                ¿Ya tienes cuenta? <a href="{{ path('app_login') }}" style="color: #0d6efd; text-decoration: underline;">Inicia sesión</a>
                             </p>
                         {% endif %}
                         
