@@ -53,7 +53,7 @@
                 <form method="post" class="formulario-autenticacion">
                     <input type="hidden" name="_token" value="{{ csrf_token('registro_usuario') }}">
 
-                    {{-- Si existe URL de retorno, la incluye como campo oculto para que el controlador pueda redirigir al curso tras el registro --}}
+                    {# Si existe URL de retorno, la incluye como campo oculto para que el controlador pueda redirigir al curso tras el registro #}
                     {% if redirectUrl %}
                         <input type="hidden" name="redirect" value="{{ redirectUrl }}">
                     {% endif %}

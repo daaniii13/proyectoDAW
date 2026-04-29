@@ -5,7 +5,7 @@
     <section class="seccion-detalle-curso">
         <div class="container">
 
-            {#Banner del curso#}
+            {# Banner del curso #}
             {% if curso.bannerUrl %}
                 <div class="detalle-curso__banner mb-4">
                     <img src="{{ curso.bannerUrl }}" alt="Banner del curso {{ curso.titulo|traducir_dinamico }}">
@@ -13,7 +13,7 @@
             {% endif %}
 
             <div class="detalle-curso__hero">
-                {#Informacion y detallesdel curso#}
+                {# Informacion y detalles del curso #}
                 <div class="detalle-curso__contenido">
                     <span class="detalle-curso__etiqueta">Curso destacado</span>
                     <h1>{{ curso.titulo|traducir_dinamico }}</h1>
@@ -49,11 +49,8 @@
                             {% endif %}
 
                         {% elseif not app.user %}
-                            {{-- Botones redireccionadores en caso que el usuario intente matricularse sin iniciar sesión --}}
-                            <a href="{{ path('app_registro', {redirect: path('app_detalle_curso', {id: curso.id})}) }}"
-                            class="btn btn-primary">
-                                Matricularse
-                            </a>
+                            {# Botones redireccionadores en caso que el usuario intente matricularse sin iniciar sesión #}
+                            <a href="{{ path('app_registro', {'redirect': path('app_detalle_curso', {'id': curso.id})}) }}" class="btn btn-primary">Matricularse</a>
                             <p class="texto-suave mt-2" style="font-size: 0.875rem;">
                                 ¿Ya tienes cuenta? <a href="{{ path('app_login') }}">Inicia sesión</a>
                             </p>
@@ -88,14 +85,12 @@
 
             </div>
 
-            {#Comentarios de los usuarios#}
             <section class="bloque-comentarios mt-5">
                 <div class="bloque-comentarios__cabecera">
                     <h2>Comentarios</h2>
                     <p class="texto-suave mb-0">Opiniones y experiencias de los usuarios sobre este curso.</p>
                 </div>
 
-                {#Notificaciones flash para mensajes de exito y error#}
                 {% for mensaje in app.flashes('success') %}
                     <div class="mensaje-ui mensaje-ui--exito mt-3">
                         <span>{{ mensaje }}</span>
@@ -108,7 +103,7 @@
                     </div>
                 {% endfor %}
 
-                {#Si es un usuario registrado puede comentar#}
+                {# Si es un usuario registrado puede comentar #}
                 {% set puedeComentarCurso = puedeComentar|default(false) %}
 
                 {% if app.user %}
@@ -132,7 +127,7 @@
                     </div>
                 {% endif %}
 
-                {#Listado de comentarios#}
+                {# Listado de comentarios #}
                 {% if comentarios is empty %}
                     <div class="estado-vacio mt-4">
                         <div class="estado-vacio__icono">0</div>
