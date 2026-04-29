@@ -5,11 +5,12 @@
 [![CSS][CSS-shield]][CSS-url]
 [![JavaScript][JavaScript-shield]][JavaScript-url]
 [![PHP][PHP-shield]][PHP-url]
+[![Python][Python-shield]][Python-url]
 [![Symfony][Symfony-shield]][Symfony-url]
 [![MySQL][MySQL-shield]][MySQL-url]
+[![Vite][Vite-shield]][Vite-url]
 [![Bootstrap][Bootstrap-shield]][Bootstrap-url]
 [![Vue][Vue-shield]][Vue-url]
-[![Vite][Vite-shield]][Vite-url]
 
 <!-- Logo del proyecto -->
 <br />
@@ -67,7 +68,7 @@
 <!-- Sobre el proyecto -->
 ## Sobre el proyecto
 
-[![Captura de TeachingExplorer][product-screenshot]](https://github.com/daaniii13/proyectoDAW.git)
+![Vista pública](images/screenshot-panel-inicio-public.png)
 
 **Teaching Explorer** es una aplicación web educativa desarrollada principalmente con Symfony. Su objetivo es facilitar la relación entre estudiantes y profesores mediante una plataforma donde se pueden publicar cursos, gestionar inscripciones, subir recursos, crear tareas, corregir entregas y controlar el progreso del alumnado.
 
@@ -77,15 +78,18 @@ El proyecto incluye autenticación tradicional, inicio de sesión con Google, si
 
 ### Desarrollado con
 
+* [![HTML][HTML-shield]][HTML-url]
+* [![CSS][CSS-shield]][CSS-url]
+* [![JavaScript][JavaScript-shield]][JavaScript-url]
 * [![PHP][PHP-shield]][PHP-url]
+* [![Python][Python-shield]][Python-url]
 * [![Symfony][Symfony-shield]][Symfony-url]
 * [![Doctrine][Doctrine-shield]][Doctrine-url]
-* [![MySQL][MySQL-shield]][MySQL-url]
 * [![Twig][Twig-shield]][Twig-url]
+* [![MySQL][MySQL-shield]][MySQL-url]
+* [![Vite][Vite-shield]][Vite-url]
 * [![Bootstrap][Bootstrap-shield]][Bootstrap-url]
 * [![Vue][Vue-shield]][Vue-url]
-* [![Vite][Vite-shield]][Vite-url]
-* [![Python][Python-shield]][Python-url]
 
 <p align="right">(<a href="#readme-top">volver arriba</a>)</p>
 
@@ -489,7 +493,6 @@ Correo de contacto: teachingexplorer@gmail.com
 <p align="right">(<a href="#readme-top">volver arriba</a>)</p>
 
 <!-- Markdown links e imágenes -->
-[product-screenshot]: images/screenshot-proyecto.png
 
 [PHP-shield]: https://img.shields.io/badge/PHP-8.2%2B-777BB4?style=for-the-badge&logo=php&logoColor=white
 [PHP-url]: https://www.php.net/
