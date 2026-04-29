@@ -475,15 +475,11 @@ Actualmente, el proyecto está desplegado en producción y disponible en:
 <!-- Contacto -->
 ## Autores
 
-Carlos Castellano Gómez
-
-Juan Daniel Colque Calcina
-
-Fernando Martínez Moreno
-
-Daniel Muñoz Martínez
-
-Juan Luis Sánchez Galindo
+- Carlos Castellano Gómez
+- Juan Daniel Colque Calcina
+- Fernando Martínez Moreno
+- Daniel Muñoz Martínez
+- Juan Luis Sánchez Galindo
 
 Correo de contacto: teachingexplorer@gmail.com  
 
