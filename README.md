@@ -25,8 +25,6 @@
     <a href="https://teachingexplorer.com"><strong>Ver demo en producción »</strong></a>
     <br />
     <br />
-    <a href="https://teachingexplorer.com">Ver proyecto</a>
-    &middot;
     <a href="https://github.com/daaniii13/proyectoDAW.git">Ver repositorio</a>
     &middot;
     <a href="https://github.com/daaniii13/proyectoDAW/issues/new?labels=bug">Reportar error</a>
@@ -487,13 +485,12 @@ Daniel Muñoz Martínez
 
 Juan Luis Sánchez Galindo
 
-Correo empresarial: teachingexplorer@gmail.com  
-Repositorio: [https://github.com/daaniii13/proyectoDAW.git]
+Correo de contacto: teachingexplorer@gmail.com  
 
 <p align="right">(<a href="#readme-top">volver arriba</a>)</p>
 
 <!-- Markdown links e imágenes -->
-[product-screenshot]: images/screenshot-inicio.png
+[product-screenshot]: images/screenshot-proyecto.png
 
 [PHP-shield]: https://img.shields.io/badge/PHP-8.2%2B-777BB4?style=for-the-badge&logo=php&logoColor=white
 [PHP-url]: https://www.php.net/
