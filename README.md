@@ -487,7 +487,7 @@ Actualmente, el proyecto está desplegado en producción y disponible en:
 - Daniel Muñoz Martínez
 - Juan Luis Sánchez Galindo
 
-Correo de contacto: teachingexplorer@gmail.com  
+Correo de contacto: teachingexplorerdaw@gmail.com  
 
 <p align="right">(<a href="#readme-top">volver arriba</a>)</p>
 
