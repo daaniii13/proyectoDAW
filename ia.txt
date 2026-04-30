@@ -1,2 +1,0 @@
-buscador inteligente ->
-“No es un sistema de IA compleja, sino un algoritmo de ranking basado en coincidencia de términos, búsquedas recientes y comportamiento del usuario (clics).”
