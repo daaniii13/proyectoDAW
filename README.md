@@ -45,7 +45,6 @@
         <li><a href="#funcionalidades-principales">Funcionalidades principales</a></li>
       </ul>
     </li>
-    <li><a href="#demo-en-producción">Demo en producción</a></li>
     <li>
       <a href="#primeros-pasos">Primeros pasos</a>
       <ul>
