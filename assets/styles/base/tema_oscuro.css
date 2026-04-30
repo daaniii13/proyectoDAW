@@ -1,7 +1,5 @@
-/* ==================================================
-   TEMA OSCURO GLOBAL
-   PALETA PROFESIONAL
-   ================================================== */
+/*Tema oscuro global */
+
 
 /* Clase raíz del tema oscuro: JavaScript añade esta clase al <body> al activarlo */
 body.tema-oscuro {
@@ -9,7 +7,9 @@ body.tema-oscuro {
     color: #e5e7eb; /* Texto general: un gris muy claro para no cansar la vista */
 }
 
+
 /* --- Tipografía --- */
+
 
 /* Encabezados en blanco casi puro para contrastar sobre fondos oscuros */
 body.tema-oscuro h1,
