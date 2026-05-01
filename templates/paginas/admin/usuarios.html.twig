@@ -3,6 +3,7 @@
 {% block title %}{{ 'admin.usuarios.meta_titulo'|trans }}{% endblock %}
 
 {% block body %}
+{#Pagina de gestion de usuarios registrados#}
 <section class="seccion-profesor">
     <div class="container">
         <div class="profesor__cabecera">
@@ -14,7 +15,7 @@
                 </p>
             </div>
         </div>
-
+        {#Bucles de las notificaciones de exito o error#}
         {% for mensaje in app.flashes('success') %}
             <div class="mensaje-ui mensaje-ui--exito profesor__nota">
                 <span>{{ mensaje|trans }}</span>
@@ -27,6 +28,7 @@
             </div>
         {% endfor %}
 
+        {#Pantalla si no hay usuarios#}
         {% if usuarios is empty %}
             <div class="estado-vacio">
                 <div class="estado-vacio__icono">0</div>
@@ -34,9 +36,11 @@
                 <p class="estado-vacio__texto">{{ 'admin.usuarios.vacio_texto'|trans }}</p>
             </div>
         {% else %}
+            {#Bucle de usuarios registrados y formularios de edición#}
             <div class="d-flex flex-column gap-4">
                 {% for usuario in usuarios %}
                     <article class="profesor__bloque">
+                    {#Formulario de edición e informacion del usuario#}
                         <form method="post" action="{{ path('app_admin_usuario_editar', {id: usuario.id}) }}" class="profesor__formulario">
                             <input type="hidden" name="_token" value="{{ csrf_token('editar_usuario_' ~ usuario.id) }}">
 
@@ -72,6 +76,7 @@
                                     </div>
                                 </div>
 
+                                {#Rol del usuario#}
                                 <div class="col-12">
                                     <label class="form-label d-block">{{ 'admin.usuarios.rol_principal'|trans }}</label>
 
@@ -113,7 +118,7 @@
                                 </button>
                             </div>
                         </form>
-
+                        {#Formulario de eliminacion#}
                         <form method="post" action="{{ path('app_admin_usuario_eliminar', {id: usuario.id}) }}" class="mt-3">
                             <input type="hidden" name="_token" value="{{ csrf_token('eliminar_usuario_' ~ usuario.id) }}">
                             <button type="submit" class="btn btn-outline-danger">

@@ -6,8 +6,9 @@
 <section class="seccion-autenticacion">
     <div class="container">
         <div class="autenticacion-layout">
-
+            {#Pagina de recuperar la contraseña#}
             <div class="autenticacion-panel autenticacion-panel--info">
+                {#Panel informativo sobre recuperar la contraseña#}
                 <span class="autenticacion-panel__etiqueta">Recuperación</span>
 
                 <h1 class="autenticacion-panel__titulo">
@@ -32,6 +33,7 @@
                     <p>Escribe el correo asociado a tu cuenta para recibir el enlace de recuperación.</p>
                 </div>
 
+                {#Notificaciones de exito y error#}
                 {% for mensaje in app.flashes('success') %}
                     <div class="mensaje-ui mensaje-ui--exito mb-3">
                         <span>{{ mensaje }}</span>
@@ -44,6 +46,7 @@
                     </div>
                 {% endif %}
 
+                {#Apartado del formulario#}
                 <form method="post" class="formulario-autenticacion">
                     <input type="hidden" name="_token" value="{{ csrf_token('recuperar_contrasena') }}">
 
@@ -63,6 +66,7 @@
                         Enviar enlace
                     </button>
 
+                    {#Volver al login#}
                     <a href="{{ path('app_login') }}" class="btn btn-outline-secondary autenticacion-boton-secundario">
                         Volver al login
                     </a>

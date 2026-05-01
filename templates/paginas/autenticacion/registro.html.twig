@@ -6,7 +6,7 @@
 <section class="seccion-autenticacion">
     <div class="container">
         <div class="autenticacion-layout">
-
+            {#Panel de informacion y ventajas#}
             <div class="autenticacion-panel autenticacion-panel--info">
                 <span class="autenticacion-panel__etiqueta">{{ 'registro.etiqueta'|trans }}</span>
 
@@ -32,12 +32,14 @@
                     <p>{{ 'registro.subtitulo'|trans }}</p>
                 </div>
 
+                {# Error general #}
                 {% if error %}
                     <div class="mensaje-ui mensaje-ui--error mb-3">
                         <span>{{ error }}</span>
                     </div>
                 {% endif %}
 
+                {#Notificaciones flash para mensajes de exito y error#}
                 {% for mensaje in app.flashes('success') %}
                     <div class="mensaje-ui mensaje-ui--exito mb-3">
                         <span>{{ mensaje }}</span>
@@ -50,7 +52,9 @@
                     </div>
                 {% endfor %}
 
+                {#Formulario de registro#}
                 <form method="post" class="formulario-autenticacion">
+                    {#Token seguridad#}
                     <input type="hidden" name="_token" value="{{ csrf_token('registro_usuario') }}">
 
                     <div class="campo-formulario">
@@ -66,6 +70,7 @@
                         >
                     </div>
 
+                    {#Correo#}
                     <div class="campo-formulario">
                         <label for="correo">{{ 'registro.correo'|trans }}</label>
                         <input
@@ -79,6 +84,7 @@
                         >
                     </div>
 
+                    {#Cuenta de alumno o profesor#}
                     <div class="campo-formulario">
                         <label for="tipo_usuario">{{ 'registro.tipo_cuenta'|trans }}</label>
                         <select id="tipo_usuario" name="tipo_usuario" class="form-control" required>
@@ -91,7 +97,7 @@
                             </option>
                         </select>
                     </div>
-
+                    {#Para el profesor elegir el tipo plan#}
                     <div class="campo-formulario" id="bloque_plan_profesor" style="{{ datos.tipo_usuario is defined and datos.tipo_usuario == 'profesor' ? '' : 'display:none;' }}">
                         <label for="plan_profesor">{{ 'registro.plan_profesor'|trans }}</label>
                         <select id="plan_profesor" name="plan_profesor" class="form-control">
@@ -108,6 +114,7 @@
                         </select>
                     </div>
 
+                    {#Bloque de pago nº de cuenta y check de pago#}
                     <div class="campo-formulario" id="bloque_pago_profesor" style="{{ datos.tipo_usuario is defined and datos.tipo_usuario == 'profesor' ? '' : 'display:none;' }}">
                         <label class="form-label">{{ 'registro.cuenta_bancaria_pago'|trans }}</label>
                         <div class="form-control d-flex align-items-center mb-3">{{ cuentaBancariaDocente|default('ES12 3456 7890 1234 5678 9012') }}</div>
@@ -128,6 +135,7 @@
                     </div>
 
                     <div class="grid-2">
+                        {#Crear y confirmar contraseña#}
                         <div class="campo-formulario">
                             <label for="contrasena">{{ 'registro.contrasena'|trans }}</label>
                             <div class="campo-password">
@@ -171,6 +179,7 @@
                             </div>
                         </div>
 
+                        {#Confirmar contraseña#}
                         <div class="campo-formulario">
                             <label for="repetir_contrasena">{{ 'registro.repetir_contrasena'|trans }}</label>
                             <div class="campo-password">
@@ -219,6 +228,7 @@
                         {{ 'registro.crear_cuenta'|trans }}
                     </button>
 
+                    {#Enlace a la pagina de login#}
                     <div class="autenticacion-registro">
                         {{ 'registro.ya_tienes_cuenta'|trans }}
                         <a href="{{ path('app_login') }}">{{ 'registro.iniciar_sesion'|trans }}</a>
@@ -233,6 +243,7 @@
 
 <script>
 (function () {
+        // Muestra u oculta campos de profesor
     function actualizarVisibilidadPlan() {
         const tipoUsuario = document.getElementById('tipo_usuario');
         const bloquePlanProfesor = document.getElementById('bloque_plan_profesor');
@@ -259,6 +270,7 @@
         }
     }
 
+    //Funcion para el inicializar el evento
     function iniciar() {
         const tipoUsuario = document.getElementById('tipo_usuario');
 
