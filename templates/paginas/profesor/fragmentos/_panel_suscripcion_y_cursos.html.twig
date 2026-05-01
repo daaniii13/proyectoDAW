@@ -1,10 +1,13 @@
 <div class="row g-4 mb-4">
+
+    {#Si el profesor tiene suscripción, mostrara su plan actual#}
     {% if suscripcionProfesor %}
         <div class="col-12 col-lg-6">
             <section class="profesor__bloque h-100">
                 <h2>Plan actual</h2>
 
                 <div class="profesor__resumen-plan">
+
                     <div class="profesor__resumen-plan-superior">
                         <span class="badge text-bg-primary">Plan {{ suscripcionProfesor.plan|capitalize }}</span>
                         <span class="profesor__resumen-plan-estado">
@@ -12,13 +15,16 @@
                         </span>
                     </div>
 
+                    {#Datos del plan#}
                     <div class="profesor__resumen-plan-meta">
                         <span>Límite de cursos: {{ suscripcionProfesor.limiteCursos }}</span>
 
+                        {#Fecha de solicitud si existe#}
                         {% if suscripcionProfesor.fechaSolicitud %}
                             <span>Solicitud: {{ suscripcionProfesor.fechaSolicitud|date('d/m/Y H:i') }}</span>
                         {% endif %}
 
+                        {#Plan solicitado#}
                         {% if suscripcionProfesor.planSolicitado %}
                             <span>Plan solicitado: {{ suscripcionProfesor.planSolicitado|capitalize }}</span>
                         {% endif %}
@@ -38,6 +44,8 @@
                 <h2>Cambiar o cancelar plan</h2>
 
                 <div class="d-flex flex-column gap-4">
+
+                    {#Formulario para el plan#}
                     <form method="post" class="profesor__formulario">
                         <input type="hidden" name="formulario" value="solicitar_cambio_plan">
                         <input type="hidden" name="_token" value="{{ csrf_token('solicitar_cambio_plan') }}">
@@ -51,11 +59,13 @@
                             </select>
                         </div>
 
+                        {#Cuenta bancaria#}
                         <div class="mb-3">
                             <label class="form-label">Cuenta bancaria para el pago</label>
                             <div class="form-control d-flex align-items-center">{{ cuentaBancariaDocente }}</div>
                         </div>
 
+                        {#Confirmacion de pago#}
                         <div class="form-check mb-3">
                             <input class="form-check-input" type="checkbox" id="confirmacion_pago_cambio_plan" name="confirmacion_pago" value="1" required>
                             <label class="form-check-label" for="confirmacion_pago_cambio_plan">
@@ -68,6 +78,7 @@
                         </button>
                     </form>
 
+                    {#Formulario de cancelacion#}
                     <form method="post" class="profesor__formulario">
                         <input type="hidden" name="formulario" value="solicitar_cancelacion">
                         <input type="hidden" name="_token" value="{{ csrf_token('solicitar_cancelacion') }}">
@@ -84,6 +95,7 @@
     {% endif %}
 </div>
 
+{#Solicitudes de estudiantes#}
 {% if solicitudesPendientes is not empty %}
     <section class="profesor__bloque mb-4">
         <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
@@ -94,14 +106,18 @@
             <span class="badge text-bg-warning">{{ solicitudesPendientes|length }} pendiente(s)</span>
         </div>
 
+        {#Listado de solicitudes#}
         <div class="mis-cursos__grid">
             {% for inscripcion in solicitudesPendientes %}
                 <article class="curso-usuario">
+
+                    {#Estado del curso#}
                     <div class="curso-usuario__superior">
                         <span class="badge text-bg-warning">Pendiente</span>
                         <span class="curso-usuario__progreso">{{ inscripcion.curso.titulo }}</span>
                     </div>
 
+                    {#Estudiante#}
                     <h3>{{ inscripcion.estudiante.nombre }}</h3>
 
                     <div class="curso-usuario__meta">
@@ -166,21 +182,27 @@
     </section>
 {% endif %}
 
+{#Crear cursos#}
 <section class="profesor__bloque mb-4">
+
     <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
         <div>
             <h2 class="mb-1">Crear curso</h2>
             <p class="mb-0">Puedes mantener el formulario plegado y abrirlo solo cuando lo necesites.</p>
         </div>
+
+        {#Indicador si esta bloqueado#}
         {% if not puedeCrearCursos %}
             <span class="badge text-bg-danger">Bloqueado</span>
         {% endif %}
     </div>
 
     {% if puedeCrearCursos %}
+
         <details class="w-100" {% if datosCurso.titulo or datosCurso.descripcion %}open{% endif %}>
             <summary class="btn btn-primary mb-4">Nuevo curso</summary>
 
+            {#Formulario de creacion de cursos#}
             <form method="post" class="profesor__formulario">
                 <input type="hidden" name="formulario" value="crear_curso">
                 <input type="hidden" name="_token" value="{{ csrf_token('crear_curso') }}">
@@ -188,40 +210,23 @@
                 <div class="row g-4">
                     <div class="col-12 col-lg-6">
                         <label for="titulo_curso" class="form-label">Título del curso</label>
-                        <input
-                            type="text"
-                            id="titulo_curso"
-                            name="titulo_curso"
-                            class="form-control"
-                            placeholder="{{ 'profesor.crear_curso.placeholder_titulo'|trans }}"
-                            value="{{ datosCurso.titulo|default('') }}"
-                            required
-                        >
+                        <input type="text" id="titulo_curso" name="titulo_curso" class="form-control"
+                               placeholder="{{ 'profesor.crear_curso.placeholder_titulo'|trans }}"
+                               value="{{ datosCurso.titulo|default('') }}" required>
                     </div>
 
                     <div class="col-12 col-lg-6">
                         <label for="duracion_curso" class="form-label">Duración</label>
-                        <input
-                            type="text"
-                            id="duracion_curso"
-                            name="duracion_curso"
-                            class="form-control"
-                            placeholder="{{ 'profesor.crear_curso.placeholder_duracion'|trans }}"
-                            value="{{ datosCurso.duracion|default('') }}"
-                            required
-                        >
+                        <input type="text" id="duracion_curso" name="duracion_curso" class="form-control"
+                               placeholder="{{ 'profesor.crear_curso.placeholder_duracion'|trans }}"
+                               value="{{ datosCurso.duracion|default('') }}" required>
                     </div>
 
                     <div class="col-12">
                         <label for="descripcion_curso" class="form-label">Descripción</label>
-                        <textarea
-                            id="descripcion_curso"
-                            name="descripcion_curso"
-                            class="form-control"
-                            rows="5"
-                            placeholder="{{ 'profesor.crear_curso.placeholder_descripcion'|trans }}"
-                            required
-                        >{{ datosCurso.descripcion|default('') }}</textarea>
+                        <textarea id="descripcion_curso" name="descripcion_curso" class="form-control" rows="5"
+                                  placeholder="{{ 'profesor.crear_curso.placeholder_descripcion'|trans }}"
+                                  required>{{ datosCurso.descripcion|default('') }}</textarea>
                     </div>
 
                     <div class="col-12 col-lg-4">
@@ -254,41 +259,23 @@
 
                     <div class="col-12 col-lg-4">
                         <label for="precio_curso" class="form-label">Precio (€)</label>
-                        <input
-                            type="number"
-                            step="0.01"
-                            min="0"
-                            id="precio_curso"
-                            name="precio_curso"
-                            class="form-control"
-                            placeholder="49.99"
-                            value="{{ datosCurso.precio|default('') }}"
-                            required
-                        >
+                        <input type="number" step="0.01" min="0" id="precio_curso" name="precio_curso"
+                               class="form-control" placeholder="49.99"
+                               value="{{ datosCurso.precio|default('') }}" required>
                     </div>
 
                     <div class="col-12 col-lg-4">
                         <label for="banner_url" class="form-label">URL del banner</label>
-                        <input
-                            type="url"
-                            id="banner_url"
-                            name="banner_url"
-                            class="form-control"
-                            placeholder="{{ 'profesor.crear_curso.placeholder_banner'|trans }}"
-                            value="{{ datosCurso.banner_url|default('') }}"
-                        >
+                        <input type="url" id="banner_url" name="banner_url" class="form-control"
+                               placeholder="{{ 'profesor.crear_curso.placeholder_banner'|trans }}"
+                               value="{{ datosCurso.banner_url|default('') }}">
                     </div>
 
                     <div class="col-12 col-lg-4">
                         <label for="mapa_url" class="form-label">URL de mapa o ubicación</label>
-                        <input
-                            type="url"
-                            id="mapa_url"
-                            name="mapa_url"
-                            class="form-control"
-                            placeholder="{{ 'profesor.crear_curso.placeholder_mapa'|trans }}"
-                            value="{{ datosCurso.mapa_url|default('') }}"
-                        >
+                        <input type="url" id="mapa_url" name="mapa_url" class="form-control"
+                               placeholder="{{ 'profesor.crear_curso.placeholder_mapa'|trans }}"
+                               value="{{ datosCurso.mapa_url|default('') }}">
                     </div>
                 </div>
 
@@ -297,9 +284,13 @@
                         Guardar curso
                     </button>
                 </div>
+
             </form>
         </details>
+
     {% else %}
+
+        {#Mensaje si esta bloqueado#}
         <div class="estado-vacio">
             <div class="estado-vacio__icono">!</div>
             <h3 class="estado-vacio__titulo">Creación de cursos bloqueada</h3>
@@ -307,10 +298,14 @@
                 {{ mensajeSuscripcion ?: 'Ahora mismo no puedes crear cursos.' }}
             </p>
         </div>
+
     {% endif %}
 </section>
 
+{#Cursos del profesor#}
 <section class="profesor__bloque profesor__bloque--ancho">
+
+    {#Cabecera#}
     <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
         <div>
             <h2 class="mb-1">Mis cursos creados</h2>
@@ -327,17 +322,23 @@
                 Cuando crees tu primer curso aparecerá aquí con su información principal.
             </p>
         </div>
+
     {% else %}
+
+        {#Listado de cursos#}
         <div class="d-flex flex-column gap-4">
             {% for curso in cursosProfesor %}
                 {% set alumnos = alumnosPorCurso[curso.id]|default([]) %}
 
                 <article class="curso-usuario">
+
+                    {#Nivel y modalidad del curso#}
                     <div class="curso-usuario__superior">
                         <span class="badge text-bg-primary">{{ curso.nivel }}</span>
                         <span class="curso-usuario__progreso">{{ curso.modalidad }} · {{ curso.estado|capitalize }}</span>
                     </div>
 
+                    {#Titulo y descripcion#}
                     <div class="d-flex justify-content-between align-items-start gap-3 flex-wrap">
                         <div>
                             <h3>{{ curso.titulo }}</h3>
@@ -350,6 +351,7 @@
                         </div>
                     </div>
 
+                    {#Acciones principales#}
                     <div class="curso-usuario__acciones mb-4">
                         <a href="{{ path('app_detalle_curso', {id: curso.id}) }}" class="btn btn-outline-secondary">Vista pública</a>
                         <a href="{{ path('app_profesor_editar_curso', {id: curso.id}) }}" class="btn btn-outline-secondary">Editar curso</a>
@@ -362,6 +364,7 @@
                         </form>
                     </div>
 
+                    {#Desplegable alumnos#}
                     <details class="w-100">
                         <summary class="btn btn-primary">Ver alumnos y progreso</summary>
 
@@ -401,5 +404,6 @@
                 </article>
             {% endfor %}
         </div>
+
     {% endif %}
 </section>

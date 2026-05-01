@@ -4,9 +4,11 @@
 
 {% block body %}
 <div data-dynamic-translate="1">
+{#Cuenta bancaria que se muestra#}
 {% set cuentaBancariaDocente = 'ES12 3456 7890 1234 5678 9012' %}
 <section class="seccion-ajustes">
     <div class="container">
+        {#Cabecera#}
         <div class="ajustes__cabecera">
             <span class="ajustes__etiqueta">Configuración</span>
             <h1>Mi cuenta</h1>
@@ -15,6 +17,7 @@
             </p>
         </div>
 
+        {# Notificaciones de exito o error#}        
         {% for mensaje in app.flashes('success') %}
             <div class="mensaje-ui mensaje-ui--exito mb-4">
                 <span>{{ mensaje|trans }}</span>
@@ -28,21 +31,25 @@
         {% endfor %}
 
         <div class="ajustes__grid">
+            {#Opciones del perfil#}
             <section class="ajustes__bloque">
                 <h2>Perfil</h2>
 
                 <form method="post" action="{{ path('app_actualizar_perfil') }}" enctype="multipart/form-data" class="ajustes__formulario">
                     <div class="row g-3">
+                        {#Nombre#}
                         <div class="col-12 col-md-6">
                             <label for="nombre-usuario" class="form-label">Nombre</label>
                             <input type="text" id="nombre-usuario" name="nombre_usuario" class="form-control" value="{{ usuarioActual.nombre }}" required>
                         </div>
 
+                        {#Email#}
                         <div class="col-12 col-md-6">
                             <label for="correo-ajustes" class="form-label">Correo electrónico</label>
                             <input type="email" id="correo-ajustes" name="correo" class="form-control" value="{{ usuarioActual.email }}" required>
                         </div>
 
+                        {#Foto de perfil#}
                         <div class="col-12">
                             <label for="foto_perfil" class="form-label">Foto de perfil</label>
                             <input
@@ -53,7 +60,7 @@
                                 accept=".jpg,.jpeg,.png,.webp,.gif,image/jpeg,image/png,image/webp,image/gif"
                             >
                         </div>
-
+                        {# Avatar actual#}
                         <div class="col-12">
                             {% if usuarioActual.fotoPerfil %}
                                 <div class="mt-2">
@@ -75,10 +82,12 @@
                 </form>
             </section>
 
+            {#Opciones de apariencia#}
             <section class="ajustes__bloque">
                 <h2>{{ 'ajustes.apariencia'|trans }}</h2>
 
                 <div class="d-flex flex-column gap-3">
+                    {#Tema actual#}
                     <div class="contacto__dato">
                         <span class="contacto__dato-titulo">{{ 'ajustes.tema_actual'|trans }}</span>
                         <p id="tema-actual">{{ 'ajustes.detectando'|trans }}</p>
@@ -88,6 +97,7 @@
                         El botón activo cambia de contraste según el tema y se anima ligeramente para que se identifique mejor.
                     </p>
 
+                    {#Botones de opciones#}
                     <div class="ajustes__tema-botones">
                         <button type="button" class="btn ajustes__tema-boton ajustes__tema-boton--claro" id="activar-modo-claro">
                             {{ 'ajustes.tema_claro'|trans }}
@@ -100,6 +110,7 @@
                 </div>
             </section>
 
+            {#Solicitud de cuenta de profesores#}
             {% if esEstudiante is defined and esEstudiante and (esProfesor is not defined or not esProfesor) and (esAdmin is not defined or not esAdmin) %}
                 <section class="ajustes__bloque ajustes__bloque--ancho">
                     <h2>Solicitar cuenta de profesor</h2>
@@ -118,6 +129,7 @@
                         <input type="hidden" name="_token" value="{{ csrf_token('solicitar_cuenta_profesor') }}">
 
                         <div class="row g-3">
+                            {#Plan de suscripcion#}
                             <div class="col-12 col-lg-6">
                                 <label for="plan_docente_ajustes" class="form-label">Plan docente</label>
                                 <select id="plan_docente_ajustes" name="plan" class="form-select" required>
@@ -127,11 +139,13 @@
                                 </select>
                             </div>
 
+                            {#Cuenta bancaria #}
                             <div class="col-12 col-lg-6">
                                 <label class="form-label">Cuenta bancaria para el pago</label>
                                 <div class="form-control d-flex align-items-center">{{ cuentaBancariaDocente }}</div>
                             </div>
-
+                            
+                            {#Confirmación #}
                             <div class="col-12">
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" id="confirmacion_pago_ajustes" name="confirmacion_pago" value="1" required>
@@ -151,9 +165,11 @@
                 </section>
             {% endif %}
 
+            {#Opciones de seguridad#}
             <section class="ajustes__bloque ajustes__bloque--ancho">
                 <h2>Seguridad</h2>
 
+                {#Formulario para cambiar la contraseña#}
                 <form method="post" action="{{ path('app_cambiar_contrasena') }}" class="ajustes__formulario">
                     <div class="row g-3">
                         <div class="col-12 col-md-4">
@@ -191,7 +207,7 @@
                                 </button>
                             </div>
                         </div>
-
+                    {#Nueva contraseña#}
                         <div class="col-12 col-md-4">
                             <label for="nueva-contrasena" class="form-label">Nueva contraseña</label>
                             <div class="campo-password">
@@ -278,12 +294,14 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function () {
+    //Evento, cuando cargue la pagina guarda el modo y sus variables asociadas a los botones
     const claveTema = 'te_modo';
     const elementoEstado = document.getElementById('tema-actual');
     const botonClaro = document.getElementById('activar-modo-claro');
     const botonOscuro = document.getElementById('activar-modo-oscuro');
 
     function actualizarEstado() {
+        //Funcion para actualizar el texto de tema actual
         const tema = localStorage.getItem(claveTema) || 'claro';
 
         if (elementoEstado) {
@@ -300,7 +318,7 @@ document.addEventListener('DOMContentLoaded', function () {
             botonOscuro.classList.toggle('ajustes__tema-boton--activo', tema === 'oscuro');
         }
     }
-
+    //Guarda el tema en Local Storage segun el boton
     if (botonClaro) {
         botonClaro.addEventListener('click', function () {
             localStorage.setItem(claveTema, 'claro');

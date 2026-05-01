@@ -1,4 +1,7 @@
+{#Bloque principal de tareas y entregas#}
+
 <section class="profesor__bloque profesor__bloque--ancho">
+    {#Cabecera#}
     <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
         <div>
             <h2 class="mb-1">Tareas y entregas</h2>
@@ -9,7 +12,8 @@
             Volver al panel docente
         </a>
     </div>
-
+    
+    {#Sin tareas#}
     {% if tareas is empty %}
         <div class="estado-vacio">
             <div class="estado-vacio__icono">0</div>
@@ -22,8 +26,9 @@
         <div class="d-flex flex-column gap-4">
             {% for tarea in tareas %}
                 {% set entregasTarea = entregasPorTarea[tarea.id]|default([]) %}
-
+                
                 <article class="curso-usuario">
+                    {#Cabecera tarea#}
                     <div class="curso-usuario__superior">
                         <span class="badge text-bg-primary">Tarea</span>
                         <span class="curso-usuario__progreso">
@@ -31,6 +36,7 @@
                         </span>
                     </div>
 
+                    {#Info tarea#}
                     <div class="d-flex flex-wrap justify-content-between align-items-start gap-3">
                         <div class="flex-grow-1">
                             <h3>{{ tarea.titulo }}</h3>
@@ -54,6 +60,7 @@
                         </div>
                     </div>
 
+                    {# Editar tarea #}
                     <details class="mt-4">
                         <summary class="btn btn-outline-secondary">Editar tarea</summary>
 
@@ -91,6 +98,7 @@
                         </form>
                     </details>
 
+                    {#Eliminar tarea#}
                     <form method="post" action="{{ path('app_profesor_eliminar_tarea', {id: tarea.id}) }}" class="mt-3">
                         <input type="hidden" name="_token" value="{{ csrf_token('eliminar_tarea_' ~ tarea.id) }}">
                         <button type="submit" class="btn btn-outline-danger">
@@ -98,6 +106,7 @@
                         </button>
                     </form>
 
+                    {#Si no hay entregas#}
                     {% if entregasTarea is empty %}
                         <div class="estado-vacio mt-3">
                             <div class="estado-vacio__icono">0</div>
@@ -107,6 +116,7 @@
                     {% else %}
                         <div class="d-flex flex-column gap-4 mt-4">
                             {% for entrega in entregasTarea %}
+                                {#Listado de tareas entregadas y detalles sobre ella#}
                                 <section class="border rounded-4 p-3 bg-body-tertiary">
                                     <div class="d-flex flex-wrap justify-content-between align-items-start gap-3 mb-3">
                                         <div>
