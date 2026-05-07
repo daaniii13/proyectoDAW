@@ -4,34 +4,40 @@
     {% if suscripcionProfesor %}
         <div class="col-12 col-lg-6">
             <section class="profesor__bloque h-100">
-                <h2>Plan actual</h2>
+                <h2>{{ 'Plan actual'|traducir_dinamico }}</h2>
 
                 <div class="profesor__resumen-plan">
 
                     <div class="profesor__resumen-plan-superior">
-                        <span class="badge text-bg-primary">Plan {{ suscripcionProfesor.plan|capitalize }}</span>
+                        <span class="badge text-bg-primary">
+                            {{ 'Plan'|traducir_dinamico }} {{ suscripcionProfesor.plan|capitalize }}
+                        </span>
                         <span class="profesor__resumen-plan-estado">
-                            Estado: {{ suscripcionProfesor.estado|capitalize }}
+                            {% set estadoPlan = suscripcionProfesor.estado == 'activa'? 
+                            (app.request.locale == 'en' ? 'Active' : 'Activa'): suscripcionProfesor.estado|capitalize
+                            %}
+
+                            {{ 'Estado'|traducir_dinamico }}: {{ estadoPlan }}
                         </span>
                     </div>
 
                     {#Datos del plan#}
                     <div class="profesor__resumen-plan-meta">
-                        <span>Límite de cursos: {{ suscripcionProfesor.limiteCursos }}</span>
+                        <span>{{ 'Límite de cursos'|traducir_dinamico }}: {{ suscripcionProfesor.limiteCursos }}</span>
 
                         {#Fecha de solicitud si existe#}
                         {% if suscripcionProfesor.fechaSolicitud %}
-                            <span>Solicitud: {{ suscripcionProfesor.fechaSolicitud|date('d/m/Y H:i') }}</span>
+                            <span>{{ 'Solicitud'|traducir_dinamico }}: {{ suscripcionProfesor.fechaSolicitud|date('d/m/Y H:i') }}</span>
                         {% endif %}
 
                         {#Plan solicitado#}
                         {% if suscripcionProfesor.planSolicitado %}
-                            <span>Plan solicitado: {{ suscripcionProfesor.planSolicitado|capitalize }}</span>
+                            <span>{{ 'Plan solicitado'|traducir_dinamico }}: {{ suscripcionProfesor.planSolicitado|capitalize }}</span>
                         {% endif %}
                     </div>
 
                     {% if mensajeSuscripcion %}
-                        <p class="profesor__resumen-plan-texto">{{ mensajeSuscripcion }}</p>
+                        <p class="profesor__resumen-plan-texto">{{ mensajeSuscripcion|traducir_dinamico }}</p>
                     {% endif %}
                 </div>
             </section>
@@ -41,7 +47,7 @@
     {% if suscripcionProfesor and suscripcionProfesor.estado == 'activa' and suscripcionProfesor.tipoSolicitud is null %}
         <div class="col-12 col-lg-6">
             <section class="profesor__bloque h-100">
-                <h2>Cambiar o cancelar plan</h2>
+                <h2>{{ 'Cambiar o cancelar plan'|traducir_dinamico }}</h2>
 
                 <div class="d-flex flex-column gap-4">
 
@@ -51,17 +57,27 @@
                         <input type="hidden" name="_token" value="{{ csrf_token('solicitar_cambio_plan') }}">
 
                         <div class="mb-3">
-                            <label for="plan_cambio_docente" class="form-label">Nuevo plan</label>
+                            <label for="plan_cambio_docente" class="form-label">
+                                {{ 'Nuevo plan'|traducir_dinamico }}
+                            </label>
                             <select id="plan_cambio_docente" name="plan" class="form-select" required>
-                                <option value="basico" {{ suscripcionProfesor.plan == 'basico' ? 'selected' : '' }}>Básico · 1 curso</option>
-                                <option value="pro" {{ suscripcionProfesor.plan == 'pro' ? 'selected' : '' }}>Pro · 5 cursos</option>
-                                <option value="premium" {{ suscripcionProfesor.plan == 'premium' ? 'selected' : '' }}>Premium · ilimitados</option>
+                                <option value="basico" {{ (suscripcionProfesor.planSolicitado ?: suscripcionProfesor.plan) == 'basico' ? 'selected' : '' }}>
+                                    {{ app.request.locale == 'en' ? 'Basic · 1 course' : 'Básico · 1 curso' }}
+                                </option>
+
+                                <option value="pro" {{ (suscripcionProfesor.planSolicitado ?: suscripcionProfesor.plan) == 'pro' ? 'selected' : '' }}>
+                                    {{ app.request.locale == 'en' ? 'Pro · 5 courses' : 'Pro · 5 cursos' }}
+                                </option>
+
+                                <option value="premium" {{ (suscripcionProfesor.planSolicitado ?: suscripcionProfesor.plan) == 'premium' ? 'selected' : '' }}>
+                                    {{ app.request.locale == 'en' ? 'Premium · unlimited' : 'Premium · ilimitados' }}
+                                </option>
                             </select>
                         </div>
 
                         {#Cuenta bancaria#}
                         <div class="mb-3">
-                            <label class="form-label">Cuenta bancaria para el pago</label>
+                            <label class="form-label">{{ 'Cuenta bancaria para el pago'|traducir_dinamico }}</label>
                             <div class="form-control d-flex align-items-center">{{ cuentaBancariaDocente }}</div>
                         </div>
 
@@ -69,12 +85,12 @@
                         <div class="form-check mb-3">
                             <input class="form-check-input" type="checkbox" id="confirmacion_pago_cambio_plan" name="confirmacion_pago" value="1" required>
                             <label class="form-check-label" for="confirmacion_pago_cambio_plan">
-                                Confirmo que he realizado el pago del nuevo plan.
+                                {{ 'Confirmo que he realizado el pago del nuevo plan.'|traducir_dinamico }}
                             </label>
                         </div>
 
                         <button type="submit" class="btn btn-primary w-100">
-                            Solicitar cambio de plan
+                            {{ 'Solicitar cambio de plan'|traducir_dinamico }}
                         </button>
                     </form>
 
@@ -83,10 +99,12 @@
                         <input type="hidden" name="formulario" value="solicitar_cancelacion">
                         <input type="hidden" name="_token" value="{{ csrf_token('solicitar_cancelacion') }}">
 
-                        <p class="mb-3">La cancelación también debe ser revisada por el administrador.</p>
+                        <p class="mb-3">
+                            {{ 'La cancelación también debe ser revisada por el administrador.'|traducir_dinamico }}
+                        </p>
 
                         <button type="submit" class="btn btn-outline-danger w-100">
-                            Solicitar cancelación
+                            {{ 'Solicitar cancelación'|traducir_dinamico }}
                         </button>
                     </form>
                 </div>
@@ -100,10 +118,12 @@
     <section class="profesor__bloque mb-4">
         <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
             <div>
-                <h2 class="mb-1">Solicitudes pendientes de validación</h2>
-                <p class="mb-0">Revisa pagos y activa el acceso de cada alumno.</p>
+                <h2 class="mb-1">{{ 'Solicitudes pendientes de validación'|traducir_dinamico }}</h2>
+                <p class="mb-0">{{ 'Revisa pagos y activa el acceso de cada alumno.'|traducir_dinamico }}</p>
             </div>
-            <span class="badge text-bg-warning">{{ solicitudesPendientes|length }} pendiente(s)</span>
+            <span class="badge text-bg-warning">
+                {{ solicitudesPendientes|length }} {{ 'pendiente(s)'|traducir_dinamico }}
+            </span>
         </div>
 
         {#Listado de solicitudes#}
@@ -113,7 +133,7 @@
 
                     {#Estado del curso#}
                     <div class="curso-usuario__superior">
-                        <span class="badge text-bg-warning">Pendiente</span>
+                        <span class="badge text-bg-warning">{{ 'Pendiente'|traducir_dinamico }}</span>
                         <span class="curso-usuario__progreso">{{ inscripcion.curso.titulo }}</span>
                     </div>
 
@@ -121,19 +141,26 @@
                     <h3>{{ inscripcion.estudiante.nombre }}</h3>
 
                     <div class="curso-usuario__meta">
-                        <span>Correo: {{ inscripcion.estudiante.email }}</span>
-                        <span>Referencia: {{ inscripcion.referenciaPago ?: 'Sin referencia' }}</span>
+                        <span>{{ 'Correo'|traducir_dinamico }}: {{ inscripcion.estudiante.email }}</span>
+                        <span>
+                            {{ 'Referencia'|traducir_dinamico }}:
+                            {{ inscripcion.referenciaPago ?: ('Sin referencia'|traducir_dinamico) }}
+                        </span>
                     </div>
 
                     <div class="curso-usuario__acciones">
                         <form method="post" action="{{ path('app_profesor_activar_inscripcion', {id: inscripcion.id}) }}">
                             <input type="hidden" name="_token" value="{{ csrf_token('activar_inscripcion_' ~ inscripcion.id) }}">
-                            <button type="submit" class="btn btn-primary">Activar acceso</button>
+                            <button type="submit" class="btn btn-primary">
+                                {{ 'Activar acceso'|traducir_dinamico }}
+                            </button>
                         </form>
 
                         <form method="post" action="{{ path('app_profesor_rechazar_inscripcion', {id: inscripcion.id}) }}">
                             <input type="hidden" name="_token" value="{{ csrf_token('rechazar_inscripcion_' ~ inscripcion.id) }}">
-                            <button type="submit" class="btn btn-outline-danger">Rechazar</button>
+                            <button type="submit" class="btn btn-outline-danger">
+                                {{ 'Rechazar'|traducir_dinamico }}
+                            </button>
                         </form>
                     </div>
                 </article>
@@ -144,7 +171,7 @@
 
 {% if suscripcionProfesor and suscripcionProfesor.tipoSolicitud == 'alta' and suscripcionProfesor.estado != 'activa' %}
     <section class="profesor__bloque mb-4">
-        <h2>Completa tu alta docente</h2>
+        <h2>{{ 'Completa tu alta docente'|traducir_dinamico }}</h2>
 
         <form method="post" class="profesor__formulario">
             <input type="hidden" name="formulario" value="elegir_plan">
@@ -152,16 +179,22 @@
 
             <div class="row g-4">
                 <div class="col-12 col-lg-6">
-                    <label for="plan_docente" class="form-label">Plan</label>
+                    <label for="plan_docente" class="form-label">{{ 'Plan'|traducir_dinamico }}</label>
                     <select id="plan_docente" name="plan" class="form-select" required>
-                        <option value="basico" {{ (suscripcionProfesor.planSolicitado ?: suscripcionProfesor.plan) == 'basico' ? 'selected' : '' }}>Básico · 1 curso</option>
-                        <option value="pro" {{ (suscripcionProfesor.planSolicitado ?: suscripcionProfesor.plan) == 'pro' ? 'selected' : '' }}>Pro · 5 cursos</option>
-                        <option value="premium" {{ (suscripcionProfesor.planSolicitado ?: suscripcionProfesor.plan) == 'premium' ? 'selected' : '' }}>Premium · ilimitados</option>
+                        <option value="basico" {{ (suscripcionProfesor.planSolicitado ?: suscripcionProfesor.plan) == 'basico' ? 'selected' : '' }}>
+                            {{ 'Básico · 1 curso'|traducir_dinamico }}
+                        </option>
+                        <option value="pro" {{ (suscripcionProfesor.planSolicitado ?: suscripcionProfesor.plan) == 'pro' ? 'selected' : '' }}>
+                            {{ 'Pro · 5 cursos'|traducir_dinamico }}
+                        </option>
+                        <option value="premium" {{ (suscripcionProfesor.planSolicitado ?: suscripcionProfesor.plan) == 'premium' ? 'selected' : '' }}>
+                            {{ 'Premium · ilimitados'|traducir_dinamico }}
+                        </option>
                     </select>
                 </div>
 
                 <div class="col-12 col-lg-6">
-                    <label class="form-label">Cuenta bancaria para el pago</label>
+                    <label class="form-label">{{ 'Cuenta bancaria para el pago'|traducir_dinamico }}</label>
                     <div class="form-control d-flex align-items-center">{{ cuentaBancariaDocente }}</div>
                 </div>
 
@@ -169,14 +202,14 @@
                     <div class="form-check">
                         <input class="form-check-input" type="checkbox" id="confirmacion_pago_alta" name="confirmacion_pago" value="1" required>
                         <label class="form-check-label" for="confirmacion_pago_alta">
-                            Confirmo que he revisado la cuenta bancaria y he realizado el pago del plan docente.
+                            {{ 'Confirmo que he revisado la cuenta bancaria y he realizado el pago del plan docente.'|traducir_dinamico }}
                         </label>
                     </div>
                 </div>
             </div>
 
             <button type="submit" class="btn btn-primary mt-4">
-                Confirmar pago y enviar al administrador
+                {{ 'Confirmar pago y enviar al administrador'|traducir_dinamico }}
             </button>
         </form>
     </section>
@@ -187,20 +220,20 @@
 
     <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
         <div>
-            <h2 class="mb-1">Crear curso</h2>
-            <p class="mb-0">Puedes mantener el formulario plegado y abrirlo solo cuando lo necesites.</p>
+            <h2 class="mb-1">{{ 'Crear curso'|traducir_dinamico }}</h2>
+            <p class="mb-0">{{ 'Puedes mantener el formulario plegado y abrirlo solo cuando lo necesites.'|traducir_dinamico }}</p>
         </div>
 
         {#Indicador si esta bloqueado#}
         {% if not puedeCrearCursos %}
-            <span class="badge text-bg-danger">Bloqueado</span>
+            <span class="badge text-bg-danger">{{ 'Bloqueado'|traducir_dinamico }}</span>
         {% endif %}
     </div>
 
     {% if puedeCrearCursos %}
 
         <details class="w-100" {% if datosCurso.titulo or datosCurso.descripcion %}open{% endif %}>
-            <summary class="btn btn-primary mb-4">Nuevo curso</summary>
+            <summary class="btn btn-primary mb-4">{{ 'Nuevo curso'|traducir_dinamico }}</summary>
 
             {#Formulario de creacion de cursos#}
             <form method="post" class="profesor__formulario">
@@ -209,70 +242,70 @@
 
                 <div class="row g-4">
                     <div class="col-12 col-lg-6">
-                        <label for="titulo_curso" class="form-label">Título del curso</label>
+                        <label for="titulo_curso" class="form-label">{{ 'Título del curso'|traducir_dinamico }}</label>
                         <input type="text" id="titulo_curso" name="titulo_curso" class="form-control"
                                placeholder="{{ 'profesor.crear_curso.placeholder_titulo'|trans }}"
                                value="{{ datosCurso.titulo|default('') }}" required>
                     </div>
 
                     <div class="col-12 col-lg-6">
-                        <label for="duracion_curso" class="form-label">Duración</label>
+                        <label for="duracion_curso" class="form-label">{{ 'Duración'|traducir_dinamico }}</label>
                         <input type="text" id="duracion_curso" name="duracion_curso" class="form-control"
                                placeholder="{{ 'profesor.crear_curso.placeholder_duracion'|trans }}"
                                value="{{ datosCurso.duracion|default('') }}" required>
                     </div>
 
                     <div class="col-12">
-                        <label for="descripcion_curso" class="form-label">Descripción</label>
+                        <label for="descripcion_curso" class="form-label">{{ 'Descripción'|traducir_dinamico }}</label>
                         <textarea id="descripcion_curso" name="descripcion_curso" class="form-control" rows="5"
                                   placeholder="{{ 'profesor.crear_curso.placeholder_descripcion'|trans }}"
                                   required>{{ datosCurso.descripcion|default('') }}</textarea>
                     </div>
 
                     <div class="col-12 col-lg-4">
-                        <label for="nivel_curso" class="form-label">Nivel</label>
+                        <label for="nivel_curso" class="form-label">{{ 'Nivel'|traducir_dinamico }}</label>
                         <select id="nivel_curso" name="nivel_curso" class="form-select" required>
                             <option value="" {{ datosCurso.nivel|default('') == '' ? 'selected' : '' }} disabled>{{ 'profesor.crear_curso.selecciona_opcion'|trans }}</option>
-                            <option value="Inicial" {{ datosCurso.nivel|default('') == 'Inicial' ? 'selected' : '' }}>Inicial</option>
-                            <option value="Intermedio" {{ datosCurso.nivel|default('') == 'Intermedio' ? 'selected' : '' }}>Intermedio</option>
-                            <option value="Avanzado" {{ datosCurso.nivel|default('') == 'Avanzado' ? 'selected' : '' }}>Avanzado</option>
+                            <option value="Inicial" {{ datosCurso.nivel|default('') == 'Inicial' ? 'selected' : '' }}>{{ 'Inicial'|traducir_dinamico }}</option>
+                            <option value="Intermedio" {{ datosCurso.nivel|default('') == 'Intermedio' ? 'selected' : '' }}>{{ 'Intermedio'|traducir_dinamico }}</option>
+                            <option value="Avanzado" {{ datosCurso.nivel|default('') == 'Avanzado' ? 'selected' : '' }}>{{ 'Avanzado'|traducir_dinamico }}</option>
                         </select>
                     </div>
 
                     <div class="col-12 col-lg-4">
-                        <label for="modalidad_curso" class="form-label">Modalidad</label>
+                        <label for="modalidad_curso" class="form-label">{{ 'Modalidad'|traducir_dinamico }}</label>
                         <select id="modalidad_curso" name="modalidad_curso" class="form-select" required>
                             <option value="" {{ datosCurso.modalidad|default('') == '' ? 'selected' : '' }} disabled>{{ 'profesor.crear_curso.selecciona_opcion'|trans }}</option>
                             <option value="Online" {{ datosCurso.modalidad|default('') == 'Online' ? 'selected' : '' }}>Online</option>
-                            <option value="Presencial" {{ datosCurso.modalidad|default('') == 'Presencial' ? 'selected' : '' }}>Presencial</option>
-                            <option value="Mixto" {{ datosCurso.modalidad|default('') == 'Mixto' ? 'selected' : '' }}>Mixto</option>
+                            <option value="Presencial" {{ datosCurso.modalidad|default('') == 'Presencial' ? 'selected' : '' }}>{{ 'Presencial'|traducir_dinamico }}</option>
+                            <option value="Mixto" {{ datosCurso.modalidad|default('') == 'Mixto' ? 'selected' : '' }}>{{ 'Mixto'|traducir_dinamico }}</option>
                         </select>
                     </div>
 
                     <div class="col-12 col-lg-4">
-                        <label for="idioma_curso" class="form-label">Idioma</label>
+                        <label for="idioma_curso" class="form-label">{{ 'Idioma'|traducir_dinamico }}</label>
                         <select id="idioma_curso" name="idioma_curso" class="form-select" required>
-                            <option value="es" {{ datosCurso.idioma|default('es') == 'es' ? 'selected' : '' }}>Español</option>
+                            <option value="es" {{ datosCurso.idioma|default('es') == 'es' ? 'selected' : '' }}>{{ 'Español'|traducir_dinamico }}</option>
                             <option value="en" {{ datosCurso.idioma|default('es') == 'en' ? 'selected' : '' }}>English</option>
                         </select>
                     </div>
 
                     <div class="col-12 col-lg-4">
-                        <label for="precio_curso" class="form-label">Precio (€)</label>
+                        <label for="precio_curso" class="form-label">{{ 'Precio (€)'|traducir_dinamico }}</label>
                         <input type="number" step="0.01" min="0" id="precio_curso" name="precio_curso"
                                class="form-control" placeholder="49.99"
                                value="{{ datosCurso.precio|default('') }}" required>
                     </div>
 
                     <div class="col-12 col-lg-4">
-                        <label for="banner_url" class="form-label">URL del banner</label>
+                        <label for="banner_url" class="form-label">{{ 'URL del banner'|traducir_dinamico }}</label>
                         <input type="url" id="banner_url" name="banner_url" class="form-control"
                                placeholder="{{ 'profesor.crear_curso.placeholder_banner'|trans }}"
                                value="{{ datosCurso.banner_url|default('') }}">
                     </div>
 
                     <div class="col-12 col-lg-4">
-                        <label for="mapa_url" class="form-label">URL de mapa o ubicación</label>
+                        <label for="mapa_url" class="form-label">{{ 'URL de mapa o ubicación'|traducir_dinamico }}</label>
                         <input type="url" id="mapa_url" name="mapa_url" class="form-control"
                                placeholder="{{ 'profesor.crear_curso.placeholder_mapa'|trans }}"
                                value="{{ datosCurso.mapa_url|default('') }}">
@@ -281,7 +314,7 @@
 
                 <div class="mt-4">
                     <button type="submit" class="btn btn-primary">
-                        Guardar curso
+                        {{ 'Guardar curso'|traducir_dinamico }}
                     </button>
                 </div>
 
@@ -293,9 +326,10 @@
         {#Mensaje si esta bloqueado#}
         <div class="estado-vacio">
             <div class="estado-vacio__icono">!</div>
-            <h3 class="estado-vacio__titulo">Creación de cursos bloqueada</h3>
+            <h3 class="estado-vacio__titulo">{{ 'Creación de cursos bloqueada'|traducir_dinamico }}</h3>
             <p class="estado-vacio__texto">
-                {{ mensajeSuscripcion ?: 'Ahora mismo no puedes crear cursos.' }}
+                {% set textoBloqueo = mensajeSuscripcion ?: 'Ahora mismo no puedes crear cursos.' %}
+                {{ textoBloqueo|traducir_dinamico }}
             </p>
         </div>
 
@@ -308,18 +342,20 @@
     {#Cabecera#}
     <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
         <div>
-            <h2 class="mb-1">Mis cursos creados</h2>
-            <p class="mb-0">Cada curso incluye accesos rápidos, alumnos y progreso.</p>
+            <h2 class="mb-1">{{ 'Mis cursos creados'|traducir_dinamico }}</h2>
+            <p class="mb-0">{{ 'Cada curso incluye accesos rápidos, alumnos y progreso.'|traducir_dinamico }}</p>
         </div>
-        <span class="badge text-bg-primary">{{ cursosProfesor|length }} curso(s)</span>
+        <span class="badge text-bg-primary">
+            {{ cursosProfesor|length }} {{ 'curso(s)'|traducir_dinamico }}
+        </span>
     </div>
 
     {% if cursosProfesor is empty %}
         <div class="estado-vacio">
             <div class="estado-vacio__icono">0</div>
-            <h3 class="estado-vacio__titulo">Todavía no has creado cursos</h3>
+            <h3 class="estado-vacio__titulo">{{ 'Todavía no has creado cursos'|traducir_dinamico }}</h3>
             <p class="estado-vacio__texto">
-                Cuando crees tu primer curso aparecerá aquí con su información principal.
+                {{ 'Cuando crees tu primer curso aparecerá aquí con su información principal.'|traducir_dinamico }}
             </p>
         </div>
 
@@ -346,44 +382,56 @@
                         </div>
 
                         <div class="curso-usuario__meta">
-                            <span>Duración: {{ curso.duracion }}</span>
-                            <span>Precio: {{ curso.precio }} €</span>
+                            <span>{{ 'Duración'|traducir_dinamico }}: {{ curso.duracion }}</span>
+                            <span>{{ 'Precio'|traducir_dinamico }}: {{ curso.precio }} €</span>
                         </div>
                     </div>
 
                     {#Acciones principales#}
                     <div class="curso-usuario__acciones mb-4">
-                        <a href="{{ path('app_detalle_curso', {id: curso.id}) }}" class="btn btn-outline-secondary">Vista pública</a>
-                        <a href="{{ path('app_profesor_editar_curso', {id: curso.id}) }}" class="btn btn-outline-secondary">Editar curso</a>
-                        <a href="{{ path('app_profesor_recursos_curso', {id: curso.id}) }}" class="btn btn-outline-secondary">Recursos</a>
-                        <a href="{{ path('app_profesor_tareas_curso', {id: curso.id}) }}" class="btn btn-outline-secondary">Tareas y correcciones</a>
+                        <a href="{{ path('app_detalle_curso', {id: curso.id}) }}" class="btn btn-outline-secondary">
+                            {{ 'Vista pública'|traducir_dinamico }}
+                        </a>
+                        <a href="{{ path('app_profesor_editar_curso', {id: curso.id}) }}" class="btn btn-outline-secondary">
+                            {{ 'Editar curso'|traducir_dinamico }}
+                        </a>
+                        <a href="{{ path('app_profesor_recursos_curso', {id: curso.id}) }}" class="btn btn-outline-secondary">
+                            {{ 'Recursos'|traducir_dinamico }}
+                        </a>
+                        <a href="{{ path('app_profesor_tareas_curso', {id: curso.id}) }}" class="btn btn-outline-secondary">
+                            {{ 'Tareas y correcciones'|traducir_dinamico }}
+                        </a>
 
                         <form method="post" action="{{ path('app_profesor_eliminar_curso', {id: curso.id}) }}">
                             <input type="hidden" name="_token" value="{{ csrf_token('eliminar_curso_' ~ curso.id) }}">
-                            <button type="submit" class="btn btn-outline-danger">Eliminar</button>
+                            <button type="submit" class="btn btn-outline-danger">
+                                {{ 'Eliminar'|traducir_dinamico }}
+                            </button>
                         </form>
                     </div>
 
                     {#Desplegable alumnos#}
                     <details class="w-100">
-                        <summary class="btn btn-primary">Ver alumnos y progreso</summary>
+                        <summary class="btn btn-primary">
+                            {{ 'Ver alumnos y progreso'|traducir_dinamico }}
+                        </summary>
 
                         <div class="mt-4">
                             {% if alumnos is empty %}
                                 <div class="estado-vacio">
                                     <div class="estado-vacio__icono">0</div>
-                                    <h3 class="estado-vacio__titulo">Sin alumnos activos</h3>
-                                    <p class="estado-vacio__texto">Cuando haya inscripciones activas aparecerán aquí.</p>
+                                    <h3 class="estado-vacio__titulo">{{ 'Sin alumnos activos'|traducir_dinamico }}</h3>
+                                    <p class="estado-vacio__texto">{{ 'Cuando haya inscripciones activas aparecerán aquí.'|traducir_dinamico }}</p>
                                 </div>
                             {% else %}
                                 <div class="table-responsive">
                                     <table class="table profesor__tabla-entregas align-middle">
                                         <thead>
                                             <tr>
-                                                <th>Alumno</th>
-                                                <th>Correo</th>
-                                                <th>Progreso</th>
-                                                <th>Estado</th>
+                                                <th>{{ 'Alumno'|traducir_dinamico }}</th>
+                                                <th>{{ 'Correo'|traducir_dinamico }}</th>
+                                                <th>{{ 'Progreso'|traducir_dinamico }}</th>
+                                                <th>{{ 'Estado'|traducir_dinamico }}</th>
                                             </tr>
                                         </thead>
                                         <tbody>
