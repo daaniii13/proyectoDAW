@@ -113,12 +113,15 @@ class TareaCursoController extends AbstractController
         $entregasPorTarea = [];
         foreach ($entregas as $entrega) {
             $tareaId = $entrega->getTarea()?->getId();
+
             if ($tareaId === null) {
                 continue;
             }
+
             if (!isset($entregasPorTarea[$tareaId])) {
                 $entregasPorTarea[$tareaId] = [];
             }
+
             $entregasPorTarea[$tareaId][] = $entrega;
         }
 
@@ -179,16 +182,19 @@ class TareaCursoController extends AbstractController
 
         if ($fechaLimiteRaw !== '') {
             $fechaLimite = \DateTime::createFromFormat('Y-m-d\TH:i', $fechaLimiteRaw);
+
             if ($fechaLimite === false) {
                 $this->addFlash('error', 'La fecha límite no es válida.');
                 return $this->redirectToRoute('app_profesor_tareas_curso', ['id' => $curso->getId()]);
             }
+
             $tarea->setFechaLimite($fechaLimite);
         } else {
             $tarea->setFechaLimite(null);
         }
 
         $archivoProfesor = $request->files->get('archivo_profesor');
+
         if ($archivoProfesor) {
             $archivoAnterior = $tarea->getArchivoProfesor();
             $errorArchivo = $this->guardarArchivoProfesor($archivoProfesor, $tarea);
@@ -200,6 +206,7 @@ class TareaCursoController extends AbstractController
 
             if ($archivoAnterior) {
                 $rutaAnterior = $this->getParameter('kernel.project_dir') . '/public/uploads/tareas/' . $archivoAnterior;
+
                 if (is_file($rutaAnterior)) {
                     @unlink($rutaAnterior);
                 }
@@ -280,6 +287,7 @@ class TareaCursoController extends AbstractController
         $entityManager->flush();
 
         $estudiante = $entrega->getEstudiante();
+
         if ($estudiante instanceof User) {
             $progresoCursoService->recalcular($curso->getId(), $estudiante);
         }
@@ -367,6 +375,8 @@ class TareaCursoController extends AbstractController
 
         if ($archivoEntrega) {
             $mime = (string) $archivoEntrega->getMimeType();
+            $extensionOriginal = strtolower((string) $archivoEntrega->getClientOriginalExtension());
+
             $mimePermitidos = [
                 'application/pdf',
                 'application/msword',
@@ -375,9 +385,23 @@ class TareaCursoController extends AbstractController
                 'image/png',
                 'application/zip',
                 'application/x-zip-compressed',
+                'application/octet-stream',
             ];
 
-            if (!in_array($mime, $mimePermitidos, true)) {
+            $extensionesPermitidas = [
+                'pdf',
+                'doc',
+                'docx',
+                'jpg',
+                'jpeg',
+                'png',
+                'zip',
+            ];
+
+            if (
+                !in_array($mime, $mimePermitidos, true)
+                && !in_array($extensionOriginal, $extensionesPermitidas, true)
+            ) {
                 $this->addFlash('error', 'El archivo entregado no tiene un formato permitido.');
                 return $this->redirectToRoute('app_visor_curso', ['id' => $curso->getId()]);
             }
@@ -388,10 +412,13 @@ class TareaCursoController extends AbstractController
                 mkdir($directorioDestino, 0775, true);
             }
 
-            $extension = $archivoEntrega->guessExtension();
-            $nombreArchivo = $extension
-                ? uniqid('entrega_', true) . '.' . $extension
-                : uniqid('entrega_', true) . '.bin';
+            $extension = $extensionOriginal ?: $archivoEntrega->guessExtension();
+
+            if (!$extension) {
+                $extension = 'bin';
+            }
+
+            $nombreArchivo = uniqid('entrega_', true) . '.' . $extension;
 
             try {
                 $archivoEntrega->move($directorioDestino, $nombreArchivo);
@@ -472,6 +499,7 @@ class TareaCursoController extends AbstractController
         }
 
         $rutaArchivo = null;
+
         if ($tarea->getArchivoProfesor()) {
             $rutaArchivo = $this->getParameter('kernel.project_dir') . '/public/uploads/tareas/' . $tarea->getArchivoProfesor();
         }
@@ -544,6 +572,8 @@ class TareaCursoController extends AbstractController
     private function guardarArchivoProfesor(mixed $archivoProfesor, TareaCurso $tarea): ?string
     {
         $mime = (string) $archivoProfesor->getMimeType();
+        $extensionOriginal = strtolower((string) $archivoProfesor->getClientOriginalExtension());
+
         $mimePermitidos = [
             'application/pdf',
             'application/msword',
@@ -552,9 +582,23 @@ class TareaCursoController extends AbstractController
             'image/png',
             'application/zip',
             'application/x-zip-compressed',
+            'application/octet-stream',
         ];
 
-        if (!in_array($mime, $mimePermitidos, true)) {
+        $extensionesPermitidas = [
+            'pdf',
+            'doc',
+            'docx',
+            'jpg',
+            'jpeg',
+            'png',
+            'zip',
+        ];
+
+        if (
+            !in_array($mime, $mimePermitidos, true)
+            && !in_array($extensionOriginal, $extensionesPermitidas, true)
+        ) {
             return 'El archivo de la tarea no tiene un formato permitido.';
         }
 
@@ -564,10 +608,13 @@ class TareaCursoController extends AbstractController
             mkdir($directorioDestino, 0775, true);
         }
 
-        $extension = $archivoProfesor->guessExtension();
-        $nombreArchivo = $extension
-            ? uniqid('tarea_', true) . '.' . $extension
-            : uniqid('tarea_', true) . '.bin';
+        $extension = $extensionOriginal ?: $archivoProfesor->guessExtension();
+
+        if (!$extension) {
+            $extension = 'bin';
+        }
+
+        $nombreArchivo = uniqid('tarea_', true) . '.' . $extension;
 
         try {
             $archivoProfesor->move($directorioDestino, $nombreArchivo);
