@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 24-04-2026 a las 14:03:56
+-- Tiempo de generación: 08-05-2026 a las 14:52:35
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de datos: `hazlosen_teachingexplorer`
+-- Base de datos: `teachingexplorer`
 --
 
 -- --------------------------------------------------------
@@ -35,14 +35,6 @@ CREATE TABLE `comentario` (
   `destacado` tinyint(1) NOT NULL DEFAULT 0,
   `fecha_creacion` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `comentario`
---
-
-INSERT INTO `comentario` (`id`, `curso_id`, `usuario_id`, `contenido`, `destacado`, `fecha_creacion`) VALUES
-(3, 10, 3, 'hola', 0, '2026-04-10 15:27:40'),
-(8, 18, 46, 'Me gusta el curso', 1, '2026-04-23 13:10:14');
 
 -- --------------------------------------------------------
 
@@ -72,10 +64,10 @@ CREATE TABLE `curso` (
 
 INSERT INTO `curso` (`id`, `titulo`, `descripcion`, `nivel`, `modalidad`, `duracion`, `precio`, `estado`, `fecha_creacion`, `profesor_id`, `banner_url`, `mapa_url`, `idioma`) VALUES
 (10, 'JavaScript', 'Aprende JavaScript', 'Intermedio', 'Online', '8 dias', 5.00, 'activo', '2026-03-31 14:49:11', 29, 'https://images.unsplash.com/photo-1518770660439-4636190af475', NULL, 'es'),
-(14, 'Bromas', 'como ser un troll en internet', 'Inicial', 'Online', '1 Hora', 99.99, 'activo', '2026-04-17 12:05:10', 39, NULL, NULL, 'es'),
-(15, 'Ser politico', 'Te enseñaremos a hacer una campaña electoral', 'Intermedio', 'Presencial', '1', 20.00, 'activo', '2026-04-17 12:21:10', 39, NULL, NULL, 'es'),
-(16, 'Entrenamiento de fútbol sala', 'es para jugar como messi', 'Inicial', 'Online', '2 Meses', 9.36, 'activo', '2026-04-17 12:23:49', 39, NULL, NULL, 'es'),
-(18, 'Create a videogame with Unity', 'It allows you to create basic games like some existing classics (search, snake, tetris...)', 'Inicial', 'Online', '12 weeks', 3.00, 'activo', '2026-04-17 12:35:42', 39, 'https://imgs.search.brave.com/8HWik-lkTQqJKoq3ueaGO1c5PT_Zs3SR-x4F_7NjSlI/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9zaGFy/ZWQuYWthbWFpLnN0/ZWFtc3RhdGljLmNv/bS9zdG9yZV9pdGVt/X2Fzc2V0cy9zdGVh/bS9hcHBzLzE2NzA0/NjAvaGVhZGVyLmpw/Zw', NULL, 'en'),
+(14, 'How to become a beginner magician', 'In this course, you will learn the basics of magic, how a magician should interact with the audience, and which simple tricks can surprise and amaze people.', 'Intermedio', 'Online', '2 weeks', 7.00, 'activo', '2026-04-17 12:05:10', 39, 'https://imgs.search.brave.com/ThDk1yBm4_N5qQvvHG2rijrwDyLhpvJg55xGrrnOg6A/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly93YWxs/cGFwZXJzLmNvbS9p/bWFnZXMvaGQvd2l6/YXJkcnktMTI4MC14/LTkzOS13YWxscGFw/ZXItMXI2dnBtNXcw/NHA4eG9zYy5qcGc', NULL, 'en'),
+(15, 'How to become a good politician', 'In this course, you will learn the basics of politics, public speaking, leadership, and how a politician should communicate with citizens. You will also understand how to build trust, defend ideas, and present proposals clearly and responsibly.', 'Inicial', 'Mixto', '1 month', 15.00, 'borrador', '2026-04-17 12:21:10', 39, 'https://imgs.search.brave.com/qELy-shArzI2V9qDx5cBCHzWNryymg4LeRqC068vW7I/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly90aHVt/YnMuZHJlYW1zdGlt/ZS5jb20vYi9wYWxh/YnJhLWdyLWRlLWxh/LXBvbCVDMyVBRHRp/Y2EtODUwNjAxMzYu/anBn', 'https://maps.app.goo.gl/u4wavsihJGoDXyw58', 'en'),
+(16, 'Learn the basics of football', 'In this course, you will learn the basic rules, techniques, and strategies of football. You will understand how to control the ball, pass, shoot, defend, work as a team, and improve your physical condition through simple training exercises.', 'Inicial', 'Presencial', '1 week', 10.00, 'cerrado', '2026-04-17 12:23:49', 39, 'https://static.vecteezy.com/system/resources/thumbnails/046/323/694/small/soccer-banner-template-germany-flag-texture-grunge-football-cup-illustration-vector.jpg', 'https://maps.app.goo.gl/x6qnUcsmHDMVwfhz8', 'en'),
+(18, 'Create a videogame with Unity', 'In this course, you will learn the basics of videogame development using Unity. You will understand how to create scenes, add characters, control movement, use physics, design levels, and build a simple playable game from scratch.', 'Inicial', 'Online', '12 weeks', 5.00, 'activo', '2026-04-17 12:35:42', 39, 'https://imgs.search.brave.com/8HWik-lkTQqJKoq3ueaGO1c5PT_Zs3SR-x4F_7NjSlI/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9zaGFy/ZWQuYWthbWFpLnN0/ZWFtc3RhdGljLmNv/bS9zdG9yZV9pdGVt/X2Fzc2V0cy9zdGVh/bS9hcHBzLzE2NzA0/NjAvaGVhZGVyLmpw/Zw', NULL, 'en'),
 (19, 'Receta de Ensalada de Garbanzos: Saludable, Rápida y Proteica', 'La ensalada de garbanzos es la prueba definitiva de que se puede comer sano, saciante y delicioso en menos de cinco minutos. A menudo olvidamos que las legumbres son un superalimento que no tiene por qué ir siempre acompañado de chorizo y horas de cocción; su versión fría es fresca, ligera y admite todas las combinaciones que te pasen por la cabeza.', 'Inicial', 'Online', '1 hora', 2.00, 'activo', '2026-04-17 12:43:13', 30, 'https://bestcdn.dev/uploads/16/2026/03/ensalada-de-garbanzos-con-huevo-cocido-69bacb368d13f.webp', NULL, 'es'),
 (20, 'Crema de Calabacín: El Truco para una Textura Súper Cremosa', 'La crema de calabacín es el \"comodín\" de cualquier cocina: suave, ligera y perfecta tanto para una cena rápida como para un primer plato elegante. Sin embargo, muchas veces termina siendo una sopa aguada o una mezcla sin gracia llena de quesitos para intentar darle sabor.', 'Inicial', 'Online', '15 minutos', 2.00, 'activo', '2026-04-17 12:51:38', 30, 'https://bestcdn.dev/uploads/16/2026/03/crema-de-calabacin-69bac0e0a3a00.webp', NULL, 'es'),
 (21, 'Flan de Huevo Casero: El Secreto del Baño María Sin Agujeros', 'El flan casero de huevo es el postre tradicional por excelencia. Pocas cosas hay tan satisfactorias como un flan bien hecho, con su textura delicada y ese baño de caramelo que lo envuelve. Es una receta que ha pasado de generación en generación gracias a que utiliza ingredientes que todos tenemos siempre en la cocina: huevos, leche y azúcar.', 'Inicial', 'Online', '30 minutos', 2.00, 'activo', '2026-04-17 12:52:56', 30, 'https://bestcdn.dev/uploads/16/2026/03/flan-huevo-69b936c05e0b3.webp', NULL, 'es'),
@@ -120,7 +112,11 @@ INSERT INTO `curso` (`id`, `titulo`, `descripcion`, `nivel`, `modalidad`, `durac
 (60, 'Finanzas Personales e Inversión', 'Aprende a gestionar tu capital, crear presupuestos y entender el mercado de valores básico.', 'Inicial', 'Online', '25 horas', 100.00, 'activo', '2026-04-17 14:16:52', 61, 'https://contabilidadfinanzas.com/wp-content/uploads/2023/08/finanzas-responsables.jpg', NULL, 'es'),
 (61, 'Dominio de Python para IA', 'Aprende las bases de programación y cómo aplicarlas en modelos de Inteligencia Artificial.', 'Intermedio', 'Online', '60 horas', 200.00, 'activo', '2026-04-17 14:23:33', 61, 'https://www.nethues.com/blog/app/uploads/2023/06/artificial-intelligence-with-python-2.png', NULL, 'es'),
 (62, 'Excel Avanzado, Power BI y Python', 'Domina tablas dinámicas, macros y visualización de datos profesional.', 'Avanzado', 'Online', '35 horas', 300.00, 'activo', '2026-04-17 14:27:22', 61, 'https://mentory.pe/wp-content/uploads/2025/10/Excel-Avanzado-Power-BI-y-Python.jpg', NULL, 'es'),
-(63, 'Ciberseguridad Esencial', 'Protege datos y redes. Introducción al hacking ético y protocolos de seguridad.', 'Inicial', 'Online', '45 horas', 150.00, 'activo', '2026-04-17 14:31:28', 61, 'https://img.freepik.com/fotos-premium/ciberseguridad-esencial-exige-inicio-sesion-seguro-traves-teclado-computadora_892776-16040.jpg', NULL, 'es');
+(63, 'Ciberseguridad Esencial', 'Protege datos y redes. Introducción al hacking ético y protocolos de seguridad.', 'Inicial', 'Online', '45 horas', 150.00, 'activo', '2026-04-17 14:31:28', 61, 'https://img.freepik.com/fotos-premium/ciberseguridad-esencial-exige-inicio-sesion-seguro-traves-teclado-computadora_892776-16040.jpg', NULL, 'es'),
+(64, 'Learn Digital Photography', 'In this course, you will learn the basics of digital photography, including camera settings, lighting, composition, focus, and editing. You will understand how to take better photos using simple techniques and how to improve the final result with basic image editing tools.', 'Intermedio', 'Online', '2 month', 20.00, 'cerrado', '2026-05-07 11:37:13', 39, 'https://images.pexels.com/photos/90946/pexels-photo-90946.jpeg', NULL, 'en'),
+(65, 'Introduction to botany and plant science', 'Discover the fascinating world of plants and learn the foundations of botany, plant biology, ecosystems, and species identification. This course explores how plants grow, reproduce, adapt to their environment, and contribute to life on Earth through practical examples and observation activities.', 'Intermedio', 'Online', '4 weeks', 20.00, 'activo', '2026-05-08 09:34:58', 44, 'https://images.unsplash.com/photo-1466692476868-aef1dfb1e735', NULL, 'en'),
+(66, 'Matemáticas avanzadas', 'En este curso aprenderás acerca de porque las matemáticas avanzadas no son tan difíciles como pensabas y así lograr comprenderlas mejorar. Con una amplia gama de actividades, tareas, rúbricas y asistencia personalizada para cualquier duda generada durante el curso.', 'Avanzado', 'Online', '2 meses', 10.00, 'activo', '2026-05-08 12:34:42', 68, 'https://imgs.search.brave.com/5cVr7utgtA5EUA-ygRonsRV2dmoBNTt5uLQq5ZYVoek/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9jZG4u/cGl4YWJheS5jb20v/cGhvdG8vMjAxNS8x/MC8xMS8xMS8yMC9i/YW5uZXItOTgyMTYy/XzEyODAuanBn', NULL, 'es'),
+(67, 'Learn about JavaScript', 'This is the ideal course to learn the solid foundation about JavaScript, including functions, events, overloads, objects, asynchrony, etc.', 'Intermedio', 'Mixto', '5 weeks', 15.00, 'activo', '2026-05-08 13:32:46', 43, 'https://imgs.search.brave.com/NRgLn4_WDmk5zz5oFgRWcKK01VJz-N1XSHWEGjK4OsU/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9jZG4u/dmVjdG9yc3RvY2su/Y29tL2kvNTAwcC8y/Ni8zMy9qYXZhc2Ny/aXB0LXByb2dyYW1t/aW5nLWJhbm5lci12/ZWN0b3ItMjQxOTI2/MzMuanBn', 'https://maps.app.goo.gl/FmW3ixJ9TEkgVgRi6', 'en');
 
 -- --------------------------------------------------------
 
@@ -161,13 +157,6 @@ CREATE TABLE `entrega_tarea` (
   `fecha_revision` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Volcado de datos para la tabla `entrega_tarea`
---
-
-INSERT INTO `entrega_tarea` (`id`, `tarea_id`, `estudiante_id`, `archivo_entrega`, `comentario`, `fecha_entrega`, `estado_revision`, `nota`, `comentario_profesor`, `fecha_revision`) VALUES
-(2, 3, 46, 'entrega_69eb222f4728a3.69151220.pdf', 'porfi', '2026-04-24 09:56:31', 'pendiente', NULL, NULL, NULL);
-
 -- --------------------------------------------------------
 
 --
@@ -184,17 +173,6 @@ CREATE TABLE `inscripcion` (
   `referencia_pago` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Volcado de datos para la tabla `inscripcion`
---
-
-INSERT INTO `inscripcion` (`id`, `progreso`, `estado`, `fecha_inscripcion`, `estudiante_id`, `curso_id`, `referencia_pago`) VALUES
-(8, 0, 'pendiente_validacion', '2026-04-10 15:36:02', 37, 10, 'PAGO-CURSO-10-USER-37'),
-(15, 33, 'activa', '2026-04-17 13:47:59', 51, 19, 'PAGO-CURSO-19-USER-51'),
-(16, 100, 'completada', '2026-04-17 14:35:55', 59, 62, 'PAGO-CURSO-62-USER-59'),
-(17, 67, 'activa', '2026-04-22 13:15:09', 46, 18, 'PAGO-CURSO-18-USER-46'),
-(18, 0, 'pendiente_validacion', '2026-04-23 09:15:43', 46, 63, 'PAGO-CURSO-63-USER-46');
-
 -- --------------------------------------------------------
 
 --
@@ -207,33 +185,6 @@ CREATE TABLE `mensaje_entrega_tarea` (
   `autor_id` int(11) NOT NULL,
   `contenido` longtext NOT NULL,
   `fecha_creacion` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Volcado de datos para la tabla `mensaje_entrega_tarea`
---
-
-INSERT INTO `mensaje_entrega_tarea` (`id`, `entrega_id`, `autor_id`, `contenido`, `fecha_creacion`) VALUES
-(1, 2, 46, 'ola', '2026-04-24 08:36:29'),
-(2, 2, 39, 'aprobado', '2026-04-24 08:39:40'),
-(3, 2, 39, 'suspendido por feo', '2026-04-24 09:44:27'),
-(4, 2, 46, 'porfi', '2026-04-24 09:56:31'),
-(5, 2, 46, 'porfi', '2026-04-24 10:09:22');
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `messenger_messages`
---
-
-CREATE TABLE `messenger_messages` (
-  `id` bigint(20) NOT NULL,
-  `body` longtext NOT NULL,
-  `headers` longtext NOT NULL,
-  `queue_name` varchar(190) NOT NULL,
-  `created_at` datetime NOT NULL,
-  `available_at` datetime NOT NULL,
-  `delivered_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -249,6 +200,13 @@ CREATE TABLE `recuperacion_contrasena` (
   `usado` tinyint(4) NOT NULL,
   `usuario_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `recuperacion_contrasena`
+--
+
+INSERT INTO `recuperacion_contrasena` (`id`, `token`, `fecha_expiracion`, `usado`, `usuario_id`) VALUES
+(16, '30654b8cc45d2a18335a685f5a28dfd1d7401337f802ef2ad672b384f25b4616', '2026-05-08 15:00:41', 1, 67);
 
 -- --------------------------------------------------------
 
@@ -278,8 +236,17 @@ INSERT INTO `recurso_curso` (`id`, `titulo`, `tipo`, `contenido`, `orden`, `curs
 (14, 'Ingredientes', 'texto', 'Ingredientes\r\n1 bote de garbanzos cocidos (400 g aprox.)\r\n1 tomate grande de ensalada o un puñado de tomates cherry\r\n1 pepino pequeño\r\nMedia cebolla morada (más suave) o cebolleta\r\n1 lata pequeña de atún al natural o en aceite (opcional)\r\nAceite de oliva virgen extra (AOVE)\r\nVinagre de Jerez o de manzana\r\nSal y una pizca de orégano seco', 1, 19, NULL),
 (15, 'Pasos a seguir para el platillo', 'documento', 'Adjunto en el documento', 2, 19, 'recurso_69e23b67e50278.63788470.pdf'),
 (16, 'Introduccion de Power BI', 'documento', 'Introduccion a PowerBi', 1, 62, 'recurso_69e246b9587e26.18337264.pdf'),
-(17, 'Lección 1', 'documento', 'En esta primera lección aprenderemos a como utilizar Unity', 2, 18, 'recurso_69e8aa66175aa8.11154585.pdf'),
-(18, 'Lección 2', 'video', 'https://youtu.be/VEBA19cTe7I', 1, 18, NULL);
+(17, 'Introduction', 'documento', 'Learn what Unity is, how the interface works, and how to create your first project.', 1, 18, 'recurso_69fc592f26ca37.75495275.pdf'),
+(18, 'Game Objects and Scenes', 'video', 'https://youtu.be/9Nf2_ds5y8c', 2, 18, NULL),
+(19, 'Lesson 1', 'texto', 'Magic is a world of mystery, wonder, and imagination. It is where the impossible becomes possible and where every spell, symbol, and secret has a meaning.\r\n\r\nTo begin in the world of magic, you must open your mind and believe that there is more than what we can see. Magic is not only about power, but also about learning, practice, and respect.\r\n\r\nEvery magician starts with a first step: curiosity. From there, the journey begins.\r\n\r\nThe world of magic is waiting for you.', 1, 14, NULL),
+(20, 'Lesson 2', 'documento', 'Modern Magic: A Practical Treatise on the Art of Conjuring', 2, 14, 'recurso_69fc3642ec1571.37152775.pdf'),
+(21, 'Lesson 1', 'video', 'https://youtu.be/_57uKJDmve4', 1, 15, NULL),
+(22, 'Plant taxonomy and classification guide', 'documento', 'Introduction to plant classification systems, taxonomic hierarchy, and scientific naming conventions. Includes guidance on identifying plant families and understanding botanical nomenclature.', 1, 65, 'recurso_69fd9c94306215.74678159.pdf'),
+(23, 'Plants of the world online (Kew science)', 'enlace', 'Interactive botanical database for identifying plant species, exploring taxonomy, and reviewing distribution data. Useful for field identification and species comparison.\r\n\r\nLink here ->\r\nhttps://powo.science.kew.org/', 2, 65, NULL),
+(24, 'Temario del tema 1', 'documento', 'Os adjunto el PDF del libro que utilizaremos como guía principal durante el desarrollo de este curso.', 1, 66, 'recurso_69fdbcec99dc28.95230034.pdf'),
+(25, 'Introducción a las matemáticas avanzadas', 'texto', 'Las matemáticas avanzadas abarcan áreas de estudio que van más allá de los conceptos básicos de álgebra y geometría. Incluyen disciplinas como el cálculo, las ecuaciones diferenciales, el álgebra lineal, la estadística y el análisis matemático. Estas ramas permiten resolver problemas complejos relacionados con la ciencia, la tecnología, la ingeniería, la economía y la informática, mediante el uso de modelos, fórmulas y razonamiento lógico.', 2, 66, NULL),
+(26, 'JavaScript manual', 'documento', 'I am attaching a JavaScript manual made manually by me.', 1, 67, 'recurso_69fdcbdb66d4b6.88345433.pdf'),
+(27, 'Learn All the JavaScript Basics in 20 Minutes - Video', 'enlace', 'https://youtu.be/xKOyDDuQSVY', 2, 67, NULL);
 
 -- --------------------------------------------------------
 
@@ -293,17 +260,6 @@ CREATE TABLE `recurso_visto` (
   `recurso_id` int(11) NOT NULL,
   `fecha_visto` datetime NOT NULL COMMENT '(DC2Type:datetime_immutable)'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Volcado de datos para la tabla `recurso_visto`
---
-
-INSERT INTO `recurso_visto` (`id`, `usuario_id`, `recurso_id`, `fecha_visto`) VALUES
-(9, 51, 14, '2026-04-17 13:54:40'),
-(10, 51, 15, '2026-04-17 13:54:50'),
-(11, 59, 16, '2026-04-17 14:43:12'),
-(13, 46, 18, '2026-04-23 09:54:58'),
-(14, 46, 17, '2026-04-23 10:17:32');
 
 -- --------------------------------------------------------
 
@@ -328,17 +284,16 @@ CREATE TABLE `suscripcion_profesor` (
 --
 
 INSERT INTO `suscripcion_profesor` (`id`, `profesor_id`, `plan`, `estado`, `limite_cursos`, `fecha_solicitud`, `fecha_aprobacion`, `plan_solicitado`, `tipo_solicitud`) VALUES
-(16, 29, 'basico', 'activa', 1, '2026-03-30 20:48:52', '2026-03-30 20:49:52', NULL, NULL),
-(17, 30, 'pro', 'activa', 5, '2026-03-30 20:49:25', '2026-03-30 20:49:49', NULL, NULL),
-(19, 34, 'premium', 'activa', 999, '2026-04-08 09:33:02', '2026-04-08 10:00:30', NULL, NULL),
 (21, 39, 'pro', 'activa', 5, '2026-04-22 13:11:08', '2026-04-22 13:09:18', NULL, NULL),
 (22, 42, 'premium', 'activa', 999, '2026-04-15 06:44:17', '2026-04-15 06:46:56', NULL, NULL),
-(23, 43, 'pro', 'activa', 5, '2026-04-15 06:45:05', '2026-04-15 06:46:53', NULL, NULL),
+(23, 43, 'basico', 'activa', 1, '2026-05-08 10:54:55', '2026-05-08 10:55:17', NULL, NULL),
 (24, 44, 'basico', 'activa', 1, '2026-04-15 06:45:43', '2026-04-15 06:46:51', NULL, NULL),
-(25, 45, 'basico', 'activa', 1, '2026-04-15 06:46:31', '2026-04-15 06:46:49', NULL, NULL),
-(27, 59, 'pro', 'activa', 5, '2026-04-17 13:16:16', '2026-04-17 13:16:43', NULL, NULL),
+(25, 45, 'pro', 'activa', 5, '2026-05-08 10:46:48', '2026-05-08 10:47:07', NULL, NULL),
 (28, 51, 'premium', 'activa', 999, '2026-04-17 13:32:25', '2026-04-17 13:34:12', NULL, NULL),
-(29, 61, 'premium', 'activa', 999, '2026-04-17 13:47:30', '2026-04-17 13:47:46', NULL, NULL);
+(29, 61, 'premium', 'activa', 999, '2026-04-17 13:47:30', '2026-04-17 13:47:46', NULL, NULL),
+(32, 68, 'basico', 'activa', 1, '2026-05-08 12:29:03', '2026-05-08 12:29:34', NULL, NULL),
+(33, 69, 'pro', 'activa', 5, '2026-05-08 14:21:42', '2026-05-08 14:23:46', NULL, NULL),
+(34, 70, 'premium', 'activa', 999, '2026-05-08 14:23:27', '2026-05-08 14:23:44', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -361,7 +316,11 @@ CREATE TABLE `tarea_curso` (
 --
 
 INSERT INTO `tarea_curso` (`id`, `curso_id`, `titulo`, `descripcion`, `fecha_limite`, `archivo_profesor`, `fecha_creacion`) VALUES
-(3, 18, 'Cuestionario básico', '¿Qué es Unity?\r\na) Un motor de videojuegos\r\nb) Un lenguaje de programación\r\nc) Un sistema operativo\r\nd) Un editor de texto\r\n¿Qué lenguaje se usa principalmente para programar en Unity?\r\na) Python\r\nb) Java\r\nc) C#\r\nd) PHP\r\n¿Cómo se llama la ventana donde organizas los objetos de una escena en Unity?\r\na) Console\r\nb) Hierarchy\r\nc) Inspector\r\nd) Project\r\n¿Qué componente necesita normalmente un objeto para que le afecte la física?\r\na) Transform\r\nb) Rigidbody\r\nc) Camera\r\nd) Light\r\n¿Cómo se llama el archivo o espacio donde construyes un nivel o entorno en Unity?\r\na) Script\r\nb) Package\r\nc) Scene\r\nd) Canvas', '2026-04-24 23:59:00', NULL, '2026-04-22 13:07:00');
+(5, 14, 'Show what you have learned', 'In this task, students will complete a short questionnaire about the world of magic. They will read each question carefully and answer using their knowledge about magic, spells, magicians, and magical objects. The activity is designed to introduce basic magic vocabulary in English and help students practise reading comprehension and written expression.', '2026-05-16 10:00:00', 'tarea_69fc3fe2ae06b2.06623317.docx', '2026-05-07 09:12:26'),
+(6, 18, 'Create your first Unity scene', 'In this task, students must create a basic scene in Unity using simple 3D objects. The objective is to practise the Unity interface, understand how GameObjects work, and learn how to organize a scene.', '2026-05-14 19:00:00', 'tarea_69fc5ac35980b2.21360892.docx', '2026-05-07 11:26:27'),
+(7, 65, 'Botany initial task', 'In this task, a brief essay will be carried out on the knowledge you have obtained from the resources uploaded so far.', '2026-05-23 07:00:00', 'tarea_69fda13fc370b7.98453922.docx', '2026-05-08 10:39:27'),
+(8, 66, 'Ejercicios avanzados de álgebra', 'Para conseguir avanzar en el curso es necesario hacer los 20 primeros ejercicios, ya que se supone esa base de aprendizaje previo a la realización de este curso.', '2026-05-18 00:00:00', 'tarea_69fdbfc650aad7.86881220.pdf', '2026-05-08 12:49:42'),
+(9, 67, 'JavaScript Activities Worksheet', 'Let´s try this exercices!', '2026-05-10 20:00:00', 'tarea_69fdcdbf133ff6.17819575.docx', '2026-05-08 13:49:19');
 
 -- --------------------------------------------------------
 
@@ -386,31 +345,31 @@ CREATE TABLE `user` (
 
 INSERT INTO `user` (`id`, `email`, `roles`, `password`, `nombre`, `fecha_registro`, `activo`, `foto_perfil`) VALUES
 (3, 'admin@gmail.com', '[\"ROLE_ADMIN\"]', '$2y$13$wbxPAYhjP9w6kO/YPxT5sePeTUtscog94qRXpUttY8udv/KM3d3x2', 'Admin', '2026-03-24 17:01:15', 1, 'perfil_69e091aed835f2.45057127.jpg'),
-(25, 'marialopez@gmail.com', '[\"ROLE_ESTUDIANTE\"]', '$2y$13$iGPNm2X.yhsAUHKzVrWpJ.6RNbQoi.hmNpWfZ3NiFpCLTKGqyvn52', 'Maria Lopez', '2026-03-30 20:33:06', 1, 'perfil_69cb0e5f6a7945.51905645.webp'),
-(26, 'saracampos@gmail.com', '[\"ROLE_ESTUDIANTE\"]', '$2y$13$FzT4g8IYqlUJQDgaORrHL.o2VyDcg.QjdJFuuRoHx4MVqid.J.LKS', 'Sara Campos', '2026-03-30 20:34:00', 1, NULL),
-(27, 'victorruiz@gmail.com', '[\"ROLE_ESTUDIANTE\"]', '$2y$13$hPtcWy647XMv1458NfJqhOsxnoesnUcgEU8xp9xJREbIV0MWhxD7.', 'Victor Ruiz', '2026-03-30 20:35:13', 1, NULL),
-(28, 'cristinapon@gmail.com', '[\"ROLE_ESTUDIANTE\"]', '$2y$13$WEdWgDkHcGvE0LkLqO0QQ.zbT2HhlOzd5Uofx2ktBeLkw2lr6asHi', 'Cristina Ponce', '2026-03-30 20:36:30', 1, 'perfil_69df46421d93e0.09841722.webp'),
-(29, 'eusebiolo@gmail.com', '[\"ROLE_ESTUDIANTE\"]', '$2y$13$vgDaJBf6Aapxo6sG1u29r.6WmUth3VVoZOhgDuajwh5dOPU7x3TTW', 'Eusebio Lopez', '2026-03-30 20:48:51', 1, NULL),
-(30, 'pepelo@gmail.com', '[\"ROLE_ESTUDIANTE\"]', '$2y$13$56dlPaZKL9VL/m9/so1KLuZdB4w.JqF3e40QPtssTnZnvKDx2OvsC', 'Pepe Lobregón', '2026-03-30 20:49:24', 1, 'perfil_69e22b57eaa4a9.24215307.webp'),
-(34, 'yihate7551@nyspring.com', '[\"ROLE_ESTUDIANTE\",\"ROLE_PROFESOR\"]', '$2y$13$Tnd0sTYr39GSKLoTqCaJ8.gCMKHdaI8dKnS1VGz8duq5.9IzkiPlW', 'Juan Thomson', '2026-04-08 09:33:02', 1, NULL),
+(25, 'marialopez@gmail.com', '[\"ROLE_ESTUDIANTE\"]', '$2y$13$iGPNm2X.yhsAUHKzVrWpJ.6RNbQoi.hmNpWfZ3NiFpCLTKGqyvn52', 'Maria Lopez', '2026-03-30 20:33:06', 1, 'perfil_69fddadd626ac3.35530212.webp'),
+(26, 'saracampos@gmail.com', '[\"ROLE_ESTUDIANTE\"]', '$2y$13$FzT4g8IYqlUJQDgaORrHL.o2VyDcg.QjdJFuuRoHx4MVqid.J.LKS', 'Sara Campos', '2026-03-30 20:34:00', 1, 'perfil_69fdd78f8735e1.57674181.webp'),
+(27, 'victorruiz@gmail.com', '[\"ROLE_ESTUDIANTE\"]', '$2y$13$hPtcWy647XMv1458NfJqhOsxnoesnUcgEU8xp9xJREbIV0MWhxD7.', 'Víctor Ruíz', '2026-03-30 20:35:13', 1, 'perfil_69fdda57e8bea3.11953970.webp'),
+(28, 'cristinapon@gmail.com', '[\"ROLE_ESTUDIANTE\"]', '$2y$13$WEdWgDkHcGvE0LkLqO0QQ.zbT2HhlOzd5Uofx2ktBeLkw2lr6asHi', 'Cristina Ponce', '2026-03-30 20:36:30', 1, 'perfil_69fdd731c5b389.35041066.webp'),
+(29, 'eusebiolo@gmail.com', '[\"ROLE_ESTUDIANTE\"]', '$2y$13$vgDaJBf6Aapxo6sG1u29r.6WmUth3VVoZOhgDuajwh5dOPU7x3TTW', 'Eusebio Lopez', '2026-03-30 20:48:51', 1, 'perfil_69fdd9f04b9649.54948052.webp'),
+(30, 'pepelo@gmail.com', '[\"ROLE_ESTUDIANTE\"]', '$2y$13$56dlPaZKL9VL/m9/so1KLuZdB4w.JqF3e40QPtssTnZnvKDx2OvsC', 'Pepe Lobregón', '2026-03-30 20:49:24', 1, 'perfil_69fdd99c4108a2.46382931.webp'),
 (37, 'castellanogomezcarlos@gmail.com', '[\"ROLE_ESTUDIANTE\"]', '$2y$13$dXpArCjTqCqiVO/.Qfftkui8MkYc/96ppDtIimSpO8ILlZRMFDtli', 'Carlos Castellano', '2026-04-10 15:34:47', 1, NULL),
 (39, 'rodrigoju@gmail.com', '[\"ROLE_ESTUDIANTE\",\"ROLE_PROFESOR\"]', '$2y$13$vbbvC1qI5/oIzGhwRr7BdeDtUA.h4wKhhIqVhXJK/EJInvSAXuM8i', 'Rodrigo Juárez', '2026-04-15 06:28:44', 1, 'perfil_69e8a7eb15de14.75033548.webp'),
 (40, 'admin2@gmail.com', '[\"ROLE_ADMIN\"]', '$2y$13$O5YB.KcqwvRfdW/Xdyen7Od1xp2bmgyuIxDP14YPnU4MNtjrX1vsK', 'Admin2', '2026-04-15 06:32:24', 1, 'perfil_69e09202d72333.00190550.webp'),
 (41, 'admin3@gmail.com', '[\"ROLE_ADMIN\"]', '$2y$13$bAn.c6ZBUPlBuTtxST17Qessz6PjUhnSp2/qORYP6gHGvq5wY5.TC', 'Admin3', '2026-04-15 06:32:53', 1, 'perfil_69e09229227920.80890804.webp'),
 (42, 'danialcaraz@gmail.com', '[\"ROLE_ESTUDIANTE\",\"ROLE_PROFESOR\"]', '$2y$13$fMFqPDowoJoQOMF/3rp9pOkpzCDfMR8Py7nq5SuTcGiu3RPYE52ma', 'Daniel Alcaraz', '2026-04-15 06:44:17', 1, NULL),
-(43, 'nataliaros@gmail.com', '[\"ROLE_ESTUDIANTE\",\"ROLE_PROFESOR\"]', '$2y$13$B0uIOuSS1k6x4HsDjMoOKebVQkxSUfexck9MEFjcqVMCMF6xOloX2', 'Natalia Ros', '2026-04-15 06:45:04', 1, NULL),
-(44, 'isafernandez@gmail.com', '[\"ROLE_ESTUDIANTE\",\"ROLE_PROFESOR\"]', '$2y$13$JF9SPyYGJOtI6eKWAYnUCO.zXaKdozi9qHjADuaJoz5G3Ix9ZEUMq', 'Isa Fernández', '2026-04-15 06:45:43', 1, NULL),
+(43, 'nataliaros@gmail.com', '[\"ROLE_ESTUDIANTE\",\"ROLE_PROFESOR\"]', '$2y$13$B0uIOuSS1k6x4HsDjMoOKebVQkxSUfexck9MEFjcqVMCMF6xOloX2', 'Natalia Ros', '2026-04-15 06:45:04', 1, 'perfil_69fdccaa0d08e6.96385168.webp'),
+(44, 'isafernandez@gmail.com', '[\"ROLE_ESTUDIANTE\",\"ROLE_PROFESOR\"]', '$2y$13$JF9SPyYGJOtI6eKWAYnUCO.zXaKdozi9qHjADuaJoz5G3Ix9ZEUMq', 'Isa Fernández', '2026-04-15 06:45:43', 1, 'perfil_69fd92918b5f02.80027671.webp'),
 (45, 'kiliamgrant@gmail.com', '[\"ROLE_ESTUDIANTE\",\"ROLE_PROFESOR\"]', '$2y$13$ayeL.5feJzaYJ3g.kZNJXek9mp92qs5L.H7Iwwh8xLzXvT1CnriQm', 'Kiliam Grant', '2026-04-15 06:46:30', 1, NULL),
-(46, 'danisiu1379@gmail.com', '[\"ROLE_ESTUDIANTE\"]', '$2y$13$mYF1N5zu2Vs/3JB8uZirkO0cmr.CLznauJqTxqUg.hWWHC83X1DC.', 'Daniel Muñoz', '2026-04-15 06:57:58', 1, NULL),
-(47, 'anamar@gmail.com', '[\"ROLE_ESTUDIANTE\"]', '$2y$13$7DdMxqJc4lrs67J1oSrFRuqi5xKN9XUhs5Oz5fahlKs9/GJNh/OWe', 'Ana María', '2026-04-15 07:08:17', 1, NULL),
-(48, 'yoelcampos@gmail.com', '[\"ROLE_ESTUDIANTE\"]', '$2y$13$WaTUtvI3o1EafirXhUx.Sux2GcqR2961mIya2aRXuahqz5XR3KT6K', 'Yoel Campos', '2026-04-15 07:08:50', 1, NULL),
-(49, 'pedrocan@gmail.com', '[\"ROLE_ESTUDIANTE\"]', '$2y$13$4PYZY1QoTGH8ssOCoU5Qyuy7D4I9KD3QvkfFOPNsYZ52tadauU0Dm', 'Pedro Cánovas', '2026-04-15 07:09:40', 1, NULL),
+(47, 'anamar@gmail.com', '[\"ROLE_ESTUDIANTE\"]', '$2y$13$7DdMxqJc4lrs67J1oSrFRuqi5xKN9XUhs5Oz5fahlKs9/GJNh/OWe', 'Ana María', '2026-04-15 07:08:17', 1, 'perfil_69fddb1f9a58b6.78416191.webp'),
+(49, 'pedrocan@gmail.com', '[\"ROLE_ESTUDIANTE\"]', '$2y$13$4PYZY1QoTGH8ssOCoU5Qyuy7D4I9KD3QvkfFOPNsYZ52tadauU0Dm', 'Pedro Cánovas', '2026-04-15 07:09:40', 1, 'perfil_69fdd80703c198.00305709.webp'),
 (51, 'sergioperez@gmail.com', '[\"ROLE_ESTUDIANTE\",\"ROLE_PROFESOR\"]', '$2y$13$uThdLWvxzcA95gCQgVjz0eUbCb3E7gw0ICOEd0izPNyZeGwZzqOOi', 'Sergio Pérez', '2026-04-15 07:12:06', 1, NULL),
-(52, 'lucasgomez@gmail.com', '[\"ROLE_ESTUDIANTE\"]', '$2y$13$LtCgR0S2lxM5423e2SfVIeAVIqNm0RJdkGIKmKJ4nYq27z25ItjEK', 'Lucas Gómez', '2026-04-15 07:12:28', 1, NULL),
-(53, 'miriamdiaz@gmail.com', '[\"ROLE_ESTUDIANTE\"]', '$2y$13$G5j44p8aBa6ELDZD7PCSfud98lPT0pmR0Bo67bh9fimlsYzu142Cq', 'Miriam Díaz', '2026-04-15 07:13:02', 1, NULL),
-(54, 'lolacarmona@gmail.com', '[\"ROLE_ESTUDIANTE\"]', '$2y$13$IQIz00kcyQwccC9n7cUik.9ym5YLfR1.bd5SC44Q5vZj8XL4LaDxO', 'Lola Carmona', '2026-04-15 07:13:40', 1, NULL),
-(59, 'jcolquecalcina@gmail.com', '[\"ROLE_ESTUDIANTE\"]', '$2y$13$Kd57DkOZlWJAZhxDsEYE1eWsahl8BuHOy2irVesgIYQbu/bd44nOK', 'Juan Daniel Colque', '2026-04-17 13:16:15', 1, 'perfil_69e2335f8b75d9.90028067.jpg'),
-(61, 'manusanchez@gmail.com', '[\"ROLE_ESTUDIANTE\",\"ROLE_PROFESOR\"]', '$2y$13$/5VAt5z1YSlTyw9y/PeoluFV/RQBlC6h5oVpqE5WbQsfhAQkNEn8K', 'Manuel Sanchez', '2026-04-17 13:47:30', 1, NULL);
+(52, 'lucasgomez@gmail.com', '[\"ROLE_ESTUDIANTE\"]', '$2y$13$LtCgR0S2lxM5423e2SfVIeAVIqNm0RJdkGIKmKJ4nYq27z25ItjEK', 'Lucas Gómez', '2026-04-15 07:12:28', 1, 'perfil_69fdd875825c50.53802077.webp'),
+(53, 'miriamdiaz@gmail.com', '[\"ROLE_ESTUDIANTE\"]', '$2y$13$Vek/NkHzghwmDv4zDn4xm.5ckaJnuX8Zx2bH3U56Xeyy/skEO9l16', 'Miriam Díaz', '2026-04-15 07:13:02', 1, 'perfil_69fdd960e30983.72624977.webp'),
+(59, 'jcolquecalcina@gmail.com', '[\"ROLE_ESTUDIANTE\"]', '$2y$13$Kd57DkOZlWJAZhxDsEYE1eWsahl8BuHOy2irVesgIYQbu/bd44nOK', 'Juan Daniel', '2026-04-17 13:16:15', 1, 'perfil_69e2335f8b75d9.90028067.jpg'),
+(61, 'manusanchez@gmail.com', '[\"ROLE_ESTUDIANTE\",\"ROLE_PROFESOR\"]', '$2y$13$/5VAt5z1YSlTyw9y/PeoluFV/RQBlC6h5oVpqE5WbQsfhAQkNEn8K', 'Manuel Sanchez', '2026-04-17 13:47:30', 1, NULL),
+(67, 'danonetecno13@gmail.com', '[\"ROLE_ESTUDIANTE\"]', '$2y$13$vaIQOpV443dH266C8KUZteCjNwxKdWMtU9pxnnvj5SH8VOL1LrcbG', 'Daniel Muñoz', '2026-05-07 08:20:19', 1, 'perfil_69fddb61708358.44761614.webp'),
+(68, 'tomeozuniga@gmail.com', '[\"ROLE_ESTUDIANTE\",\"ROLE_PROFESOR\"]', '$2y$13$zOs5kQJLZjIXGKZe2sLtsO4lsSrU8TUEJcAu1UasKbcgYa1YTyUCy', 'Tomeo Zuñiga', '2026-05-08 12:29:03', 1, 'perfil_69fdbb801d0d10.06158394.webp'),
+(69, 'antogoiria@gmail.com', '[\"ROLE_ESTUDIANTE\",\"ROLE_PROFESOR\"]', '$2y$13$.9CpvK5vf056.hk2yYzagOYWDSg6sqiNtaAlCyG4O/AyvmkNGHMoK', 'Antonio Goiria', '2026-05-08 14:21:41', 1, NULL),
+(70, 'juanserrano@gmail.com', '[\"ROLE_ESTUDIANTE\",\"ROLE_PROFESOR\"]', '$2y$13$/posqftsopWubk7ihwvFeeX4b8nH/QwTPiuAsQcCW/RWU0kOtZhb2', 'Juan Serrano', '2026-05-08 14:23:27', 1, NULL);
 
 --
 -- Índices para tablas volcadas
@@ -462,13 +421,6 @@ ALTER TABLE `mensaje_entrega_tarea`
   ADD PRIMARY KEY (`id`),
   ADD KEY `IDX_7E6C32D74F8D3C8` (`entrega_id`),
   ADD KEY `IDX_7E6C32D7F675F31B` (`autor_id`);
-
---
--- Indices de la tabla `messenger_messages`
---
-ALTER TABLE `messenger_messages`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `IDX_75EA56E0FB7336F0E3BD61CE16BA31DBBF396750` (`queue_name`,`available_at`,`delivered_at`,`id`);
 
 --
 -- Indices de la tabla `recuperacion_contrasena`
@@ -529,7 +481,7 @@ ALTER TABLE `comentario`
 -- AUTO_INCREMENT de la tabla `curso`
 --
 ALTER TABLE `curso`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=64;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=68;
 
 --
 -- AUTO_INCREMENT de la tabla `entrega_tarea`
@@ -550,22 +502,16 @@ ALTER TABLE `mensaje_entrega_tarea`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
--- AUTO_INCREMENT de la tabla `messenger_messages`
---
-ALTER TABLE `messenger_messages`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
-
---
 -- AUTO_INCREMENT de la tabla `recuperacion_contrasena`
 --
 ALTER TABLE `recuperacion_contrasena`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT de la tabla `recurso_curso`
 --
 ALTER TABLE `recurso_curso`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT de la tabla `recurso_visto`
@@ -577,19 +523,19 @@ ALTER TABLE `recurso_visto`
 -- AUTO_INCREMENT de la tabla `suscripcion_profesor`
 --
 ALTER TABLE `suscripcion_profesor`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- AUTO_INCREMENT de la tabla `tarea_curso`
 --
 ALTER TABLE `tarea_curso`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT de la tabla `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=65;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=71;
 
 --
 -- Restricciones para tablas volcadas
