@@ -3,8 +3,8 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost
--- Tiempo de generación: 11-05-2026 a las 13:40:09
--- Versión del servidor: 8.0.44
+-- Tiempo de generación: 13-05-2026 a las 10:23:13
+-- Versión del servidor: 8.0.45
 -- Versión de PHP: 7.4.33
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -35,6 +35,22 @@ CREATE TABLE `comentario` (
   `destacado` tinyint(1) NOT NULL DEFAULT '0',
   `fecha_creacion` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `comentario`
+--
+
+INSERT INTO `comentario` (`id`, `curso_id`, `usuario_id`, `contenido`, `destacado`, `fecha_creacion`) VALUES
+(9, 71, 59, 'Un curso muy completo y perfecto para la aprender de diseño UX/UI', 1, '2026-05-12 11:21:03'),
+(10, 61, 72, 'El curso me ha parecido útil para empezar a entender cómo se usa Python en el mundo de la Inteligencia Artificial.', 0, '2026-05-12 15:53:29'),
+(11, 71, 72, 'El curso me ha ayudado a entender mejor la importancia de hacer interfaces claras y fáciles de usar para los usuarios.', 0, '2026-05-12 15:54:08'),
+(12, 48, 72, 'El curso me ha servido para mejorar mi inglés en situaciones más profesionales y de trabajo.', 0, '2026-05-12 15:54:43'),
+(13, 37, 74, 'A la espera de que el profe suba el contenido del curso, espero que no sea una estafa 😭', 0, '2026-05-12 17:01:42'),
+(14, 38, 74, 'ya son dos los cursos de Dani Alcaraz a los que me inscribo pero están vacíos, me gustaría conocer si es de fiar o no...', 0, '2026-05-12 17:03:27'),
+(16, 14, 67, 'I´m a good magician after this course.', 0, '2026-05-13 09:56:40'),
+(17, 65, 42, 'The best course to learn botany', 0, '2026-05-13 10:08:36'),
+(18, 61, 73, 'Curso donde aprendí a dominar la gestión de Python para la IA local Ollama.', 0, '2026-05-13 10:14:41'),
+(19, 65, 42, 'It´s very useful', 0, '2026-05-13 10:16:55');
 
 -- --------------------------------------------------------
 
@@ -99,7 +115,10 @@ INSERT INTO `curso` (`id`, `titulo`, `descripcion`, `nivel`, `modalidad`, `durac
 (68, 'Introduction to astronomy and space science', 'Explore the fundamentals of astronomy, including planets, stars, galaxies, black holes, and the structure of the universe. Learn how space observation and modern telescopes help scientists understand cosmic phenomena.', 'Intermedio', 'Online', '1 week', 15.00, 'activo', '2026-05-11 08:32:25', 69, 'https://imgs.search.brave.com/nXJrq1AnnEk50NO2c4lKceQ9xTajYFKqWttgsbJeB9E/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pbWcu/ZnJlZXBpay5jb20v/Zm90by1ncmF0aXMv/Zm9uZG8tZXNwYWNp/by1maWN0aWNpby0z/ZF8xMDQ4LTEwNTMy/LmpwZz9zZW10PWFp/c19oeWJyaWQmdz03/NDA', NULL, 'en'),
 (69, 'Introduction to cybersecurity fundamentals', 'Learn the core principles of cybersecurity, including online safety, password security, malware, phishing attacks, encryption, and network protection. The course introduces defensive security practices and digital risk awareness.', 'Inicial', 'Online', '2 month', 20.00, 'activo', '2026-05-11 08:47:12', 69, 'https://imgs.search.brave.com/ZzVmE-_W7S___eTDGKR5j2IVJ3HVQ_h4D8jQAN8XjRA/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9jZG4u/dmVjdG9yc3RvY2su/Y29tL2kvNTAwcC8x/Ni81NC9jeWJlcnNl/Y3VyaXR5LWJhbm5l/ci12ZWN0b3ItMjYy/MjE2NTQuanBn', NULL, 'en'),
 (70, 'Introduction to marine biology', 'Discover the fundamentals of marine biology and explore ocean ecosystems, marine species, coral reefs, deep-sea environments, and aquatic food chains. Learn how marine organisms interact with their environment and the importance of ocean conservation.', 'Inicial', 'Mixto', '2 weeks', 5.00, 'borrador', '2026-05-11 09:02:38', 69, 'https://imgs.search.brave.com/g-HPFmVweg9a58tgAfDtmApCXbGUT6tJGN9530tvtNw/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly93d3cu/bnJlbS5pYXN0YXRl/LmVkdS9maWxlcy9z/dHlsZXMvOF8zXzE2/MDB4NjAwL3B1Ymxp/Yy8yMDIzLTA3L21h/cmluZS1iaW8oMSku/SlBHP2l0b2s9cDU1/OXZaMmg', 'https://maps.app.goo.gl/xEBLesc2hCAmoxHr7', 'en'),
-(71, 'Diseño UX/UI', 'Introducción al diseño de experiencia de usuario (UX) y diseño de interfaz (UI). El curso cubre principios de usabilidad, arquitectura de información, investigación de usuarios, wireframing, prototipado y herramientas profesionales como Figma. El objetivo es crear interfaces funcionales, accesibles y visualmente coherentes.', 'Intermedio', 'Online', '3 semanas', 20.00, 'activo', '2026-05-11 10:39:38', 61, 'https://imgs.search.brave.com/AtDfA_JyKwBZ8YZT1BSAUW46Nv4BCZz4aYpKatkkksE/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9maXZl/cnItcmVzLmNsb3Vk/aW5hcnkuY29tL3Zp/ZGVvL3VwbG9hZC90/X2dpZ19jYXJkc193/ZWIvY3h4bXdyM243/enJjeHFhajBsb2gu/cG5n', NULL, 'es');
+(71, 'Diseño UX/UI', 'Introducción al diseño de experiencia de usuario (UX) y diseño de interfaz (UI). El curso cubre principios de usabilidad, arquitectura de información, investigación de usuarios, wireframing, prototipado y herramientas profesionales como Figma. El objetivo es crear interfaces funcionales, accesibles y visualmente coherentes.', 'Intermedio', 'Online', '3 semanas', 20.00, 'activo', '2026-05-11 10:39:38', 61, 'https://imgs.search.brave.com/AtDfA_JyKwBZ8YZT1BSAUW46Nv4BCZz4aYpKatkkksE/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9maXZl/cnItcmVzLmNsb3Vk/aW5hcnkuY29tL3Zp/ZGVvL3VwbG9hZC90/X2dpZ19jYXJkc193/ZWIvY3h4bXdyM243/enJjeHFhajBsb2gu/cG5n', NULL, 'es'),
+(72, 'Cybersecurity fundamentals', 'This course introduces students to the fundamentals of cybersecurity. Participants will learn about common threats, network security, encryption, authentication, and best practices for protecting systems and data.', 'Intermedio', 'Online', '4 weeks', 30.00, 'borrador', '2026-05-13 08:34:17', 45, 'https://imgs.search.brave.com/lC9Vao7ZFMmcH8YDQoVkYDpwbm1HsF5-J00I5G-hZ-Y/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly90aWNu/ZWdvY2lvcy5jYW1h/cmFtdXJjaWEuZXMv/d3AtY29udGVudC91/cGxvYWRzLzIwMjAv/MDcvYmFubmVyLWF5/dWRhcy1jaWJlcnNl/Z3VyaWRhZC0zMDB4/MTQxLmpwZw', NULL, 'en'),
+(73, 'Introduction to photography', 'This course teaches the fundamentals of digital photography, including camera settings, composition, lighting, and basic photo editing. Students will learn how to capture high-quality images in different environments and styles.', 'Inicial', 'Online', '6 weeks', 69.99, 'activo', '2026-05-13 09:03:32', 45, 'https://imgs.search.brave.com/6hHIa4mAs-YK6qXr8gRrHUWm-av3yh_NcE2joGUBbYI/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5pc3RvY2twaG90/by5jb20vaWQvMjE1/OTI0MzEzNC92ZWN0/b3Ivc2V0LW9mLWhh/bmQtZHJhd24tbWFy/aW5lLWxpZmUtd2ls/ZC1zZWEtYW5pbWFs/cy1zZWFzaGVsbHMt/ZmlzaC', NULL, 'en'),
+(74, 'Introduction to nutrition', 'This course provides a foundation in human nutrition, including macronutrients, micronutrients, digestion, metabolism, and healthy eating patterns. Students will learn how dietary choices affect energy, health, and disease prevention.', 'Inicial', 'Online', '6 weeks', 39.00, 'activo', '2026-05-13 09:10:07', 45, 'https://imgs.search.brave.com/6hHIa4mAs-YK6qXr8gRrHUWm-av3yh_NcE2joGUBbYI/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5pc3RvY2twaG90/by5jb20vaWQvMjE1/OTI0MzEzNC92ZWN0/b3Ivc2V0LW9mLWhh/bmQtZHJhd24tbWFy/aW5lLWxpZmUtd2ls/ZC1zZWEtYW5pbWFs/cy1zZWFzaGVsbHMt/ZmlzaC', NULL, 'en');
 
 -- --------------------------------------------------------
 
@@ -140,6 +159,22 @@ CREATE TABLE `entrega_tarea` (
   `fecha_revision` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Volcado de datos para la tabla `entrega_tarea`
+--
+
+INSERT INTO `entrega_tarea` (`id`, `tarea_id`, `estudiante_id`, `archivo_entrega`, `comentario`, `fecha_entrega`, `estado_revision`, `nota`, `comentario_profesor`, `fecha_revision`) VALUES
+(3, 16, 72, 'entrega_6a032e3320b0f6.68421898.pdf', 'Me ha costado un poco entender algunas partes de Python, pero al final he conseguido completar la tarea.', '2026-05-12 15:42:11', 'aprobada', 90, '.', '2026-05-12 15:48:56'),
+(4, 13, 72, 'entrega_6a032ef187dba3.73991479.pdf', 'Al principio me costó un poco usar el vocabulario más formal en inglés, pero la actividad me ha ayudado a practicar.', '2026-05-12 15:45:21', 'pendiente', NULL, NULL, NULL),
+(5, 14, 72, 'entrega_6a032f20ba5462.13694949.pdf', 'Me ha parecido interesante ver cómo pequeños cambios en el diseño pueden mejorar mucho la aplicación.', '2026-05-12 15:46:08', 'aprobada', 70, 'Muy bien.', '2026-05-12 15:50:46'),
+(6, 14, 59, 'entrega_6a033228697310.77614725.pdf', 'Completado, adjunto el archivo de la tarea.', '2026-05-12 15:59:04', 'aprobada', 60, 'Corrección, te falta el wireframe.', '2026-05-12 16:03:15'),
+(7, 14, 73, 'entrega_6a0334d734bb73.04286718.pdf', 'Tarea completada, adjunto el archivo.', '2026-05-12 16:10:31', 'aprobada', 70, 'Muy bien.', '2026-05-12 16:11:30'),
+(8, 8, 61, 'entrega_6a042955491e13.48940699.jpg', 'Ahora que tal?', '2026-05-13 09:33:41', 'aprobada', 67, 'Te apruebo', '2026-05-13 09:34:13'),
+(9, 5, 67, 'entrega_6a042bc2e33451.18366178.docx', 'Hi, I complete the task.', '2026-05-13 09:44:02', 'aprobada', 100, 'I think you are amazing', '2026-05-13 09:45:06'),
+(10, 7, 42, 'entrega_6a0431019abe12.66662345.docx', 'What´s your opinion?', '2026-05-13 10:06:25', 'aprobada', 100, 'Great job!', '2026-05-13 10:07:11'),
+(11, 16, 73, 'entrega_6a04329641e608.60254986.docx', NULL, '2026-05-13 10:13:10', 'aprobada', 70, NULL, '2026-05-13 10:13:56'),
+(12, 13, 73, 'entrega_6a043336e09400.54111480.docx', NULL, '2026-05-13 10:15:50', 'pendiente', NULL, NULL, NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -156,6 +191,48 @@ CREATE TABLE `inscripcion` (
   `referencia_pago` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Volcado de datos para la tabla `inscripcion`
+--
+
+INSERT INTO `inscripcion` (`id`, `progreso`, `estado`, `fecha_inscripcion`, `estudiante_id`, `curso_id`, `referencia_pago`) VALUES
+(19, 0, 'pendiente_validacion', '2026-05-11 15:51:44', 59, 36, 'PAGO-CURSO-36-USER-59'),
+(20, 67, 'activa', '2026-05-11 15:52:17', 59, 71, 'PAGO-CURSO-71-USER-59'),
+(21, 0, 'activa', '2026-05-11 15:56:50', 59, 61, 'PAGO-CURSO-61-USER-59'),
+(22, 0, 'activa', '2026-05-11 22:40:54', 61, 38, 'PAGO-CURSO-38-USER-61'),
+(23, 0, 'pendiente_pago', '2026-05-11 22:42:34', 59, 48, 'PAGO-CURSO-48-USER-59'),
+(24, 100, 'completada', '2026-05-12 12:38:43', 72, 61, 'PAGO-CURSO-61-USER-72'),
+(25, 67, 'activa', '2026-05-12 15:43:21', 72, 48, 'PAGO-CURSO-48-USER-72'),
+(26, 100, 'completada', '2026-05-12 15:43:36', 72, 71, 'PAGO-CURSO-71-USER-72'),
+(27, 0, 'activa', '2026-05-12 15:47:10', 72, 28, 'PAGO-CURSO-28-USER-72'),
+(28, 0, 'activa', '2026-05-12 15:47:31', 72, 55, 'PAGO-CURSO-55-USER-72'),
+(29, 0, 'activa', '2026-05-12 15:47:48', 72, 26, 'PAGO-CURSO-26-USER-72'),
+(30, 100, 'completada', '2026-05-12 16:08:02', 73, 71, 'PAGO-CURSO-71-USER-73'),
+(31, 100, 'completada', '2026-05-12 16:15:03', 73, 61, 'PAGO-CURSO-61-USER-73'),
+(32, 0, 'activa', '2026-05-12 16:55:22', 74, 36, 'PAGO-CURSO-36-USER-74'),
+(33, 0, 'activa', '2026-05-12 16:56:29', 74, 46, 'PAGO-CURSO-46-USER-74'),
+(34, 0, 'activa', '2026-05-12 16:56:47', 74, 47, 'PAGO-CURSO-47-USER-74'),
+(35, 0, 'activa', '2026-05-12 16:57:09', 74, 44, 'PAGO-CURSO-44-USER-74'),
+(36, 0, 'activa', '2026-05-12 16:57:19', 74, 42, 'PAGO-CURSO-42-USER-74'),
+(37, 0, 'activa', '2026-05-12 16:57:34', 74, 40, 'PAGO-CURSO-40-USER-74'),
+(38, 0, 'activa', '2026-05-12 16:57:44', 74, 38, 'PAGO-CURSO-38-USER-74'),
+(39, 0, 'activa', '2026-05-12 16:57:59', 74, 37, 'PAGO-CURSO-37-USER-74'),
+(40, 100, 'completada', '2026-05-13 09:27:32', 61, 66, 'PAGO-CURSO-66-USER-61'),
+(41, 100, 'completada', '2026-05-13 09:40:28', 67, 14, 'PAGO-CURSO-14-USER-67'),
+(42, 0, 'activa', '2026-05-13 09:49:40', 73, 36, 'PAGO-CURSO-36-USER-73'),
+(43, 0, 'activa', '2026-05-13 09:49:58', 73, 40, 'PAGO-CURSO-40-USER-73'),
+(44, 33, 'activa', '2026-05-13 09:50:08', 73, 48, 'PAGO-CURSO-48-USER-73'),
+(45, 0, 'activa', '2026-05-13 09:56:11', 73, 44, 'PAGO-CURSO-44-USER-73'),
+(46, 0, 'activa', '2026-05-13 09:56:23', 73, 47, 'PAGO-CURSO-47-USER-73'),
+(47, 0, 'pendiente_pago', '2026-05-13 09:56:50', 73, 26, 'PAGO-CURSO-26-USER-73'),
+(48, 0, 'activa', '2026-05-13 09:57:37', 47, 29, 'PAGO-CURSO-29-USER-47'),
+(49, 0, 'activa', '2026-05-13 09:58:02', 47, 55, 'PAGO-CURSO-55-USER-47'),
+(50, 0, 'activa', '2026-05-13 09:58:11', 47, 46, 'PAGO-CURSO-46-USER-47'),
+(51, 0, 'activa', '2026-05-13 09:58:23', 47, 44, 'PAGO-CURSO-44-USER-47'),
+(52, 100, 'completada', '2026-05-13 10:02:58', 42, 65, 'PAGO-CURSO-65-USER-42'),
+(53, 67, 'activa', '2026-05-13 10:05:32', 74, 61, 'PAGO-CURSO-61-USER-74'),
+(54, 67, 'activa', '2026-05-13 10:06:05', 74, 48, 'PAGO-CURSO-48-USER-74');
+
 -- --------------------------------------------------------
 
 --
@@ -169,6 +246,34 @@ CREATE TABLE `mensaje_entrega_tarea` (
   `contenido` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
   `fecha_creacion` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `mensaje_entrega_tarea`
+--
+
+INSERT INTO `mensaje_entrega_tarea` (`id`, `entrega_id`, `autor_id`, `contenido`, `fecha_creacion`) VALUES
+(6, 3, 72, 'Me ha costado un poco entender algunas partes de Python, pero al final he conseguido completar la tarea.', '2026-05-12 15:42:11'),
+(7, 4, 72, 'Al principio me costó un poco usar el vocabulario más formal en inglés, pero la actividad me ha ayudado a practicar.', '2026-05-12 15:45:21'),
+(8, 5, 72, 'Me ha parecido interesante ver cómo pequeños cambios en el diseño pueden mejorar mucho la aplicación.', '2026-05-12 15:46:08'),
+(9, 3, 61, 'La tarea esta perfecta, pero le faltan algunos detalles menores.', '2026-05-12 15:48:05'),
+(10, 3, 61, '.', '2026-05-12 15:48:56'),
+(11, 5, 61, 'Muy bien.', '2026-05-12 15:50:46'),
+(12, 6, 59, 'Completado, adjunto el archivo de la tarea.', '2026-05-12 15:59:04'),
+(13, 6, 61, 'Muy Bien', '2026-05-12 16:00:13'),
+(14, 6, 61, 'Corrección, te falta el wireframe.', '2026-05-12 16:03:15'),
+(15, 7, 73, 'Tarea completada, adjunto el archivo.', '2026-05-12 16:10:31'),
+(16, 7, 61, 'Muy bien.', '2026-05-12 16:11:30'),
+(17, 8, 61, 'que opinas', '2026-05-13 09:30:09'),
+(18, 8, 68, 'puedes hacerlo mejor', '2026-05-13 09:30:52'),
+(19, 8, 61, 'que opinas', '2026-05-13 09:31:22'),
+(20, 8, 68, 'rancio', '2026-05-13 09:32:00'),
+(21, 8, 61, 'Ahora que tal?', '2026-05-13 09:33:41'),
+(22, 8, 68, 'Te apruebo', '2026-05-13 09:34:13'),
+(23, 9, 67, 'Hi, I complete the task.', '2026-05-13 09:44:02'),
+(24, 9, 39, 'Great job', '2026-05-13 09:44:49'),
+(25, 9, 39, 'I think you are amazing', '2026-05-13 09:45:06'),
+(26, 10, 42, 'What´s your opinion?', '2026-05-13 10:06:25'),
+(27, 10, 44, 'Great job!', '2026-05-13 10:07:11');
 
 -- --------------------------------------------------------
 
@@ -189,7 +294,9 @@ CREATE TABLE `recuperacion_contrasena` (
 --
 
 INSERT INTO `recuperacion_contrasena` (`id`, `token`, `fecha_expiracion`, `usado`, `usuario_id`) VALUES
-(16, '30654b8cc45d2a18335a685f5a28dfd1d7401337f802ef2ad672b384f25b4616', '2026-05-08 15:00:41', 1, 67);
+(16, '30654b8cc45d2a18335a685f5a28dfd1d7401337f802ef2ad672b384f25b4616', '2026-05-08 15:00:41', 1, 67),
+(17, '55f6f6cb9077bfb5476d9eaf15a5356a039cec8e78bb694539a75051daf493fe', '2026-05-13 11:18:27', 1, 76),
+(18, 'bcf923e6825da706f061215a26a0b54bae9f513d754739323682edb55ef5bb76', '2026-05-13 11:20:23', 1, 76);
 
 -- --------------------------------------------------------
 
@@ -234,7 +341,9 @@ INSERT INTO `recurso_curso` (`id`, `titulo`, `tipo`, `contenido`, `orden`, `curs
 (37, 'Business English (Cambridge English)', 'enlace', 'Recurso oficial con material para mejorar inglés profesional, enfocado en comunicación empresarial, vocabulario y situaciones reales de trabajo.\r\n\r\nDirección de enlace: https://www.cambridgeenglish.org/exams-and-tests/', 1, 48, NULL),
 (38, 'Business English PDF', 'documento', 'Documento PDF con ejercicios de inglés de negocios, expresiones comunes en empresa y situaciones laborales.', 2, 48, 'recurso_6a0190ffcebe28.52523732.pdf'),
 (39, 'Introducción a UX/UI Design', 'video', 'Video introductorio que explica los fundamentos del diseño UX (User Experience) y UI (User Interface). Cubre conceptos esenciales como la diferencia entre UX y UI, principios de usabilidad, diseño centrado en el usuario, jerarquía visual y buenas prácticas en la creación de interfaces digitales. Sirve como base para entender cómo se estructura y optimiza una experiencia digital antes de pasar a herramientas como Figma o procesos de prototipado.', 1, 71, 'recurso_6a01963eea0e15.77654795.mp4'),
-(40, 'Material design guidelines (Google)', 'enlace', 'Documentación oficial de Google sobre el sistema de diseño Material Design. Explica principios de diseño visual, interacción, componentes UI, accesibilidad y consistencia entre plataformas. Es un recurso clave para entender cómo se construyen interfaces modernas en aplicaciones web y móviles, con ejemplos prácticos de patrones de diseño y reglas de usabilidad aplicadas a productos reales.\r\n\r\nDirección de enlace: https://m3.material.io/', 1, 71, NULL);
+(40, 'Material design guidelines (Google)', 'enlace', 'Documentación oficial de Google sobre el sistema de diseño Material Design. Explica principios de diseño visual, interacción, componentes UI, accesibilidad y consistencia entre plataformas. Es un recurso clave para entender cómo se construyen interfaces modernas en aplicaciones web y móviles, con ejemplos prácticos de patrones de diseño y reglas de usabilidad aplicadas a productos reales.\r\n\r\nDirección de enlace: https://m3.material.io/', 1, 71, NULL),
+(41, 'Beginner\'s guide to photography', 'enlace', 'A complete introduction to exposure, aperture, shutter speed, ISO, and composition techniques.\r\n\r\nURL link: https://photographylife.com/photography-basics', 1, 73, NULL),
+(42, 'Clinical Nutrition Management', 'documento', 'A practical guide covering carbohydrates, proteins, fats, vitamins, minerals, hydration, and dietary recommendations for different age groups.', 1, 74, 'recurso_6a04244b40d4e6.57585673.pdf');
 
 -- --------------------------------------------------------
 
@@ -248,6 +357,34 @@ CREATE TABLE `recurso_visto` (
   `recurso_id` int NOT NULL,
   `fecha_visto` datetime NOT NULL COMMENT '(DC2Type:datetime_immutable)'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `recurso_visto`
+--
+
+INSERT INTO `recurso_visto` (`id`, `usuario_id`, `recurso_id`, `fecha_visto`) VALUES
+(15, 72, 34, '2026-05-12 12:39:56'),
+(16, 72, 35, '2026-05-12 13:45:45'),
+(17, 72, 37, '2026-05-12 15:44:39'),
+(18, 72, 38, '2026-05-12 15:44:45'),
+(19, 72, 39, '2026-05-12 15:45:29'),
+(20, 72, 40, '2026-05-12 15:45:33'),
+(21, 59, 39, '2026-05-12 15:53:02'),
+(22, 73, 39, '2026-05-12 16:10:02'),
+(23, 73, 40, '2026-05-13 09:23:07'),
+(24, 61, 24, '2026-05-13 09:28:45'),
+(25, 61, 25, '2026-05-13 09:28:47'),
+(26, 67, 19, '2026-05-13 09:43:25'),
+(27, 67, 20, '2026-05-13 09:43:27'),
+(28, 42, 22, '2026-05-13 10:03:36'),
+(29, 42, 23, '2026-05-13 10:03:38'),
+(30, 73, 34, '2026-05-13 10:12:48'),
+(31, 73, 35, '2026-05-13 10:12:50'),
+(32, 74, 34, '2026-05-13 10:13:25'),
+(33, 74, 35, '2026-05-13 10:13:27'),
+(34, 74, 37, '2026-05-13 10:15:04'),
+(35, 74, 38, '2026-05-13 10:15:13'),
+(36, 73, 37, '2026-05-13 10:15:29');
 
 -- --------------------------------------------------------
 
@@ -281,7 +418,7 @@ INSERT INTO `suscripcion_profesor` (`id`, `profesor_id`, `plan`, `estado`, `limi
 (29, 61, 'premium', 'activa', 999, '2026-04-17 13:47:30', '2026-04-17 13:47:46', NULL, NULL),
 (32, 68, 'basico', 'activa', 1, '2026-05-08 12:29:03', '2026-05-08 12:29:34', NULL, NULL),
 (33, 69, 'pro', 'activa', 5, '2026-05-08 14:21:42', '2026-05-08 14:23:46', NULL, NULL),
-(34, 70, 'premium', 'activa', 999, '2026-05-08 14:23:27', '2026-05-08 14:23:44', NULL, NULL);
+(35, 76, 'pro', 'pendiente', 5, '2026-05-13 09:17:18', NULL, 'pro', 'alta');
 
 -- --------------------------------------------------------
 
@@ -344,25 +481,29 @@ INSERT INTO `user` (`id`, `email`, `roles`, `password`, `nombre`, `fecha_registr
 (28, 'cristinapon@gmail.com', '[\"ROLE_ESTUDIANTE\"]', '$2y$13$WEdWgDkHcGvE0LkLqO0QQ.zbT2HhlOzd5Uofx2ktBeLkw2lr6asHi', 'Cristina Ponce', '2026-03-30 20:36:30', 1, 'perfil_69fdd731c5b389.35041066.webp'),
 (29, 'eusebiolo@gmail.com', '[\"ROLE_ESTUDIANTE\"]', '$2y$13$vgDaJBf6Aapxo6sG1u29r.6WmUth3VVoZOhgDuajwh5dOPU7x3TTW', 'Eusebio Lopez', '2026-03-30 20:48:51', 1, 'perfil_69fdd9f04b9649.54948052.webp'),
 (30, 'pepelo@gmail.com', '[\"ROLE_ESTUDIANTE\"]', '$2y$13$56dlPaZKL9VL/m9/so1KLuZdB4w.JqF3e40QPtssTnZnvKDx2OvsC', 'Pepe Lobregón', '2026-03-30 20:49:24', 1, 'perfil_69fdd99c4108a2.46382931.webp'),
-(37, 'castellanogomezcarlos@gmail.com', '[\"ROLE_ESTUDIANTE\"]', '$2y$13$dXpArCjTqCqiVO/.Qfftkui8MkYc/96ppDtIimSpO8ILlZRMFDtli', 'Carlos Castellano', '2026-04-10 15:34:47', 1, NULL),
 (39, 'rodrigoju@gmail.com', '[\"ROLE_ESTUDIANTE\",\"ROLE_PROFESOR\"]', '$2y$13$vbbvC1qI5/oIzGhwRr7BdeDtUA.h4wKhhIqVhXJK/EJInvSAXuM8i', 'Rodrigo Juárez', '2026-04-15 06:28:44', 1, 'perfil_69e8a7eb15de14.75033548.webp'),
 (40, 'admin2@gmail.com', '[\"ROLE_ADMIN\"]', '$2y$13$O5YB.KcqwvRfdW/Xdyen7Od1xp2bmgyuIxDP14YPnU4MNtjrX1vsK', 'Admin2', '2026-04-15 06:32:24', 1, 'perfil_69e09202d72333.00190550.webp'),
 (41, 'admin3@gmail.com', '[\"ROLE_ADMIN\"]', '$2y$13$bAn.c6ZBUPlBuTtxST17Qessz6PjUhnSp2/qORYP6gHGvq5wY5.TC', 'Admin3', '2026-04-15 06:32:53', 1, 'perfil_69e09229227920.80890804.webp'),
 (42, 'danialcaraz@gmail.com', '[\"ROLE_ESTUDIANTE\",\"ROLE_PROFESOR\"]', '$2y$13$fMFqPDowoJoQOMF/3rp9pOkpzCDfMR8Py7nq5SuTcGiu3RPYE52ma', 'Daniel Alcaraz', '2026-04-15 06:44:17', 1, 'perfil_6a019a390d8c26.46463942.webp'),
 (43, 'nataliaros@gmail.com', '[\"ROLE_ESTUDIANTE\",\"ROLE_PROFESOR\"]', '$2y$13$B0uIOuSS1k6x4HsDjMoOKebVQkxSUfexck9MEFjcqVMCMF6xOloX2', 'Natalia Ros', '2026-04-15 06:45:04', 1, 'perfil_69fdccaa0d08e6.96385168.webp'),
 (44, 'isafernandez@gmail.com', '[\"ROLE_ESTUDIANTE\",\"ROLE_PROFESOR\"]', '$2y$13$JF9SPyYGJOtI6eKWAYnUCO.zXaKdozi9qHjADuaJoz5G3Ix9ZEUMq', 'Isa Fernández', '2026-04-15 06:45:43', 1, 'perfil_69fd92918b5f02.80027671.webp'),
-(45, 'kiliamgrant@gmail.com', '[\"ROLE_ESTUDIANTE\",\"ROLE_PROFESOR\"]', '$2y$13$ayeL.5feJzaYJ3g.kZNJXek9mp92qs5L.H7Iwwh8xLzXvT1CnriQm', 'Kiliam Grant', '2026-04-15 06:46:30', 1, 'perfil_6a01879733f607.12216371.webp'),
+(45, 'kiliamgrant@gmail.com', '[\"ROLE_ESTUDIANTE\",\"ROLE_PROFESOR\"]', '$2y$13$ayeL.5feJzaYJ3g.kZNJXek9mp92qs5L.H7Iwwh8xLzXvT1CnriQm', 'Kiliam Grant', '2026-04-15 06:46:30', 1, 'perfil_6a03455204b0c9.51325910.webp'),
 (47, 'anamar@gmail.com', '[\"ROLE_ESTUDIANTE\"]', '$2y$13$7DdMxqJc4lrs67J1oSrFRuqi5xKN9XUhs5Oz5fahlKs9/GJNh/OWe', 'Ana María', '2026-04-15 07:08:17', 1, 'perfil_69fddb1f9a58b6.78416191.webp'),
 (49, 'pedrocan@gmail.com', '[\"ROLE_ESTUDIANTE\"]', '$2y$13$4PYZY1QoTGH8ssOCoU5Qyuy7D4I9KD3QvkfFOPNsYZ52tadauU0Dm', 'Pedro Cánovas', '2026-04-15 07:09:40', 1, 'perfil_69fdd80703c198.00305709.webp'),
 (51, 'sergioperez@gmail.com', '[\"ROLE_ESTUDIANTE\",\"ROLE_PROFESOR\"]', '$2y$13$uThdLWvxzcA95gCQgVjz0eUbCb3E7gw0ICOEd0izPNyZeGwZzqOOi', 'Sergio Pérez', '2026-04-15 07:12:06', 1, 'perfil_6a0182cb8a2700.60464605.webp'),
 (52, 'lucasgomez@gmail.com', '[\"ROLE_ESTUDIANTE\"]', '$2y$13$LtCgR0S2lxM5423e2SfVIeAVIqNm0RJdkGIKmKJ4nYq27z25ItjEK', 'Lucas Gómez', '2026-04-15 07:12:28', 1, 'perfil_69fdd875825c50.53802077.webp'),
 (53, 'miriamdiaz@gmail.com', '[\"ROLE_ESTUDIANTE\"]', '$2y$13$Vek/NkHzghwmDv4zDn4xm.5ckaJnuX8Zx2bH3U56Xeyy/skEO9l16', 'Miriam Díaz', '2026-04-15 07:13:02', 1, 'perfil_69fdd960e30983.72624977.webp'),
 (59, 'jcolquecalcina@gmail.com', '[\"ROLE_ESTUDIANTE\"]', '$2y$13$Kd57DkOZlWJAZhxDsEYE1eWsahl8BuHOy2irVesgIYQbu/bd44nOK', 'Juan Daniel', '2026-04-17 13:16:15', 1, 'perfil_69e2335f8b75d9.90028067.jpg'),
-(61, 'manusanchez@gmail.com', '[\"ROLE_ESTUDIANTE\",\"ROLE_PROFESOR\"]', '$2y$13$/5VAt5z1YSlTyw9y/PeoluFV/RQBlC6h5oVpqE5WbQsfhAQkNEn8K', 'Manuel Sánchez', '2026-04-17 13:47:30', 1, 'perfil_6a018841843214.57648605.webp'),
+(61, 'manusanchez@gmail.com', '[\"ROLE_ESTUDIANTE\",\"ROLE_PROFESOR\"]', '$2y$13$/5VAt5z1YSlTyw9y/PeoluFV/RQBlC6h5oVpqE5WbQsfhAQkNEn8K', 'Manuel Sánchez', '2026-04-17 13:47:30', 1, 'perfil_6a03a5f0496417.83844592.png'),
 (67, 'danonetecno13@gmail.com', '[\"ROLE_ESTUDIANTE\"]', '$2y$13$vaIQOpV443dH266C8KUZteCjNwxKdWMtU9pxnnvj5SH8VOL1LrcbG', 'Daniel Muñoz', '2026-05-07 08:20:19', 1, 'perfil_69fddb61708358.44761614.webp'),
 (68, 'tomeozuniga@gmail.com', '[\"ROLE_ESTUDIANTE\",\"ROLE_PROFESOR\"]', '$2y$13$zOs5kQJLZjIXGKZe2sLtsO4lsSrU8TUEJcAu1UasKbcgYa1YTyUCy', 'Tomeo Zuñiga', '2026-05-08 12:29:03', 1, 'perfil_69fdbb801d0d10.06158394.webp'),
 (69, 'antogoiria@gmail.com', '[\"ROLE_ESTUDIANTE\",\"ROLE_PROFESOR\"]', '$2y$13$.9CpvK5vf056.hk2yYzagOYWDSg6sqiNtaAlCyG4O/AyvmkNGHMoK', 'Antonio Goiria', '2026-05-08 14:21:41', 1, 'perfil_6a018099ca93a1.27929373.webp'),
-(70, 'juanserrano@gmail.com', '[\"ROLE_ESTUDIANTE\",\"ROLE_PROFESOR\"]', '$2y$13$/posqftsopWubk7ihwvFeeX4b8nH/QwTPiuAsQcCW/RWU0kOtZhb2', 'Juan Serrano', '2026-05-08 14:23:27', 1, NULL);
+(71, '5600184@alu.murciaeduca.es', '[\"ROLE_ESTUDIANTE\"]', '$2y$13$0xwnkRLwjuO9Ez/1XztAsu2sWBeLdsM1ii3PRdRGBukI8CeaH3z2S', 'Juan Luis', '2026-05-11 18:54:36', 1, NULL),
+(72, 'fern360ando7@gmail.com', '[\"ROLE_ESTUDIANTE\"]', '$2y$13$VPcG9bqgEjMJjfMxzL5wv.oOINL8b6d2ZU3i5s7ivLA8/SdLG.hSa', 'Fernando', '2026-05-12 12:33:05', 1, NULL),
+(73, 'dalopez@gmail.com', '[\"ROLE_ESTUDIANTE\"]', '$2y$13$qyuOcGy2s/uDPlGyp8Q6Te5zVcQDcG.A51Yi2uTqOUEex92XH29gm', 'David Lopez', '2026-05-12 16:07:02', 1, NULL),
+(74, 'carloscastellanogomez@gmail.com', '[\"ROLE_ESTUDIANTE\"]', '$2y$13$16gaQ1aMy8s8lXL784D4xOPtHUGX9xMmb5MvjxeU8P9sy769FBTle', 'Carlos', '2026-05-12 16:51:59', 1, NULL),
+(75, 'carloscg.interamplify@gmail.com', '[\"ROLE_ESTUDIANTE\"]', '$2y$13$qSIaOThbTc64pB.cyNHHXe9DPv6FUMsD.fm2pRuRo7WzxpF2moPA6', 'Carlos Castellano Gómez', '2026-05-13 00:00:15', 1, NULL),
+(76, '2912549@alu.murciaeduca.es', '[\"ROLE_ESTUDIANTE\"]', '$2y$13$cxtVAnBR4DtbyByn4G2hruAARuDSIoSt7giahf3nz2Rbgnu0gF0Xm', 'Dan Dan', '2026-05-13 09:17:17', 1, 'perfil_6a0425bc8d3264.52022592.webp');
 
 --
 -- Índices para tablas volcadas
@@ -468,55 +609,55 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT de la tabla `comentario`
 --
 ALTER TABLE `comentario`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT de la tabla `curso`
 --
 ALTER TABLE `curso`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=72;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=75;
 
 --
 -- AUTO_INCREMENT de la tabla `entrega_tarea`
 --
 ALTER TABLE `entrega_tarea`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT de la tabla `inscripcion`
 --
 ALTER TABLE `inscripcion`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
 
 --
 -- AUTO_INCREMENT de la tabla `mensaje_entrega_tarea`
 --
 ALTER TABLE `mensaje_entrega_tarea`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT de la tabla `recuperacion_contrasena`
 --
 ALTER TABLE `recuperacion_contrasena`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT de la tabla `recurso_curso`
 --
 ALTER TABLE `recurso_curso`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
 
 --
 -- AUTO_INCREMENT de la tabla `recurso_visto`
 --
 ALTER TABLE `recurso_visto`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- AUTO_INCREMENT de la tabla `suscripcion_profesor`
 --
 ALTER TABLE `suscripcion_profesor`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- AUTO_INCREMENT de la tabla `tarea_curso`
