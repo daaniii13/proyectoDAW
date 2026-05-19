@@ -20,7 +20,7 @@
 
   <h3 align="center">TeachingExplorer</h3>
   <p> © Propiedad Intelectual </p>
-  <p> Todo el contenido de este repositorio, incluyendo código fuente, diseño, documentación, imágenes y cualquier otro recurso desarrollado por mí, está protegido por la legislación vigente en materia de propiedad intelectual.
+  <p> AVISO LEGAL: Todo el contenido de este repositorio, incluyendo código fuente, diseño, documentación, imágenes y cualquier otro recurso desarrollado por mí, está protegido por la legislación vigente en materia de propiedad intelectual.
       Queda prohibida la copia, distribución, modificación o utilización total o parcial de este contenido sin mi autorización expresa y por escrito.
       El uso no autorizado de cualquiera de estos materiales podrá dar lugar a las acciones legales oportunas para la protección de mis derechos como autor.
   </p>
