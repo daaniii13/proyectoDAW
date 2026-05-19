@@ -19,11 +19,6 @@
   </a>
 
   <h3 align="center">TeachingExplorer</h3>
-  <p> © Propiedad Intelectual </p>
-  <p> AVISO LEGAL: Todo el contenido de este repositorio, incluyendo código fuente, diseño, documentación, imágenes y cualquier otro recurso desarrollado por nosotros, está protegido por la legislación vigente en materia de propiedad intelectual.
-      Queda prohibida la copia, distribución, modificación o utilización total o parcial de este contenido sin mi autorización expresa y por escrito.
-      El uso no autorizado de cualquiera de estos materiales podrá dar lugar a las acciones legales oportunas para la protección de nuestros derechos como autores.
-  </p>
   
   <p align="center">
     Teaching Explorer es una página web creada con el objetivo de facilitar la compra y venta de cursos y contenidos educativos de manera sencilla y segura. Su funcionamiento está inspirado en plataformas de compraventa entre particulares como Wallapop, pero adaptado específicamente al ámbito formativo y ofreciendo un espacio dedicado al intercambio de conocimiento.
@@ -36,6 +31,11 @@
     <a href="https://github.com/daaniii13/proyectoDAW/issues/new?labels=bug">Reportar error</a>
     &middot;
     <a href="https://github.com/daaniii13/proyectoDAW/issues/new?labels=enhancement">Solicitar mejora</a>
+  </p>
+  <p> © Propiedad Intelectual </p>
+  <p> AVISO LEGAL: Todo el contenido de este repositorio, incluyendo código fuente, diseño, documentación, imágenes y cualquier otro recurso desarrollado por nosotros, está protegido por la legislación vigente en materia de propiedad intelectual.
+      Queda prohibida la copia, distribución, modificación o utilización total o parcial de este contenido sin mi autorización expresa y por escrito.
+      El uso no autorizado de cualquiera de estos materiales podrá dar lugar a las acciones legales oportunas para la protección de nuestros derechos como autores.
   </p>
 </div>
 
